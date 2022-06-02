@@ -1,5 +1,5 @@
 {
-  "name": "pwa-vue",
+  "name": "pwa-vue-note",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
@@ -7,10 +7,13 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@netlify/functions": "^1.0.0",
     "@tiptap/extension-code-block-lowlight": "^2.0.0-beta.68",
     "@tiptap/extension-text-align": "^2.0.0-beta.29",
     "@tiptap/starter-kit": "^2.0.0-beta.185",
     "@tiptap/vue-3": "^2.0.0-beta.91",
+    "netlify-cli": "^10.4.0",
+    "sass": "^1.52.1",
     "vue": "^3.2.36",
     "vue-picture-input": "^2.4.0",
     "vue3-image-input": "^0.0.8"
@@ -18,6 +21,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.3.0",
     "@vuedx/typescript-plugin-vue": "^0.7.5",
+    "vercel": "^24.2.5",
     "vite": "^2.9.9",
     "vite-plugin-pwa": "^0.10.0",
     "workbox-precaching": "^6.2.2"

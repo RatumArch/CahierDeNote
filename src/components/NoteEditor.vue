@@ -1,14 +1,16 @@
 <template>
-<div class="button-panel" >
-    <button @click="toggleBold" >B</button>
-    <button @click="toggleCodeBlock" >PY</button>
-    <button @click="addImage" >image</button>
-    <button @click="toLeft" >left</button>
-    <button @click="toCenter" >center</button>
-</div>
-  <div class="container-noter" @click="focusOnClick">
-  <editor-content :editor="editor" />
+<div class="container-noter" @click="editor.chain().focus().run()">
+  <div class="button-panel" >
+      <button @click="toggleBold" >B</button>
+      <button @click="toggleCodeBlock" >Python</button>
+      <button @click="addImage" >image</button>
+      <button @click="toLeft" >left</button>
+      <button @click="toCenter" >center</button>
   </div>
+  <div class="container-editor" @click="focusOnClick">
+    <editor-content :editor="editor" />
+  </div>
+</div>
 </template>
 
 <script lang="ts">
@@ -66,11 +68,39 @@ name: 'NoteEditor',
 }
 </script>
 
-<style>
+<style lang="scss">
 .container-noter {
-  width: 500px;
-  height: 500px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 100px;
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 20px;
+  border-bottom-style: none;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  cursor: text;
+  
+  .container-editor {
+    height: 100%;
+    padding: 5vw;
+  }
+  .button-panel {
+    display: inline;
+    position: fixed;
+    top: 50px;
+    background-color:#B9F18D;
+    border-bottom-style: solid;
+    padding: 10px;
+
+    button {
+      margin-left: 10px;
+    }
+  }
 }
+
  pre {
     background: #0D0D0D;
     color: #FFF;

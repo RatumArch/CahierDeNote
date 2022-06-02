@@ -8,13 +8,14 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
       "/@/*": ["src/*"]
     },
     "lib": ["ESNext", "DOM", "WebWorker"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "pages/**/*.vue", "pages/**/*.ts"],
   "exclude": [
     "dist",
     "node_modules",

@@ -6,7 +6,6 @@
             <img :src="blobUrl" class="preview"/>
         </label>
         <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
-        
     </div>
 </node-view-wrapper>
 </template>
@@ -48,6 +47,7 @@ export default {
     overflow: hidden;
     resize: vertical;
     border-style: solid;
+    width: 5vw;
 }
 #image-input-opaq {
     opacity: 0;
