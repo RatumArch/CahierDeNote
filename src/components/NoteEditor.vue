@@ -1,0 +1,134 @@
+<template>
+<div class="button-panel" >
+    <button @click="toggleBold" >B</button>
+    <button @click="toggleCodeBlock" >PY</button>
+    <button @click="addImage" >image</button>
+    <button @click="toLeft" >left</button>
+    <button @click="toCenter" >center</button>
+</div>
+  <div class="container-noter" @click="focusOnClick">
+  <editor-content :editor="editor" />
+  </div>
+</template>
+
+<script lang="ts">
+import { useEditor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
+import TextAlign from '@tiptap/extension-text-align'
+import { onBeforeUnmount, onMounted, onUnmounted } from 'vue'
+import ImageNode from '../utils/imgNodeExtension'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+// load all highlight.js languages
+import lowlight from 'lowlight'
+
+export default {
+name: 'NoteEditor',
+  components: {
+    EditorContent,
+  },
+
+  setup() {
+    const editor = useEditor({
+      content: '<p>I’m running</p>',
+      extensions: [
+        StarterKit,
+        CodeBlockLowlight.configure({
+        lowlight,
+        defaultLanguage: 'python'
+        }),
+        ImageNode,
+        TextAlign.configure({
+          types: ['paragraph'],
+          defaultAlignment: 'left'
+        })
+      ],
+    })
+    
+  
+
+    const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
+    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
+    //@ts-ignore
+    const addImage = () => editor.value?.chain().focus().addImage().run()
+    const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
+    const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
+
+    const focusOnClick = () => editor.value?.chain().focus().run()
+
+    onMounted(() => {
+        editor.value?.chain().focus().run()
+    })
+    onBeforeUnmount(() => {
+        editor.value?.destroy()
+    })
+    return { editor, focusOnClick, toggleBold, toggleCodeBlock, addImage, toLeft, toCenter }
+  },
+}
+</script>
+
+<style>
+.container-noter {
+  width: 500px;
+  height: 500px;
+}
+ pre {
+    background: #0D0D0D;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+ code {
+    color: inherit;
+      padding: 0;
+      background: none;
+      font-size: 0.8rem;
+}
+
+.hljs-variable,
+    .hljs-template-variable,
+    .hljs-attribute,
+    .hljs-tag,
+    .hljs-name,
+    .hljs-regexp,
+    .hljs-link,
+    .hljs-name,
+    .hljs-selector-id,
+    .hljs-selector-class {
+        color: #F98181;
+    }
+
+.hljs-number,
+    .hljs-meta,
+    .hljs-built_in,
+    .hljs-builtin-name,
+    .hljs-literal,
+    .hljs-type,
+    .hljs-params {
+      color: #FBBC88;
+    }
+
+    .hljs-string,
+    .hljs-symbol,
+    .hljs-bullet {
+      color: #B9F18D;
+    }
+
+    .hljs-title,
+    .hljs-section {
+      color: #FAF594;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+      color: #70CFF8;
+    }
+
+    .hljs-emphasis {
+      font-style: italic;
+    }
+
+    .hljs-strong {
+      font-weight: 700;
+    }
+</style>
