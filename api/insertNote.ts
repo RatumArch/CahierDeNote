@@ -1,4 +1,4 @@
-import clientPromise from "../utils";
+import {clientPromise} from "../utils";
 
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
