@@ -13,8 +13,6 @@ export default async function insertMongo(req: any, res: any) {
     const datab = client.db(db)
     const collection = await datab.collection(collec)
 
-    console.log(req.body);
-
     return await collection.insertOne(param)
       .then((docs: any) => res.status(200).send(docs))
       .catch((err: any) => console.error(err))

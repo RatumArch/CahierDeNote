@@ -37,7 +37,6 @@ export default {
 
         const logFiles = (event: any) => {
             let fileUploaded: File = event.target.files[0]
-            console.log(fileUploaded);console.log(event.target.files.length);
             
             blobUrl.value= window.URL.createObjectURL( fileUploaded)
 const cloudName = 'dzggewhvt'
