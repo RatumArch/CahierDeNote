@@ -23,18 +23,7 @@ export default defineComponent({
     ImageInput,
     TextNode
   },
-  setup() {
-    const cloudName = 'dzggewhvt'
-    const onSubmit = (e: any) => {
-      const cloudName = 'dzggewhvt'
-      axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        file: e.target.value,
-        upload_preset: 'ze5mrykg'
-         } ).then(res => { console.log(res.data);
-          })
-    }
-    return { onSubmit }
-  }
+ 
 });
 </script>
 

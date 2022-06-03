@@ -43,8 +43,7 @@ const cloudName = 'dzggewhvt'
             axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         file: fileUploaded,
         upload_preset: 'ze5mrykg'
-         }  ).then(res => {console.log(res.data); cdnUrl.value = res.data.url;
-         })
+         }  ).then(res => { cdnUrl.value = res.data.url; })
         }
         return { width, blobUrl, files, logFiles, cdnUrl }
     }
