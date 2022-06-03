@@ -6,6 +6,7 @@
       <button @click="addImage" >image</button>
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
+      <button @click="sendToMongo" class="send">Save</button>
   </div>
   <div class="container-editor" @click="focusOnClick">
     <editor-content :editor="editor" />
@@ -17,14 +18,15 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted, onUnmounted } from 'vue'
-import ImageNode from '../utils/imgNodeExtension'
+import { onBeforeUnmount, onMounted } from 'vue'
+import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
+import axios from 'axios';
 
 export default {
-name: 'NoteEditor',
+  name: 'NoteEditor',
   components: {
     EditorContent,
   },
@@ -57,13 +59,18 @@ name: 'NoteEditor',
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
+    const sendToMongo = () => { 
+      const data = editor.value?.getHTML()
+      axios.post('/api/insertNote', data)
+    }
+
     onMounted(() => {
         editor.value?.chain().focus().run()
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
-    return { editor, focusOnClick, toggleBold, toggleCodeBlock, addImage, toLeft, toCenter }
+    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, addImage, toLeft, toCenter }
   },
 }
 </script>
@@ -86,6 +93,20 @@ name: 'NoteEditor',
   .container-editor {
     height: 100%;
     padding: 5vw;
+
+    pre {
+      background: #0D0D0D;
+      color: #FFF;
+      font-family: 'JetBrainsMono', monospace;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+    }
+    code {
+      color: inherit;
+        padding: 0;
+        background: none;
+        font-size: 0.8rem;
+    }
   }
   .button-panel {
     display: inline;
@@ -97,22 +118,16 @@ name: 'NoteEditor',
     button {
       margin-left: 10px;
     }
+    button.send {
+      padding: 5px;
+      background-color: darkcyan;
+      color: #FAF594;
+    }
   }
 }
 
- pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-}
- code {
-    color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-}
+ 
+ 
 
 .hljs-variable,
     .hljs-template-variable,

@@ -1,18 +1,21 @@
 <template>
   <ReloadPWA />
-  <TextNode template="<h3>A text node </h3>" >+</TextNode>
-
+  <form method="post" enctype="multipart/form-data" @submit.prevent="onSubmit" >
+    <input type="file" multiple >
+    <button type="submit">Send</button>
+  </form>
   <NoteEditor/>
 </template>
 
 <script lang="ts">
 import ImageInput from "./components/ImageInput.vue"
-import TextNode from './components/TextNode.vue'
+
 import { defineComponent } from "vue";
+
 import ReloadPWA from "./components/ReloadPWA.vue";
 
 import ImageInp from "./components/ImageInput.vue";
-import NoteEditor from "@/components/NoteEditor.vue";
+import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 export default defineComponent({
   name: "App",
@@ -20,8 +23,7 @@ export default defineComponent({
     NoteEditor,
     ReloadPWA,
     ImageInp,
-    ImageInput,
-    TextNode
+    ImageInput
   },
   setup() {
     const cloudName = 'dzggewhvt'
@@ -37,14 +39,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
-  min-height: 600px;
-}
-
-</style>

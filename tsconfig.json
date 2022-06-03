@@ -11,11 +11,14 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "/@/*": ["src/*"]
+      "@/*": ["src/*", "src/components/*"],
+      "@/assets": ["src/assets/*", "assets/*"],
+      "@/constants": ["src/constants/*", "constants"],
+      "@/utils/*": ["src/utils/*", "utils/*"],
     },
     "lib": ["ESNext", "DOM", "WebWorker"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "pages/**/*.vue", "pages/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "api/**/*.ts"],
   "exclude": [
     "dist",
     "node_modules",
@@ -26,7 +29,7 @@
   ],
   "plugins": [
     {
-      "name": "@vuedx/typescript-plugin-vue"
+      "name": "@vuedx/typescript-plugin-vue",
     }
   ]
 }

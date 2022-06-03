@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../home/mdo/Documents/projp/vite-pwa-boilerplate/netlify/functions/firtsless.ts"],
-  "sourceRoot": "/tmp/tmp-26299-NBsvAOi8MluE",
-  "sourcesContent": ["import { Handler } from \"@netlify/functions\";\n\nexport const handler: Handler = async (e, context) => {\n    return {\n        statusCode: 200,\n        body: JSON.stringify({ rr: \"ttooo\" }),\n        headers: {\n            \"Accept\": \"application/json\"\n        }\n    }\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAEO,IAAM,UAAmB,OAAO,GAAG,YAAY;AAClD,SAAO;AAAA,IACH,YAAY;AAAA,IACZ,MAAM,KAAK,UAAU,EAAE,IAAI,QAAQ,CAAC;AAAA,IACpC,SAAS;AAAA,MACL,UAAU;AAAA,IACd;AAAA,EACJ;AACJ;",
-  "names": []
-}
