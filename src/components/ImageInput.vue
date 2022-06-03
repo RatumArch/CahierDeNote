@@ -3,7 +3,8 @@
     <div class="image-input" :style="{width: width[format]}">
         <label for="image-input-opaq" class="preview-label">
             <span class="placeholder">Insérer image ici</span>
-            <img :src="blobUrl" class="preview"/>
+            <a :href="cdnUrl"> {{cdnUrl}}</a>
+            <img v-bind:src="cdnUrl?.length>0 ? cdnUrl : blobUrl" class="preview"/>
         </label>
         <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
     </div>
@@ -13,6 +14,8 @@
 <script lang="ts" >
 import { ref } from 'vue'
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-3'
+import axios from 'axios'
+
 export default {
     name: 'ImageInp',
     props: { format: { type: String, default: 'large', required: false}, key: Number },
@@ -30,14 +33,21 @@ export default {
         const input= ref<any>(null)
 
         const files = input.value?.files
+        const cdnUrl = ref<string>("No file uploaded")
 
         const logFiles = (event: any) => {
             let fileUploaded: File = event.target.files[0]
             console.log(fileUploaded);console.log(event.target.files.length);
             
             blobUrl.value= window.URL.createObjectURL( fileUploaded)
+const cloudName = 'dzggewhvt'
+            axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        file: fileUploaded,
+        upload_preset: 'ze5mrykg'
+         }  ).then(res => {console.log(res.data); cdnUrl.value = res.data.url;
+         })
         }
-        return { width, blobUrl, files, logFiles }
+        return { width, blobUrl, files, logFiles, cdnUrl }
     }
 }
 </script>
