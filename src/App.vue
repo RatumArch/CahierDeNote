@@ -1,18 +1,16 @@
 <template>
   <ReloadPWA />
-  <form method="post" enctype="multipart/form-data" @submit.prevent="onSubmit" >
-    <input type="file" multiple >
-    <button type="submit">Send</button>
-  </form>
+  <TextNode template="<h3>A text node </h3>" >+</TextNode>
+
   <NoteEditor/>
 </template>
 
 <script lang="ts">
 import ImageInput from "./components/ImageInput.vue"
-
+import TextNode from './components/TextNode.vue'
 import { defineComponent } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
-import PicInput from "./components/PicInput.vue"
+
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "@/components/NoteEditor.vue";
 import axios from "axios";
@@ -21,9 +19,9 @@ export default defineComponent({
   components: {
     NoteEditor,
     ReloadPWA,
-    PicInput,
     ImageInp,
-    ImageInput
+    ImageInput,
+    TextNode
   },
   setup() {
     const cloudName = 'dzggewhvt'

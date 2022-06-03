@@ -11,19 +11,17 @@
 import ImageInput from "./components/ImageInput.vue"
 
 import { defineComponent } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+
 import ReloadPWA from "./components/ReloadPWA.vue";
-import PicInput from "./components/PicInput.vue"
+
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 export default defineComponent({
   name: "App",
   components: {
-    HelloWorld,
     NoteEditor,
     ReloadPWA,
-    PicInput,
     ImageInp,
     ImageInput
   },

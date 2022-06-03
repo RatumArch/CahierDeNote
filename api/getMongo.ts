@@ -1,18 +1,22 @@
 import { ObjectID } from "bson";
-import type { Collection } from "mongodb";
-import clientPromise from "../utils/mongodb.js";
+import type { ClientSession } from "mongodb";
+import { serializeDoc, clientPromise } from "../utils/index"
 
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
-const collec2 = "trashcollec"
 
-export default async function getMongo(req: any, res: any) {
-    const client = await clientPromise.then((client: any) => client)
+export default async function findOneMongo(req: any, res: any) {
+    const client = await clientPromise.then((client: ClientSession) => client)
     const datab = client.db(db)
-    const collection: Collection = await datab.collection(collec2)
+    const collection = await datab.collection(collec)
+    let param
+    if( req.method==='POST') param = req.body
+    if( req.method==='GET') param = req.query
+  
+    const id = param?.id
+  
+    const results = await collection.findOne({ "_id": new ObjectID(id) } ).then((document: any) => serializeDoc(document))
 
-    console.log(collection);
-    collection.insertOne({ _id: new ObjectID(13232), aijinsere: "ouijai" } ).then(inserted => res.status(200).send(inserted))
-    
-    
-}
+    res.status(200).send(results)
+    return results
+  }
