@@ -89,7 +89,6 @@ name: 'NoteEditor',
   }
   .button-panel {
     display: inline;
-    position: fixed;
     top: 50px;
     background-color:#B9F18D;
     border-bottom-style: solid;
