@@ -61,7 +61,7 @@ name: 'NoteEditor',
 
     const sendToMongo = () => { 
       const data = editor.value?.getHTML()
-      axios.post('http://localhost:3000/api/insertNote', data) }
+      axios.post('/api/insertNote', data) }
 
     onMounted(() => {
         editor.value?.chain().focus().run()
