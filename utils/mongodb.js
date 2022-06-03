@@ -1,17 +1,17 @@
 import { MongoClient } from 'mongodb'
 
-const uri = process.env.env.MONGODB_URI
-const collectionName = process.env.env.MONGODB_DB_COLLECTION
+const uri = process.env.MONGODB_URI
+const collectionName = process.env.MONGODB_DB_COLLECTION
 const options = {}
 
 let client
 let clientPromise
 
-if (!process.env.env.MONGODB_URI) {
+if (!process.env.MONGODB_URI) {
     throw new Error('Please add your Mongo URI to .env.local')
 }
 
-if (process.env.env.DEV) {
+if (process.env.DEV) {
     // In development mode, use a global variable so that the value
     // is preserved across module reloads caused by HMR (Hot Module Replacement).
     if (!global._mongoClientPromise) {
@@ -25,7 +25,7 @@ if (process.env.env.DEV) {
     clientPromise = client.connect()
 }
 
-const db = process.env.env.MONGODB_DB
+const db = process.env.MONGODB_DB
 
 export const createCollection = async (clientPr, name) => {
     const client = await clientPr.then((client) => client)

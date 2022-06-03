@@ -16,8 +16,8 @@ export default async function insertMongo(req: any, res: any) {
     console.log(req.body);
 
     return await collection.insertOne(param)
-      .then((docs) => res.status(200).send(docs))
-      .catch(err => console.error(err))
+      .then((docs: any) => res.status(200).send(docs))
+      .catch((err: any) => console.error(err))
   }
   else {
     res.status(405).send("You must POST")
