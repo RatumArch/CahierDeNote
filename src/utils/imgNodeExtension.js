@@ -10,9 +10,9 @@ const ImageNode = Node.create({
 
   addAttributes() {
     return {
-      count: {
-        default: 0,
-      },
+      src: {
+        default: ''
+      }
     }
   },
 

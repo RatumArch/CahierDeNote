@@ -33,7 +33,7 @@ export default {
 
   setup() {
     const editor = useEditor({
-      content: '<p>I’m running</p>',
+      content: '<image-input>fdlflfkl</image-input>',
       extensions: [
         StarterKit,
         CodeBlockLowlight.configure({
@@ -61,6 +61,7 @@ export default {
 
     const sendToMongo = () => { 
       const data = editor.value?.getHTML()
+      console.log(data)
       axios.post('/api/insertNote', data)
     }
 

@@ -1,10 +1,11 @@
 <template>
 <node-view-wrapper>
-    <div class="image-input" :style="{width: width[format]}">
+    <div class="image-input" >
         <label for="image-input-opaq" class="preview-label">
             <span class="placeholder">Insérer image ici</span>
             <a :href="cdnUrl"> {{cdnUrl}}</a>
-            <img v-bind:src="cdnUrl?.length>0 ? cdnUrl : blobUrl" class="preview"/>
+            <img v-if="blobUrl?.length>0" :src="blobUrl" class="preview"/>
+            
         </label>
         <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
     </div>
@@ -18,7 +19,14 @@ import axios from 'axios'
 
 export default {
     name: 'ImageInp',
-    props: { format: { type: String, default: 'large', required: false}, key: Number },
+    props: {
+        format: { type: String, default: 'large', required: false},
+        updateAttributes: {
+            type: Function,
+            required: true,
+        },
+        node: { type: Object}
+     },
     components: {
         NodeViewWrapper,
         NodeViewContent,
@@ -39,11 +47,12 @@ export default {
             let fileUploaded: File = event.target.files[0]
             
             blobUrl.value= window.URL.createObjectURL( fileUploaded)
-const cloudName = 'dzggewhvt'
+            const cloudName = 'dzggewhvt'
             axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        file: fileUploaded,
-        upload_preset: 'ze5mrykg'
-         }  ).then(res => { cdnUrl.value = res.data.url; })
+                    file: fileUploaded,
+                    upload_preset: 'ze5mrykg'
+                    }  )
+                    .then(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
         }
         return { width, blobUrl, files, logFiles, cdnUrl }
     }
