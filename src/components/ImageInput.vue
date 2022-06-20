@@ -1,14 +1,16 @@
 <template>
 <node-view-wrapper>
-    <div class="image-input" >
-        <label for="image-input-opaq" class="preview-label">
-            <span class="placeholder">Insérer image ici</span>
-            <a :href="cdnUrl"> {{cdnUrl}}</a>
+    <div class="image-input" draggable="true" data-drag-handle >
+        <label for="image-input-opaq" class="preview-label" >
+            <span class="placeholder content" draggable="true" data-drag-handle >Insérer image ici</span>
+            <a v-if="cdnUrl.length>0" :href="cdnUrl"> {{cdnUrl}}</a>
             <img v-if="blobUrl?.length>0" :src="blobUrl" class="preview"/>
             
         </label>
         <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
+        
     </div>
+    
 </node-view-wrapper>
 </template>
 
@@ -41,7 +43,7 @@ export default {
         const input= ref<any>(null)
 
         const files = input.value?.files
-        const cdnUrl = ref<string>("No file uploaded")
+        const cdnUrl = ref<string>("")
 
         const logFiles = (event: any) => {
             let fileUploaded: File = event.target.files[0]
@@ -54,7 +56,14 @@ export default {
                     }  )
                     .then(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
         }
-        return { width, blobUrl, files, logFiles, cdnUrl }
+
+        const testpaste = (event: any) => { 
+            cdnUrl.value= event.clipboardData.getData('text');
+            blobUrl.value = cdnUrl.value
+            props.updateAttributes({ src: cdnUrl.value })
+        }
+
+        return { width, blobUrl, files, logFiles, cdnUrl, testpaste }
     }
 }
 </script>
@@ -62,9 +71,9 @@ export default {
 <style scoped>
 .image-input {
     overflow: hidden;
-    resize: vertical;
+    resize: both;
     border-style: solid;
-    width: 5vw;
+    width: 10vw;
 }
 #image-input-opaq {
     opacity: 0;
@@ -77,4 +86,5 @@ export default {
     width: 100%;
     height: 100%;    
 }
+
 </style>

@@ -33,9 +33,10 @@ export default {
 
   setup() {
     const editor = useEditor({
-      content: '<image-input>fdlflfkl</image-input>',
       extensions: [
-        StarterKit,
+        StarterKit.configure({
+          codeBlock: false
+        }),
         CodeBlockLowlight.configure({
         lowlight,
         defaultLanguage: 'python'
@@ -53,7 +54,7 @@ export default {
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
     //@ts-ignore
-    const addImage = () => editor.value?.chain().focus().addImage().run()
+    const addImage = () => editor.value?.chain().focus().addImage().createParagraphNear().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
 
@@ -61,12 +62,14 @@ export default {
 
     const sendToMongo = () => { 
       const data = editor.value?.getHTML()
+      const rawtext = editor.value?.getText()
       console.log(data)
-      axios.post('/api/insertNote', data)
+      axios.post('/api/insertNote', {html: data, raw: rawtext})
     }
 
     onMounted(() => {
         editor.value?.chain().focus().run()
+        //editor.value?.on('')
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()

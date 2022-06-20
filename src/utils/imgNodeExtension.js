@@ -1,12 +1,14 @@
-import { Node, mergeAttributes } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import { markPasteRule, Node, mergeAttributes } from '@tiptap/core'
+import { markInputRule, VueNodeViewRenderer } from '@tiptap/vue-3'
 import ImageInput from '../components/ImageInput.vue'
+
 
 
 const ImageNode = Node.create({
   group: 'block',
+  //content: 'inline*',
+  draggable: true,
   
-  atom: true,
 
   addAttributes() {
     return {
@@ -25,7 +27,7 @@ const ImageNode = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['image-input', mergeAttributes(HTMLAttributes)]
+    return ['image-input', mergeAttributes(HTMLAttributes) ]
   },
 
   addNodeView() {
@@ -34,11 +36,11 @@ const ImageNode = Node.create({
 
   addCommands() {
       return {
-          addImage: () => ({commands}) => {
-              return commands.insertContent(ImageNode)
+          addImage: () => ({commands, chain}) => {
+              return chain().insertContent(ImageNode )
           }
       }
-  },
+  }
 
 })
 
