@@ -30,8 +30,10 @@ export default {
   components: {
     EditorContent,
   },
-
-  setup() {
+  props: {
+    content: { type: String, required: false }
+  },
+  setup(props: any) {
     const editor = useEditor({
       extensions: [
         StarterKit.configure({
@@ -47,6 +49,7 @@ export default {
           defaultAlignment: 'left'
         })
       ],
+      content: props.content
     })
     
   

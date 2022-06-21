@@ -15,7 +15,7 @@ async function findLast(req: any, res: VercelResponse) {
 
     const lastDoc = results[0]
     res.status(200).send(lastDoc)
-    prisma.$disconnect
+    prisma.$disconnect()
 }
 
 const findLast2 = (req: VercelRequest, res: VercelResponse) => _get(findLast, req, res) 

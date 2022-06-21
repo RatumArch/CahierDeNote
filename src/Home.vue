@@ -9,39 +9,30 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import ImageInput from "./components/ImageInput.vue"
 
-import { defineComponent, ref } from "vue";
+import { ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
-export default defineComponent({
-  name: "Home",
-  components: {
-    NoteEditor,
-    ReloadPWA,
-    ImageInp,
-    ImageInput
-  },
-  setup() {
-    const cloudName = 'dzggewhvt'
-    const onSubmit = (e: any) => {
-      const cloudName = 'dzggewhvt'
-      axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        file: e.target.value,
-        upload_preset: 'ze5mrykg'
-         } ).then(res => { console.log(res.data);
-          })
-    }
 
-    const folderCode = ref('')
-    return { onSubmit, folderCode }
-  }
-});
+
+const cloudName = 'dzggewhvt'
+const onSubmit = (e: any) => {
+  const cloudName = 'dzggewhvt'
+  axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    file: e.target.value,
+    upload_preset: 'ze5mrykg'
+      } ).then(res => { console.log(res.data);
+      })
+}
+
+const folderCode = ref('')
+
 </script>
 
 <style scoped lang="scss">

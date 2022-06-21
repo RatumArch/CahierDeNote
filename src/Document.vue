@@ -1,7 +1,7 @@
 <template>
   <div v-html="content" class="content" >
   </div>
-  <NoteEditor/>
+  <NoteEditor :content="content" />
 </template>
 
 <script setup lang="ts">
