@@ -14,6 +14,9 @@ const ImageNode = Node.create({
     return {
       src: {
         default: ''
+      },
+      nodeId: {
+        default: Date.now()
       }
     }
   },

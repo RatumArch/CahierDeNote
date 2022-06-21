@@ -1,13 +1,13 @@
 <template>
 <node-view-wrapper ref="wrapper">
     <div class="image-input" draggable="true" data-drag-handle ref="divima" >
-        <label for="image-input-opaq" class="preview-label" >
+        <label :for="`image-input-opaq-${node.attrs.nodeId}`" class="preview-label" >
             <span class="placeholder content" draggable="true" data-drag-handle >Insérer image ici</span>
             <a v-if="cdnUrl.length>0" :href="cdnUrl"> {{cdnUrl}}</a>
             <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " />
             
         </label>
-        <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
+        <input type="file" :id="`image-input-opaq-${node.attrs.nodeId}`" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
         
     </div>
     
@@ -27,7 +27,9 @@ export default {
             type: Function,
             required: true,
         },
+        inputId: { type: String, required: true, default: ''},
         node: { type: Object },
+
      },
     components: {
         NodeViewWrapper,
