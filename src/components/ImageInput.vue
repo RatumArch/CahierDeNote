@@ -27,7 +27,8 @@ export default {
             type: Function,
             required: true,
         },
-        node: { type: Object}
+        node: { type: Object},
+        src: { type: String, default: 'https://res.cloudinary.com/dzggewhvt/image/upload/v1654202091/cld-sample-3.jpg', required: false}
      },
     components: {
         NodeViewWrapper,

@@ -22,7 +22,7 @@ import { onBeforeUnmount, onUpdated } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
-import lowlight from 'lowlight'
+//import lowlight from 'lowlight'
 import axios from 'axios';
 
 export default {
@@ -38,10 +38,6 @@ export default {
       extensions: [
         StarterKit.configure({
           codeBlock: false
-        }),
-        CodeBlockLowlight.configure({
-        lowlight,
-        defaultLanguage: 'python'
         }),
         ImageNode,
         TextAlign.configure({
