@@ -6,5 +6,5 @@ export { validateHTTPMethod, _get, _post, prismaConnect } from './methodDecorato
 // @ts-ignore
 export {clientPromise }
 
-export { mapSerializeDocs, serializeDoc} from './serialize.ts'
+export { mapSerializeDocs, serializeDoc} from './serialize'
 
