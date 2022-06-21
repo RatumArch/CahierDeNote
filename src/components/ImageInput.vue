@@ -1,10 +1,10 @@
 <template>
-<node-view-wrapper>
-    <div class="image-input" draggable="true" data-drag-handle >
+<node-view-wrapper ref="wrapper">
+    <div class="image-input" draggable="true" data-drag-handle ref="divima" >
         <label for="image-input-opaq" class="preview-label" >
             <span class="placeholder content" draggable="true" data-drag-handle >Insérer image ici</span>
             <a v-if="cdnUrl.length>0" :href="cdnUrl"> {{cdnUrl}}</a>
-            <img v-if="blobUrl?.length>0" :src="blobUrl" class="preview"/>
+            <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " />
             
         </label>
         <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
@@ -27,8 +27,7 @@ export default {
             type: Function,
             required: true,
         },
-        node: { type: Object},
-        src: { type: String, default: 'https://res.cloudinary.com/dzggewhvt/image/upload/v1654202091/cld-sample-3.jpg', required: false}
+        node: { type: Object },
      },
     components: {
         NodeViewWrapper,
@@ -39,9 +38,11 @@ export default {
 
         const width = ref({ little: '50px', medium: '200px', large: '600px' })
         
-        const blobUrl = ref<string|null>(null)
+        const blobUrl = ref<string|null>(props.src)
+        
 
         const input= ref<any>(null)
+        
 
         const files = input.value?.files
         const cdnUrl = ref<string>("")

@@ -1,6 +1,4 @@
 <template>
-  <div v-html="content" class="content" >
-  </div>
   <NoteEditor :content="content" />
 </template>
 
@@ -10,10 +8,14 @@ import axios from 'axios'
 import { ref } from 'vue';
 
 const content = ref('')
-const getContent = () => axios.get('/api/findLastNote').then(res => {content.value=res.data?.html ?? "<strong>nono</strong>"; console.log(res.data?.html);
- })
- .catch(() => { console.error("Document.vue - requête axios" );
- })
+const getContent = () => axios.get('/api/findLastNote')
+                              .then(res => {
+                                  content.value=res.data?.html ?? "<strong>no html</strong>"; console.log(res.data?.html);
+                                  })
+                              .catch(() => { 
+                                console.error("Document.vue - requête axios" );
+                                content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
+                                })
 
  getContent()
 

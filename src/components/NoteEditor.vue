@@ -18,11 +18,11 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onUpdated } from 'vue'
+import { onBeforeUnmount, onMounted, onUpdated } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
-//import lowlight from 'lowlight'
+import lowlight from 'lowlight'
 import axios from 'axios';
 
 export default {
@@ -39,6 +39,10 @@ export default {
         StarterKit.configure({
           codeBlock: false
         }),
+        CodeBlockLowlight.configure({
+          defaultLanguage: 'python',
+          lowlight
+        }),
         ImageNode,
         TextAlign.configure({
           types: ['paragraph'],
@@ -47,7 +51,6 @@ export default {
       ],
       content: props.content
     })
-    
   
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
@@ -62,15 +65,12 @@ export default {
     const sendToMongo = () => { 
       const data = editor.value?.getHTML()
       const rawtext = editor.value?.getText()
-      console.log(data)
+      
       axios.post('/api/insertNote', {html: data, raw: rawtext})
     }
 
     onUpdated(() => {
-        editor.value?.chain().setContent(props.content).focus().run()
-        //editor.value?.on('')
-        console.log(props.content);
-        
+        editor.value?.chain().setContent(props.content).focus().run()        
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()
