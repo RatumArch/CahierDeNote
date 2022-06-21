@@ -8,7 +8,6 @@ const ImageNode = Node.create({
   group: 'block',
   //content: 'inline*',
   draggable: true,
-  name: 'ImageNode',
   
 
   addAttributes() {
@@ -41,20 +40,7 @@ const ImageNode = Node.create({
               return chain().insertContent(ImageNode )
           }
       }
-  },
-  addStorage() {
-    return {
-      stor: 'storag',
-      srcstore: this
-    }
-  },
-   onCreate(ev) {
-    console.log(ev);console.log("/ev");
-   },
-   onUpdate(ev) {
-    console.log(ev);
-   }
-
+  }
 })
 
 export default ImageNode
