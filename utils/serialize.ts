@@ -20,6 +20,3 @@ export function serializeDoc(document: any) {
 
     return newDoc;
 }
-
-// @ts-ignore
-export {clientPromise}
