@@ -1,5 +1,4 @@
 <template>
-  <ReloadPWA />
   <div class="home">
   <RouterLink to="/document" class="link newdoc">
     New Document

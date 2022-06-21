@@ -10,7 +10,7 @@ import axios from 'axios'
 import { onMounted, ref } from 'vue';
 
 const content = ref('')
-const getContent = () => axios.get('/api/findLastNote').then(res => {content.value=res.data?.html ?? "<strong>nono</strong>"; console.log(res.data);
+const getContent = () => axios.get('/api/findLastNote').then(res => {content.value=res.data?.html ?? "<strong>nono</strong>"; console.log(res.data?.html);
  })
  .catch(() => { console.error("Document.vue - requête axios" );
  })
