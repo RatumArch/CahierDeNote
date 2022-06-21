@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const content = ref('')
 const getContent = () => axios.get('/api/findLastNote').then(res => {content.value=res.data?.html ?? "<strong>nono</strong>"; console.log(res.data?.html);
@@ -15,7 +15,7 @@ const getContent = () => axios.get('/api/findLastNote').then(res => {content.val
  .catch(() => { console.error("Document.vue - requête axios" );
  })
 
- onMounted(() => getContent())
+getContent()
 
 </script>
 
