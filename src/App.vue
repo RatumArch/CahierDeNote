@@ -1,8 +1,8 @@
 <template>
   <ReloadPWA />
-  <TextNode template="<h3>A text node </h3>" >+</TextNode>
-
-  <NoteEditor/>
+  <main>
+  <RouterView/>
+  </main>
 </template>
 
 <script lang="ts">
@@ -10,7 +10,7 @@ import ImageInput from "./components/ImageInput.vue"
 import TextNode from './components/TextNode.vue'
 import { defineComponent } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
-
+import { RouterView, RouterLink } from "vue-router";
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "@/components/NoteEditor.vue";
 import axios from "axios";
@@ -21,7 +21,9 @@ export default defineComponent({
     ReloadPWA,
     ImageInp,
     ImageInput,
-    TextNode
+    TextNode,
+    RouterView,
+    RouterLink
   },
  
 });
