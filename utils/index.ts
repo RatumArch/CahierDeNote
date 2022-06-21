@@ -1,11 +1,12 @@
 import {Collection, ObjectId, Sort} from "mongodb";
+// @ts-ignore
 import clientPromise from "./mongodb.js";
 /**
  * Fonction à appliquer sur les objets ayant un cham "_id: new ObjectId('___')"
  * Retourne un objet JavaScript valide
  */
  export function mapSerializeDocs(docsArray: any) {
-    return docsArray.map((doc) => {
+    return docsArray.map((doc: any) => {
         doc._id = doc._id.toString()
         return doc
     })
@@ -20,4 +21,5 @@ export function serializeDoc(document: any) {
     return newDoc;
 }
 
+// @ts-ignore
 export {clientPromise}

@@ -51,7 +51,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: [
-      { find: /^@\/components\/(.*)/, replacement:  path.resolve("src/components/$1") },
+      { find: /^@\/(.*)/, replacement: path.resolve("src/$1") },
+      { find: /^@\/components\/(.*)/, replacement: path.resolve("src/components/$1") },
       { find: /^@\/assets\/(.*)/, replacement:  path.resolve("src/assets/$1", "assets/$1") },
       { find: /^@\/constants\/(.*)/, replacement:  path.resolve("src/constants") },
       { find: "^utils\/(.*)", replacement: path.resolve("utils/$1")  },
