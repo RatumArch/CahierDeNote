@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import ImageInput from "./components/ImageInput.vue"
-import TextNode from './components/TextNode.vue'
+
 import { defineComponent } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
 import { RouterView, RouterLink } from "vue-router";
@@ -21,7 +21,6 @@ export default defineComponent({
     ReloadPWA,
     ImageInp,
     ImageInput,
-    TextNode,
     RouterView,
     RouterLink
   },
