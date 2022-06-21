@@ -16,7 +16,7 @@ const ImageNode = Node.create({
         default: ''
       },
       nodeId: {
-        default: Date.now()
+        default: ''
       }
     }
   },
