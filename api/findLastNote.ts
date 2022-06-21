@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 // @ts-ignore
-import { validateHTTPMethod, _get, _post, prismaConnect } from '../utils/index.js'
+import { _get, _post } from '../utils/index.js'
 import { PrismaClient } from '@prisma/client'
 
 

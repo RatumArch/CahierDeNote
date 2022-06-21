@@ -16,10 +16,3 @@ export const _get = (fn: (req: VercelRequest, res: VercelResponse) => any, req: 
 export const _post = (fn: (req:VercelRequest, res: VercelResponse) => any, req: VercelRequest, res: VercelResponse) => {
     validateHTTPMethod(fn, 'post', req, res)
 }
-
-export const prismaConnect = (fn: (...args: any) => Promise<PrismaClient>, ...args: any) => {
-    
-    
-    fn.call(this, ...args).then(prisma => {prisma.$disconnect().then(() => { console.log("disconnected prissmaconnect");})
-    })
-}
