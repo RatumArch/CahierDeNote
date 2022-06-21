@@ -18,7 +18,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted } from 'vue'
+import { onBeforeUnmount, onUpdated } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
@@ -70,9 +70,11 @@ export default {
       axios.post('/api/insertNote', {html: data, raw: rawtext})
     }
 
-    onMounted(() => {
-        editor.value?.chain().focus().run()
+    onUpdated(() => {
+        editor.value?.chain().setContent(props.content).focus().run()
         //editor.value?.on('')
+        console.log(props.content);
+        
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()

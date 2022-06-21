@@ -15,7 +15,7 @@ const getContent = () => axios.get('/api/findLastNote').then(res => {content.val
  .catch(() => { console.error("Document.vue - requête axios" );
  })
 
-getContent()
+ getContent()
 
 </script>
 
