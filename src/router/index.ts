@@ -6,7 +6,7 @@ import Document from '@/Document'
 const router = createRouter({
     history: createWebHistory(),
     routes: [{
-        path: '/document/:folderCode',
+        path: '/document/:folderCode*',
         component: Document
     },
     { path: '/', component: Home, alias: ['/home', '/index'] },
