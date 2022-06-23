@@ -25,7 +25,7 @@ async function findLast(req: any, res: VercelResponse) {
   
     const lastDoc = results[0]
     
-    res.status(200).send(expr)
+    res.status(200).send({html: expr})
     prisma.$disconnect()
 }
 
