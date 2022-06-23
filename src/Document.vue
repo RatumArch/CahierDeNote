@@ -1,6 +1,5 @@
 <template>
-<div class="equation">
-  {{content}}
+<div v-html="content">
 </div>
   <NoteEditor :content="content" />
 </template>
