@@ -1,4 +1,7 @@
 <template>
+<div class="equation">
+  {{content}}
+</div>
   <NoteEditor :content="content" />
 </template>
 

@@ -17,7 +17,7 @@ async function findLast(req: any, res: VercelResponse) {
     })
     const expr = katex.renderToString('(x^2 + y/2 = z/2)');    
 
-    results[0].html = expr +'<br/>'+ sanitizeHtml( expr, {
+    results[0].html = sanitizeHtml( results[0]?.html, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input']),
         allowedAttributes: {"image-input": ['src', 'nodeId']}
     })
@@ -25,7 +25,7 @@ async function findLast(req: any, res: VercelResponse) {
   
     const lastDoc = results[0]
     
-    res.status(200).send({html: expr})
+    res.status(200).send(lastDoc)
     prisma.$disconnect()
 }
 
