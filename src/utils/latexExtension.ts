@@ -1,21 +1,22 @@
+import LatexNode from '@/components/LatexNode.vue'
 import { markPasteRule, Node, mergeAttributes } from '@tiptap/core'
 import { markInputRule, VueNodeViewRenderer } from '@tiptap/vue-3'
 import ImageInput from '../components/ImageInput.vue'
 
 
 
-const ImageNode = Node.create({
+const LatexBlock = Node.create({
   group: 'block',
-  //content: 'inline*',
+  content: 'inline*',
   draggable: true,
   
 
   addAttributes() {
     return {
-      src: {
+      content: {
         default: ''
       },
-      nodeId: {
+      latexNodeId: {
         default: ''
       }
     }
@@ -24,26 +25,27 @@ const ImageNode = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'image-input',
+        tag: 'latex-block',
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['image-input', mergeAttributes(HTMLAttributes) ]
+    return ['latex-block', mergeAttributes(HTMLAttributes) ]
   },
 
   addNodeView() {
-    return VueNodeViewRenderer(ImageInput)
+    return VueNodeViewRenderer(LatexNode)
   },
 
   addCommands() {
       return {
-          addImage: () => ({commands, chain}) => {
-              return commands.insertContent(ImageNode )
-          }
+          addLatex: () => ({commands, chain}) => {
+              return  commands.insertContent(LatexBlock )
+          },
+          getEquation: () => ({commands}) => commands.getText()
       }
   }
 })
 
-export default ImageNode
+export default LatexBlock

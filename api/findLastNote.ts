@@ -15,11 +15,14 @@ async function findLast(req: any, res: VercelResponse) {
     })
     .catch(err => { console.error("requête ratée");
     })
-    const expr = katex.renderToString('(x^2 + y/2 = z/2)');    
+    const expr = katex.renderToString('(\sqrt{x^2 + \alpha^2 })');    
 
-    results[0].html = sanitizeHtml( results[0]?.html, {
+    results[0].html = expr + '<br/>' +sanitizeHtml( expr + '<br/>' +results[0]?.html, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input']),
-        allowedAttributes: {"image-input": ['src', 'nodeId']}
+        allowedAttributes: {
+            "image-input": ['src', 'nodeId'], 
+            "latex-block": [ 'content', 'nodeId']
+        }
     })
     
   
