@@ -29,7 +29,8 @@ onMounted(() => {
 })
 
 const input = ref(null)
-const equation = ref('')
+const equation = ref(props.node?.attrs?.rawtext)
+console.log(props.node?.attrs?.rawtext);console.log("rawtext");
 const empty = computed(() => equation.value?.length===0)
 const inputFocus = () => { input.value.focus();}
 
@@ -39,17 +40,7 @@ const applyKatex = (userInput) => {
     if(isMounted) { props.node.attrs.rawText= userInput }
     return katex.renderToString(userInput, { throwOnError: false })
 }
-const equationStyled = computed(() => {
-    const expr = applyKatex(equation.value, { throwOnError: false }) 
-    console.log(expr);
-    if(expr?.length===0){
-     return props.node?.attrs?.rawtext
-     }
-     else {
-        return expr
-     }
-     } 
-     )
+const equationStyled = computed(() => applyKatex(equation.value, { throwOnError: false }) )
 
 </script>
 
