@@ -11,7 +11,7 @@ interface Commands<ReturnType> {
 const LatexBlock = Node.create({
   name: 'LatexBlock',
   group: 'block',
-  content: 'inline*',
+  //content: 'inline*',
   priority: 201,
   
 
