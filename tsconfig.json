@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -14,7 +15,7 @@
       "@/*": ["src/*", "src/components/*"],
       "@/assets": ["src/assets/*", "assets/*"],
       "@/constants": ["src/constants/*", "constants"],
-      "@/utils/*": ["src/utils/*", "utils/*"],
+      "@/utils/*": [ "utils/*"],
     },
     "lib": ["ESNext", "DOM", "WebWorker"]
   },
