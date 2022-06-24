@@ -29,7 +29,7 @@ onMounted(() => {
 })
 
 const input = ref(null)
-const equation = ref(props.node?.attrs?.rawtext)
+const equation = ref(props.node?.attrs?.rawtext ?? 'try \\frac{a}{b}')
 console.log(props.node?.attrs?.rawtext);console.log("rawtext");
 const empty = computed(() => equation.value?.length===0)
 const inputFocus = () => { input.value.focus();}

@@ -18,7 +18,10 @@ const LatexBlock = Node.create({
   addAttributes() {
     return {
       rawText: {
-        default: ''
+        default: 'rawTText'
+      },
+      rawtext: {
+        default: '\\frac{a}{b}'
       },
       latexNodeId: {
         default: ''
