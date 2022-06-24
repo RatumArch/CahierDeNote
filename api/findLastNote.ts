@@ -17,10 +17,10 @@ async function findLast(req: any, res: VercelResponse) {
     })
 
     results[0].html = sanitizeHtml( results[0]?.html, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input']),
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input', 'latex-block']),
         allowedAttributes: {
-            "image-input": ['src', 'nodeId'], 
-            "latex-block": [ 'rawText ', 'nodeId']
+            "image-input": ['src', 'nodeId', 'nodeid'], 
+            "latex-block": [ 'rawText', 'rawtext', 'nodeId', 'nodeid']
         }
     })
     

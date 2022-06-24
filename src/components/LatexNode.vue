@@ -6,7 +6,7 @@
                         :class="{empty}" 
                         placeholder="Write \sum"
                         ref="input" />
-    <div class="expression katex" v-html="equationStyled" @click="inputFocus" ></div>
+    <span class="expression katex" v-html="equationStyled" @click="inputFocus" ></span>
 </node-view-wrapper>
 </template>
 
@@ -22,18 +22,19 @@ const props = defineProps({
             required: true,
         },
 })
+const isMounted = ref(false)
 onMounted(() => {
     props.updateAttributes({ latexNodeId: Date.now()})
     isMounted.value=false
 })
+
 const input = ref(null)
 const equation = ref('')
 const empty = computed(() => equation.value?.length===0)
 const inputFocus = () => { input.value.focus();}
 
-
 const msgError = ref('')
-const isMounted = ref(false)
+
 const applyKatex = (userInput) => {
     if(isMounted) { props.node.attrs.rawText= userInput }
     return katex.renderToString(userInput, { throwOnError: false })
@@ -53,7 +54,7 @@ const equationStyled = computed(() => applyKatex(equation.value, { throwOnError:
     &.input {
         width: 5ex;
         &:focus {
-            width: 80ex;
+            width: 80%;
             padding: 2px;
         }
         &.empty {
