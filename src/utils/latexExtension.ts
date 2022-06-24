@@ -1,19 +1,23 @@
 import LatexNode from '@/components/LatexNode.vue'
-import { markPasteRule, Node, mergeAttributes } from '@tiptap/core'
-import { markInputRule, VueNodeViewRenderer } from '@tiptap/vue-3'
-import ImageInput from '../components/ImageInput.vue'
+import { Commands, Node, mergeAttributes } from '@tiptap/core'
+import { VueNodeViewRenderer } from '@tiptap/vue-3'
 
-
+interface Commands<ReturnType> {
+  LatexBlock: {
+    addLatex: (someProp: any) => ReturnType
+  }
+}
 
 const LatexBlock = Node.create({
+  name: 'LatexBlock',
   group: 'block',
   content: 'inline*',
-  draggable: true,
+  priority: 201,
   
 
   addAttributes() {
     return {
-      content: {
+      rawText: {
         default: ''
       },
       latexNodeId: {
@@ -37,15 +41,15 @@ const LatexBlock = Node.create({
   addNodeView() {
     return VueNodeViewRenderer(LatexNode)
   },
-
   addCommands() {
       return {
-          addLatex: () => ({commands, chain}) => {
-              return  commands.insertContent(LatexBlock )
-          },
-          getEquation: () => ({commands}) => commands.getText()
+        addLatex: () => ({ commands}) => {
+          commands.insertContent(LatexBlock)
+        }
       }
-  }
+  },
+
+
 })
 
 export default LatexBlock

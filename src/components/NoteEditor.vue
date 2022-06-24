@@ -45,8 +45,8 @@ export default {
           defaultLanguage: 'python',
           lowlight
         }),
-        ImageNode,
         LatexBlock,
+        ImageNode,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
@@ -59,11 +59,11 @@ export default {
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
     //@ts-ignore
-    //const addImage = () => editor.value?.chain().focus().addImage()
+    const addImage = () => editor.value?.chain().focus().addImage().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
     //@ts-ignore
-    const toggleLatex = () => editor.value?.chain().focus().addLatex()
+    const toggleLatex = () => editor.value?.chain().focus().addLatex().run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 

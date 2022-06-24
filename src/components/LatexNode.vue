@@ -14,12 +14,13 @@ import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3';
 const props = defineProps({
     node: { type: Object}
 })
-onMounted(() => props.updateAttributes({ nodeId: Date.now()}))
+onMounted(() => props.updateAttributes({ latexNodeId: Date.now()}))
 
 const equation = ref('')
+const msgError = ref('')
 
 const applyKatex = async (userInput) => {
-    props.updateAttributes({ content: userInput})
+    props.updateAttributes({ rawText: userInput})
     return katex.renderToString(userInput)
 }
 
@@ -27,7 +28,7 @@ const equationStyled = ref('type above')
     watchEffect(async (newval, val) =>{
         applyKatex(props.node.textContent)
             .then((expr) => equationStyled.value=expr)
-            .catch((err) => { equationStyled.value='Expression mal formé, veuillez continuer... <progress>'})
+            .catch((err) => { msgError.value=''})
     })
 
 </script>

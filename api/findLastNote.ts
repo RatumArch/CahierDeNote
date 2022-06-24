@@ -20,7 +20,7 @@ async function findLast(req: any, res: VercelResponse) {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input']),
         allowedAttributes: {
             "image-input": ['src', 'nodeId'], 
-            "latex-block": [ 'content', 'nodeId']
+            "latex-block": [ 'rawText ', 'nodeId']
         }
     })
     
