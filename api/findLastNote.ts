@@ -15,9 +15,8 @@ async function findLast(req: any, res: VercelResponse) {
     })
     .catch(err => { console.error("requête ratée");
     })
-    const expr = katex.renderToString('(\sqrt{x^2 + \alpha^2 })');    
 
-    results[0].html = expr + '<br/>' +sanitizeHtml( expr + '<br/>' +results[0]?.html, {
+    results[0].html = sanitizeHtml( results[0]?.html, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input']),
         allowedAttributes: {
             "image-input": ['src', 'nodeId'], 
@@ -28,7 +27,7 @@ async function findLast(req: any, res: VercelResponse) {
   
     const lastDoc = results[0]
     
-    res.status(200).send({html: expr})
+    res.status(200).send(lastDoc)
     prisma.$disconnect()
 }
 

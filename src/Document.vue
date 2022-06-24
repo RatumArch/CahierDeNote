@@ -1,15 +1,11 @@
 <template>
-<div v-html="content">
-</div>
-<div v-html="equation"></div>
-  <NoteEditor :content="equation" />
+  <NoteEditor :content="content" />
 </template>
 y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { ref } from 'vue';
-import katex from 'katex';
 
 const content = ref('')
 const getContent = () => axios.get('/api/findLastNote')
@@ -22,8 +18,6 @@ const getContent = () => axios.get('/api/findLastNote')
                                 })
 
  getContent()
- const equation = ref('')
- equation.value = katex.renderToString('(x^2 + \\alpha^2 )');  
 
 </script>
 

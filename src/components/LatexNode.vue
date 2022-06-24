@@ -9,7 +9,7 @@
 <script setup>
 import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import katex from 'katex'
-import { NodeViewContent, NodeViewWrapper, NodeView } from '@tiptap/vue-3';
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3';
 
 const props = defineProps({
     node: { type: Object}
