@@ -10,9 +10,11 @@ const router = createRouter({
     routes: [{
         path: '/folder/:folderCode',
         component: Folder,
+        name: 'folder',
         children: [{
-            path: ':document',
+            path: ':document?',
             component: Document,
+            name: 'document'
         }
         ]
     },

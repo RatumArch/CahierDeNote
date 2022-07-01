@@ -2,7 +2,7 @@
 <div class="container">
   <div class="sidebar">
     <div class="content-sidebar">
-      <RouterLink :to="note?.title" v-for="note of notesContent" :key="note.id">{{note?.title}}</RouterLink>
+      <RouterLink :to="{name: 'document', params: {document: note?.title, folderCode: folderCode } }" v-for="note of notesContent" :key="note.id">{{note?.title}}</RouterLink>
     </div>
   </div>
   <div class="main">
@@ -23,10 +23,13 @@ const title= ref('error')
 const route = useRoute()
 const router = useRouter()
 
+const folderCode = ref('')
+folderCode.value= route.params?.folderCode
+
 const findLastNote = async () =>
   await axios.get('/api/findLastNote', {
       data: {
-        folderCode: route.params?.folderCode
+        folderCode: folderCode.value
       }
     })
     .then(res => res.data)
@@ -35,7 +38,7 @@ const findLastNote = async () =>
 const findFolder = async () =>
   await axios.get('/api/findFolder', {
       data: {
-        folderCode: route.params?.folderCode
+        folderCode: folderCode.value
       }
     })
       .then(res => res.data)
@@ -43,10 +46,10 @@ const findFolder = async () =>
 
 onBeforeMount(async () => {
   folderData.value= await findFolder()
-  notesContent.value= folderData.value?.notesContent
+  notesContent.value= folderData.value?.notesContent ?? [5,4]
   console.log(notesContent.value);
   const document = notesContent.value[0]
-  title.value= document?.title
+  title.value= document?.title ?? 'rr'
   router.replace(title?.value)
 })
 

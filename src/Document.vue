@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route= useRoute()
@@ -30,6 +30,10 @@ const getContent = () =>
       })
 
  getContent()
+ onMounted(() => {
+  console.log(route.params);
+  
+ })
 
 </script>
 
