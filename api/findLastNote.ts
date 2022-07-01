@@ -7,14 +7,26 @@ import { PrismaClient } from '@prisma/client'
 
 async function findLast(req: any, res: VercelResponse) {
     const prisma = new PrismaClient()
-    const results: any = await prisma.notes.findMany({ 
-        orderBy: [ { id: 'desc' }],
-        take: 1
-    }).catch(err => { console.error("requête ratée");
-    })
 
-    const lastDoc = results[0]
-    res.status(200).send(lastDoc)
+    const folderCode = <string>req.query?.folderCode
+    console.log(folderCode);
+    
+    const folder = await prisma.folders.findFirst({
+        where: {
+            folderCode
+        },
+        select: {
+            id: true
+        }
+    })
+    const results: any = await prisma.notes.findFirst({
+        where: {
+            folderId: folder?.id
+        }
+    }).catch(err => { res.status(403); return err})
+
+    const lastDoc = results
+    res.send(lastDoc)
     prisma.$disconnect()
 }
 
