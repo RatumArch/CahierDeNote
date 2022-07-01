@@ -28,7 +28,7 @@ folderCode.value= route.params?.folderCode
 
 const findLastNote = async () =>
   await axios.get('/api/findLastNote', {
-      data: {
+      params: {
         folderCode: folderCode.value
       }
     })
@@ -37,7 +37,7 @@ const findLastNote = async () =>
 
 const findFolder = async () =>
   await axios.get('/api/findFolder', {
-      data: {
+      params: {
         folderCode: folderCode.value
       }
     })
