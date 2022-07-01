@@ -42,7 +42,7 @@ const createFolder = async () => {
       
   folderCode.value=newFolder?.folderCode ?? 'error'
   //const documentTitle = newFolder?.notesContent[0]?.title ?? 'noDocument'
-  newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('folder/o')
+  newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
 
 </script>

@@ -21,7 +21,7 @@ const folderData = ref(null)
 const route = useRoute()
 console.log(route.params?.folderCode);
 const findLastNote = async () =>
-  await axios.get('/findLastNote', {
+  await axios.get('/api/findLastNote', {
       data: {
         folderCode: route.params?.folderCode
       }
@@ -29,7 +29,9 @@ const findLastNote = async () =>
     .then(res => res.data)
     .catch(res => null)
 
-
+const findFolder = async () => 
+  await axios.get('/api/findFolder')
+    .then(res => res.data)
 
 onMounted(()=> {
   findLastNote()
