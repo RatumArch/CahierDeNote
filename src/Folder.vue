@@ -47,6 +47,7 @@ onBeforeMount(async () => {
   console.log(notesContent.value);
   const document = notesContent.value[0]
   title.value= document?.title
+  router.replace(title?.value)
 })
 
 onMounted(async ()=> {
