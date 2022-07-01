@@ -2,7 +2,7 @@
 <div class="container">
   <div class="sidebar">
     <div class="content-sidebar">
-      <p v-for="note of notesContent" :key="note.id">{{note?.title}}</p>
+      <RouterLink :to="note?.title" v-for="note of notesContent" :key="note.id">{{note?.title}}</RouterLink>
     </div>
   </div>
   <div class="main">
@@ -19,6 +19,7 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 
 const folderData = ref(null)
 const notesContent = ref(null)
+const title= ref('error')
 const route = useRoute()
 const router = useRouter()
 
@@ -43,12 +44,14 @@ const findFolder = async () =>
 onBeforeMount(async () => {
   folderData.value= await findFolder()
   notesContent.value= folderData.value?.notesContent
+  console.log(notesContent.value);
+  const document = notesContent.value[0]
+  title.value= document?.title
 })
 
 onMounted(async ()=> {
-  const document = notesContent.value[0]
-  const title= document?.title
-  router.replace(title)
+  
+  router.replace(title?.value)
 })
 </script>
 
