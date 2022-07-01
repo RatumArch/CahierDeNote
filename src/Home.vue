@@ -62,7 +62,7 @@ const createFolder = async () => {
   letter-spacing: 2px;
   width: 60%;
 
-  &:hover {
+  &:hover, &:focus {
     text-decoration: underline;
     cursor: pointer;
   }
