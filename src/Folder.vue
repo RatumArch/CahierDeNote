@@ -14,13 +14,14 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
-import router from './router';
+import { onBeforeMount, onMounted, ref } from 'vue';
+
 
 const folderData = ref(null)
 const notesContent = ref(null)
 const route = useRoute()
-console.log(route.params?.folderCode);
+const router = useRouter()
+
 const findLastNote = async () =>
   await axios.get('/api/findLastNote', {
       data: {
@@ -30,7 +31,7 @@ const findLastNote = async () =>
     .then(res => res.data)
     .catch(res => null)
 
-const folder = 
+const findFolder = () =>
   await axios.get('/api/findFolder', {
       data: {
         folderCode: route.params?.folderCode
@@ -39,14 +40,15 @@ const folder =
       .then(res => res.data)
       .catch(() => null)
 
-notesContent.value= folder?.notesContent
+onBeforeMount(async () => {
+  folderData.value= await findFolder()
+  notesContent.value= folderData.value?.notesContent
+})
 
-onMounted(()=> {
-  findLastNote()
-    .then(document => {
-      router.push(`${document?.title}`)
-    })
-  console.log(route.params);
+onMounted(async ()=> {
+  const document = notesContent.value[0]
+  const title= document?.title
+  router.replace(title)
 })
 </script>
 
