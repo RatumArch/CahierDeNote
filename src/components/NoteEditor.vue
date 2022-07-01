@@ -1,6 +1,6 @@
 <template>
+<h1><input type="text" placeholder="titre" class="editable-title" /></h1>
 <div class="container-noter" @click="editor.chain().focus().run()">
-  <h1><input type="text" placeholder="titre" class="editable-title" /></h1>
   <div class="button-panel" >
       <button @click="toggleBold" >B</button>
       <button @click="toggleCodeBlock" >Python</button>
