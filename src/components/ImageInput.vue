@@ -44,7 +44,6 @@ export default {
         
 
         const input= ref<any>(null)
-        
 
         const files = input.value?.files
         const cdnUrl = ref<string>("")

@@ -5,7 +5,7 @@
   </div>
 
 </template>
-
+y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
