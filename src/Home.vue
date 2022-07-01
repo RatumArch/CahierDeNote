@@ -37,7 +37,7 @@ const router = useRouter()
 
 const createFolder = async () => {
   const newFolder = 
-    await axios.post('/createFolder')
+    await axios.post('/api/createFolder')
       .then(res => res.data).catch(() => null)
       
   folderCode.value=newFolder?.folderCode ?? 'error'

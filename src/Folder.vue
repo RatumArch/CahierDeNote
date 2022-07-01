@@ -2,7 +2,7 @@
 <div class="container">
   <div class="sidebar">
     <div class="content-sidebar">
-
+      <p v-for="note of notesContent" :key="note.id">{{note?.title}}</p>
     </div>
   </div>
   <div class="main">
@@ -18,6 +18,7 @@ import { onMounted, ref } from 'vue';
 import router from './router';
 
 const folderData = ref(null)
+const notesContent = ref(null)
 const route = useRoute()
 console.log(route.params?.folderCode);
 const findLastNote = async () =>
@@ -29,9 +30,12 @@ const findLastNote = async () =>
     .then(res => res.data)
     .catch(res => null)
 
-const findFolder = async () => 
+const folder = 
   await axios.get('/api/findFolder')
     .then(res => res.data)
+    .catch(() => null)
+
+notesContent.value= folder?.notesContent
 
 onMounted(()=> {
   findLastNote()
