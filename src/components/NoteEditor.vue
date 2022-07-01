@@ -85,7 +85,6 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-top: 100px;
   border-style: solid;
   border-width: 3px;
   border-radius: 20px;

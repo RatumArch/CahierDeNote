@@ -22,6 +22,9 @@ async function findLast(req: any, res: VercelResponse) {
     const results: any = await prisma.notes.findFirst({
         where: {
             folderId: folder?.id
+        },
+        orderBy: {
+            modifiedDate: 'desc'
         }
     }).catch(err => { res.status(403); return err})
 

@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client'
-import { _post } from '../utils/index.js'
+import { _post } from '../utils'
 
 const prisma = new PrismaClient()
 

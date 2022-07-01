@@ -1,5 +1,9 @@
 <template>
-  <NoteEditor :content="content" />
+
+  <div class="main">
+    <NoteEditor :content="content" />
+  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -21,9 +25,3 @@ const getContent = () => axios.get('/api/findLastNote')
 
 </script>
 
-<style>
-.content {
-  border-style: solid;
-  border-color: black;
-}
-</style>
