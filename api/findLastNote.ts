@@ -9,14 +9,28 @@ import katex from 'katex';
 
 async function findLast(req: any, res: VercelResponse) {
     const prisma = new PrismaClient()
-    let results: any = await prisma.notes.findMany({ 
-        orderBy: [ { id: 'desc' }],
-        take: 1
-    })
-    .catch(err => { console.error("requête ratée");
-    })
 
-    results[0].html = sanitizeHtml( results[0]?.html, {
+    const folderCode = <string>req.query?.folderCode
+    console.log(folderCode);
+    
+    const folder = await prisma.folders.findFirst({
+        where: {
+            folderCode
+        },
+        select: {
+            id: true
+        }
+    })
+    const results: any = await prisma.notes.findFirst({
+        where: {
+            folderId: folder?.id
+        },
+        orderBy: {
+            modifiedDate: 'desc'
+        }
+    }).catch(err => { res.status(403); return err})
+
+    results.html = sanitizeHtml( results?.html, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input', 'latex-block']),
         allowedAttributes: {
             "image-input": ['src', 'nodeId', 'nodeid'], 

@@ -1,5 +1,6 @@
 <template>
-<div class="container-noter" >
+<h1><input type="text" placeholder="titre" class="editable-title" /></h1>
+<div class="container-noter" @click="editor.chain().focus().run()">
   <div class="button-panel" >
       <button @click="toggleBold" >B</button>
       <button @click="toggleCodeBlock" >Python</button>
@@ -86,11 +87,15 @@ export default {
 </script>
 
 <style lang="scss">
+.editable-title {
+    border: none;
+    font-size: inherit;
+    padding-left: 5px;
+  }
 .container-noter {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-top: 100px;
   border-style: solid;
   border-width: 3px;
   border-radius: 20px;

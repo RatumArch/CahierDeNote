@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-  <RouterLink to="/document" class="link newdoc">
+  <a class="link newdoc" @click="createFolder">
     New Document
-  </RouterLink>
-  <RouterLink :to="`/document/${folderCode}`" class="link load-doc">
+  </a>
+  <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
   </div>
@@ -19,6 +19,7 @@ import ReloadPWA from "./components/ReloadPWA.vue";
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
+import { useRoute, useRouter } from "vue-router";
 
 
 const cloudName = 'dzggewhvt'
@@ -32,6 +33,17 @@ const onSubmit = (e: any) => {
 }
 
 const folderCode = ref('')
+const router = useRouter()
+
+const createFolder = async () => {
+  const newFolder = 
+    await axios.post('/api/createFolder')
+      .then(res => res.data).catch(() => null)
+      
+  folderCode.value=newFolder?.folderCode ?? 'error'
+  //const documentTitle = newFolder?.notesContent[0]?.title ?? 'noDocument'
+  newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
+}
 
 </script>
 
@@ -50,8 +62,9 @@ const folderCode = ref('')
   letter-spacing: 2px;
   width: 60%;
 
-  &:hover {
+  &:hover, &:focus {
     text-decoration: underline;
+    cursor: pointer;
   }
 
   &.newdoc {
