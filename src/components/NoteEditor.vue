@@ -7,9 +7,10 @@
       <button @click="addImage" >image</button>
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
+      <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" @click="focusOnClick">
+  <div class="container-editor" >
     <editor-content :editor="editor" />
   </div>
 </div>
@@ -25,6 +26,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
 import axios from 'axios';
+import LatexBlock from '../utils/latexExtension.ts'
 
 export default {
   name: 'NoteEditor',
@@ -44,6 +46,7 @@ export default {
           defaultLanguage: 'python',
           lowlight
         }),
+        LatexBlock,
         ImageNode,
         TextAlign.configure({
           types: ['paragraph'],
@@ -57,9 +60,11 @@ export default {
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
     //@ts-ignore
-    const addImage = () => editor.value?.chain().focus().addImage().createParagraphNear().run()
+    const addImage = () => editor.value?.chain().focus().addImage() .focus().setHardBreak().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
+    //@ts-ignore
+    const toggleLatex = () => editor.value?.chain().focus().insertContent("<latex-block></latex-block>").run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
@@ -76,7 +81,7 @@ export default {
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
-    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, addImage, toLeft, toCenter }
+    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
   },
 }
 </script>
