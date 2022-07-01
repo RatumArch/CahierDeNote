@@ -1,5 +1,5 @@
 <template>
-<h1><input type="text" placeholder="titre" class="editable-title" /></h1>
+<h1><input type="text" placeholder="titre" class="editable-title" v-model="editableTitle" /></h1>
 <div class="container-noter" @click="editor.chain().focus().run()">
   <div class="button-panel" >
       <button @click="toggleBold" >B</button>
@@ -20,13 +20,14 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted, onUpdated } from 'vue'
+import { onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
 import axios from 'axios';
 import LatexBlock from '../utils/latexExtension.ts'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'NoteEditor',
@@ -34,7 +35,8 @@ export default {
     EditorContent,
   },
   props: {
-    content: { type: String, required: false }
+    content: { type: String, required: false },
+    title: { type: String, required: false }
   },
   setup(props: any) {
     const editor = useEditor({
@@ -56,6 +58,8 @@ export default {
       content: props.content
     })
   
+    const route = useRoute()
+    const editableTitle = ref<string>(props.title)
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
@@ -81,7 +85,8 @@ export default {
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
-    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
+    
+    return { editor, editableTitle, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
   },
 }
 </script>

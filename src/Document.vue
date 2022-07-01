@@ -1,7 +1,7 @@
 <template>
 
   <div class="main">
-    <NoteEditor :content="content" />
+    <NoteEditor :content="content" :title="route.params?.title" />
   </div>
 
 </template>
