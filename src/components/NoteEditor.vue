@@ -87,6 +87,11 @@ export default {
 </script>
 
 <style lang="scss">
+.editable-title {
+    border: none;
+    font-size: inherit;
+    padding-left: 5px;
+  }
 .container-noter {
   display: flex;
   flex-direction: column;
@@ -99,10 +104,6 @@ export default {
   border-bottom-right-radius: 0px;
 
   cursor: text;
-
-  .editable-title {
-    border: none;
-  }
   
   .container-editor {
     height: 100%;
