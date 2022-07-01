@@ -31,7 +31,7 @@ const findLastNote = async () =>
     .then(res => res.data)
     .catch(res => null)
 
-const findFolder = () =>
+const findFolder = async () =>
   await axios.get('/api/findFolder', {
       data: {
         folderCode: route.params?.folderCode
