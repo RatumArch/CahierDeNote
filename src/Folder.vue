@@ -31,9 +31,13 @@ const findLastNote = async () =>
     .catch(res => null)
 
 const folder = 
-  await axios.get('/api/findFolder')
-    .then(res => res.data)
-    .catch(() => null)
+  await axios.get('/api/findFolder', {
+      data: {
+        folderCode: route.params?.folderCode
+      }
+    })
+      .then(res => res.data)
+      .catch(() => null)
 
 notesContent.value= folder?.notesContent
 
