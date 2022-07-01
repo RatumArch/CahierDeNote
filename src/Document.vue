@@ -1,7 +1,7 @@
 <template>
 
   <div class="main">
-    <NoteEditor :content="content" :title="route.params?.title" />
+    <NoteEditor :content="content" :title="title" />
   </div>
 
 </template>
@@ -14,10 +14,11 @@ import { useRoute } from 'vue-router';
 
 const route= useRoute()
 const content = ref('')
+const title= ref(route.params?.document)
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
     data: {
-      title: route.params?.title,
+      title: title.value,
       folderCode: route.params?.folderCode
     }
   })
