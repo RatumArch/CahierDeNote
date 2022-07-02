@@ -13,7 +13,7 @@ async function findLast(req: any, res: VercelResponse) {
     const folderCode = <string>req.query?.folderCode
     console.log(folderCode);
     
-    const folder = await prisma.folders.findUnique({
+    const folder = await prisma.folders.findFirst({
         where: {
             folderCode
         },
