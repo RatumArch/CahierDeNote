@@ -36,13 +36,13 @@ const getContent = () =>
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
-const sendToMongo = (data: string, rawText: string, extra?: any) => {
+const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
       axios.put('/api/updateNote', {
         title: route.params?.document,
         folderCode: route?.params?.folderCode,
         newTitle: editableTitle.value,
-        data,
-        rawText,
+        html: htmlContent,
+        raw: rawText,
         extra
       })
     }
