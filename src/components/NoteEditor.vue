@@ -91,18 +91,13 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-style: solid;
-  border-width: 3px;
-  border-radius: 20px;
-  border-bottom-style: none;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
 
-  cursor: text;
-  
   .container-editor {
-    height: 100%;
+    min-height: 70vh;
+    max-height: 80vh;
     padding: 5vw;
+    overflow-y: scroll;
+    cursor: text;
 
     pre {
       background: #0D0D0D;

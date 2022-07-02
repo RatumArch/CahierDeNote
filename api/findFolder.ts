@@ -8,16 +8,24 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
     const folderCode = <string>req.query?.folderCode
     console.log(folderCode);console.log("/folderCode");
     
-    const folder = await prisma.folders.findFirstOrThrow({
+    const folder = await prisma.folders.findFirst({
         where: {
             folderCode
         },
         include: {
-            notesContent: true
+            notesContent: {
+                orderBy: {
+                    modifiedDate: 'desc'
+                }
+            }
         }
     })
-    .catch((err) => { console.error(err); })
-console.log(folder);console.log("/folder");
+    .catch((err) => { 
+        res.status(404).send("Ce dossier est introuvable")
+        return null
+     })
+console.log(folder?.notesContent);console.log("/folder");
+
 
     prisma.$disconnect()
     res.status(200).send(folder)
