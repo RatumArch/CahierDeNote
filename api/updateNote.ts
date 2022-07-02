@@ -3,6 +3,7 @@ import { Collection } from 'mongodb';
 import { _put } from '../utils'
 //@ts-ignore
 import {clientPromise} from "../utils";
+import { sanitizeText } from '../utils';
 
 
 const db = process.env.MONGODB_DB
@@ -72,7 +73,7 @@ async function transaction(mySession: any, collection: Collection, req:VercelReq
     const title = params?.title
     const folderCode= params?.folderCode
     const raw = params?.raw
-    const html = params?.html
+    const html = sanitizeText( params?.html )
     const newTitle = params?.newTitle
 
     const query= { title, folderCode }

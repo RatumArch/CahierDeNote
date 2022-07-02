@@ -8,3 +8,4 @@ export {clientPromise }
 
 export { mapSerializeDocs, serializeDoc} from './serialize'
 
+export * from './sanitize'
