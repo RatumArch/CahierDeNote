@@ -9,7 +9,7 @@ y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route= useRoute()
@@ -48,7 +48,9 @@ const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
       })
     }
 
- getContent()
+ onBeforeMount(() => {
+  getContent()
+ })
 
 </script>
 
