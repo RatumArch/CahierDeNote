@@ -81,7 +81,7 @@ export default {
         editor.value?.destroy()
     })
     
-    return { editor, editableTitle, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
+    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
   },
 }
 </script>
