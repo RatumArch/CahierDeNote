@@ -25,7 +25,7 @@ const getContent = () =>
     }
   })
     .then(res => {
-        content.value=res.data?.html ?? "<strong>no html</strong>"; console.log(res.data?.html);
+        content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found"; console.log(res.data?.html);
         })
     .catch(() => { 
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"

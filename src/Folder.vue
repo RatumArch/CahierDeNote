@@ -50,13 +50,9 @@ onBeforeMount(async () => {
   console.log(notesContent.value);
   const document = notesContent.value[0]
   title.value= document?.title ?? 'rr'
-  router.replace(title?.value)
+  router.replace(`${folderCode.value}/${title.value}`)
 })
 
-onMounted(async ()=> {
-  
-  router.replace(title?.value)
-})
 </script>
 
 <style scoped lang="scss">
