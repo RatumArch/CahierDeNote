@@ -10,7 +10,7 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
 
     const folder = await prisma.folders.findFirst({
         where: {
-            folderCode
+            folderCode: folderCode
         },
         select: {
             id: true
