@@ -37,10 +37,11 @@ const getContent = () =>
       })
 
 const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
+  const newTitle = editableTitle.value!==title.value ? editableTitle.value : null
       axios.put('/api/updateNote', {
         title: route.params?.document,
         folderCode: route?.params?.folderCode,
-        newTitle: editableTitle.value,
+        newTitle,
         html: htmlContent,
         raw: rawText,
         extra

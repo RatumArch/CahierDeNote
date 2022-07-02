@@ -2,7 +2,13 @@
 <div class="container">
   <div class="sidebar">
     <div class="content-sidebar">
-      <RouterLink :to="{name: 'document', params: {document: note?.title, folderCode: folderCode } }" v-for="note of notesContent" :key="note.id">{{note?.title}}</RouterLink>
+      <RouterLink :to="{name: 'document', 
+                  params: {document: note?.title, folderCode: folderCode } }" 
+                  v-for="note of notesContent" :key="note.id"
+                  class="document-link"
+                  >
+          {{note?.title}}
+      </RouterLink>
     </div>
   </div>
   <div class="main">
@@ -77,6 +83,15 @@ onBeforeMount(async () => {
 
   &.content-sidebar {
     position: fixed;
+
+    &.document-link {
+      color: white;
+      text-decoration: none;
+      
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
+    }
   }
 }
 </style>
