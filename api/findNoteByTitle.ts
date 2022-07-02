@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client'
-
+import sanitizeHtml from 'sanitize-html';
 
 export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const prisma = new PrismaClient()
@@ -21,9 +21,22 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
         where: {
             folderId: folder?.id,
             title
+        },
+        orderBy: {
+            modifiedDate: 'desc',
         }
     })
 
+    if(note) {
+        note.html = sanitizeHtml( note?.html, {
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat(['image-input', 'latex-block']),
+            allowedAttributes: {
+                "image-input": ['src', 'nodeId', 'nodeid'], 
+                "latex-block": [ 'rawText', 'rawtext', 'nodeId', 'nodeid']
+            }
+        })
+    }
+    
     prisma.$disconnect()
     res.status(200).send(note)
 }

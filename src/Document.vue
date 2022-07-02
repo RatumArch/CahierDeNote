@@ -23,9 +23,10 @@ onMounted(() => {
 })
 
 const getContent = () => 
-  axios.get('/api/findLastNote', {
+  axios.get('/api/findNoteByTitle', {
     data: {
-      folderCode: route.params?.folderCode
+      folderCode: route.params?.folderCode,
+      title: route.params?.document
     }
   })
     .then(res => {
