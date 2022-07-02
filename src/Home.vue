@@ -36,6 +36,7 @@ const folderCode = ref('')
 const router = useRouter()
 
 const createFolder = async () => {
+  console.log(import.meta)
   const newFolder = 
     await axios.post('/api/createFolder')
       .then(res => res.data).catch(() => null)

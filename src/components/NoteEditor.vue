@@ -36,7 +36,8 @@ export default {
   },
   props: {
     content: { type: String, required: false },
-    title: { type: String, required: false }
+    title: { type: String, required: false },
+    sendToMongo: {required: false}
   },
   setup(props: any) {
     const editor = useEditor({
@@ -72,12 +73,8 @@ export default {
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => { 
-      const data = editor.value?.getHTML()
-      const rawtext = editor.value?.getText()
-      
-      axios.post('/api/insertNote', {html: data, raw: rawtext})
-    }
+    const sendToMongo = () => props.sendToMongo(editor.value?.getHTML(), editor.value?.getText())
+
 
     onUpdated(() => {
         editor.value?.chain().setContent(props.content).focus().run()        

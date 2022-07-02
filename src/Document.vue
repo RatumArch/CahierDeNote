@@ -1,7 +1,7 @@
 <template>
 
   <div class="main">
-    <NoteEditor :content="content" :title="title" />
+    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
   </div>
 
 </template>
@@ -29,6 +29,18 @@ const getContent = () =>
       console.error("Document.vue - requête axios" );
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
+
+const sendToMongo = (data: any, rawText: any, extra?: any) => { 
+      axios.post('/api/insertNote', {html: data, raw: rawText, extra})
+
+      axios.put('/api/updateNote', {
+        title: route?.params?.title,
+        folderCode: route?.params?.folderCode,
+        data,
+        rawText,
+        extra
+      })
+    }
 
  getContent()
  onMounted(() => {

@@ -8,7 +8,7 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const folderCode = req.body.query?.folderCode
     const title = req.body.query?.title
 
-    const folder = await prisma.folders.findFirst({
+    const folder = await prisma.folders.findUnique({
         where: {
             folderCode
         },
