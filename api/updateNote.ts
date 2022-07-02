@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client'
-import { _update } from '../utils'
+import { _put } from '../utils'
 
 async function update(req:VercelRequest, res: VercelResponse) {
     const prisma = new PrismaClient()
@@ -31,5 +31,5 @@ async function update(req:VercelRequest, res: VercelResponse) {
     res.status(200).send(updated)
 }
 
-const updateNote = (req:VercelRequest, res:VercelResponse) => _update(update, req, res)
+const updateNote = (req:VercelRequest, res:VercelResponse) => _put(update, req, res)
 export default updateNote
