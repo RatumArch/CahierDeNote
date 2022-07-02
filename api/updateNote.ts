@@ -16,7 +16,7 @@ async function update(req:VercelRequest, res: VercelResponse) {
             folderCode
         }
     })
-    const updated = await prisma.notes.updateMany({
+    const updated = await prisma.notes.update({
         where: {
             title: title,
             folderId: folder?.id
