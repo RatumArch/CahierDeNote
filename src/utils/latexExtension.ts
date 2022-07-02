@@ -13,6 +13,7 @@ const LatexBlock = Node.create({
   group: 'block',
   //content: 'inline*',
   priority: 201,
+  inline: true,
   
 
   addAttributes() {
