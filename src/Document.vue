@@ -25,8 +25,8 @@ onMounted(() => {
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
     data: {
-      title: route.params?.document,
-      folderCode: route.params?.folderCode
+      folderCode: route.params?.folderCode,
+      title: route.params?.document
     }
   })
     .then(res => {
@@ -36,13 +36,13 @@ const getContent = () =>
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
-const sendToMongo = (data: any, rawText: any, extra?: any) => {
+const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
       axios.put('/api/updateNote', {
         title: route.params?.document,
         folderCode: route?.params?.folderCode,
         newTitle: editableTitle.value,
-        data,
-        rawText,
+        html: htmlContent,
+        raw: rawText,
         extra
       })
     }

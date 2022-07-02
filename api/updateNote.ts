@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client'
 import { _put } from '../utils'
+//@ts-ignore
+import {clientPromise} from "../utils";
+
 
 async function update(req:VercelRequest, res: VercelResponse) {
     const prisma = new PrismaClient()
@@ -31,5 +34,35 @@ async function update(req:VercelRequest, res: VercelResponse) {
     res.status(200).send(updated)
 }
 
-const updateNote = (req:VercelRequest, res:VercelResponse) => _put(update, req, res)
+const db = process.env.MONGODB_DB
+const collec = process.env.MONGODB_DB_COLLECTION
+
+async function update2(req:VercelRequest, res: VercelResponse) {
+    const params = req.body
+    const title = params?.title
+    const folderCode= params?.folderCode
+    const raw = params?.raw
+    const html = params?.html
+    const newTitle= params?.newTitle
+    console.log(params);
+    
+    //@ts-ignore
+    const client = await clientPromise.then((client: any) => client)
+    const datab = client.db(db)
+    const collection = await datab.collection(collec)
+
+    const query= { title, folderCode }
+    const updated = await collection.updateOne(query, {
+        $set: {
+            raw,
+            html,
+            title: newTitle,
+            modifiedDate: new Date()
+        },
+    }).catch(() => "Update failed")
+
+    res.status(200).send(updated)
+}
+
+const updateNote = (req:VercelRequest, res:VercelResponse) => _put(update2, req, res)
 export default updateNote
