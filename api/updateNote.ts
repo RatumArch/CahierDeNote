@@ -6,6 +6,7 @@ async function update(req:VercelRequest, res: VercelResponse) {
     const prisma = new PrismaClient()
     const folderCode = req.body?.folderCode
     const title = req.body?.title
+    const newTitle = req.body?.newTitle
 
     const raw = req.body?.raw
     const html= req.body?.html
@@ -22,7 +23,8 @@ async function update(req:VercelRequest, res: VercelResponse) {
         },
         data: {
             raw,
-            html
+            html,
+            title: newTitle
         }
     })
 

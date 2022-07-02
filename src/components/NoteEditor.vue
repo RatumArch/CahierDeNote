@@ -1,5 +1,4 @@
 <template>
-<h1><input type="text" placeholder="titre" class="editable-title" v-model="editableTitle" /></h1>
 <div class="container-noter" @click="editor.chain().focus().run()">
   <div class="button-panel" >
       <button @click="toggleBold" >B</button>
@@ -60,7 +59,6 @@ export default {
     })
   
     const route = useRoute()
-    const editableTitle = ref<string>(props.title)
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
@@ -89,11 +87,6 @@ export default {
 </script>
 
 <style lang="scss">
-.editable-title {
-    border: none;
-    font-size: inherit;
-    padding-left: 5px;
-  }
 .container-noter {
   display: flex;
   flex-direction: column;

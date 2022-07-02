@@ -1,5 +1,5 @@
 <template>
-
+  <h1><input type="text" placeholder="titre" class="editable-title" v-model="editableTitle" /></h1>
   <div class="main">
     <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
   </div>
@@ -15,6 +15,8 @@ import { useRoute } from 'vue-router';
 const route= useRoute()
 const content = ref('')
 const title= ref(route.params?.document)
+const editableTitle = ref(route.params?.document)
+
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
     data: {
@@ -31,11 +33,12 @@ const getContent = () =>
       })
 
 const sendToMongo = (data: any, rawText: any, extra?: any) => { 
-      axios.post('/api/insertNote', {html: data, raw: rawText, extra})
+      axios.post('/api/insertNote', {html: data, raw: rawText, title, extra})
 
       axios.put('/api/updateNote', {
         title: route?.params?.title,
         folderCode: route?.params?.folderCode,
+        newTitle: editableTitle.value,
         data,
         rawText,
         extra
@@ -49,3 +52,10 @@ const sendToMongo = (data: any, rawText: any, extra?: any) => {
  })
 
 </script>
+
+<style scoped>
+.editable-title {
+    border: none;
+    padding-left: 5px;
+  }
+</style>
