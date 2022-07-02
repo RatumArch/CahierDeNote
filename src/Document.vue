@@ -14,8 +14,8 @@ import { useRoute } from 'vue-router';
 
 const route= useRoute()
 const content = ref('')
-const title= ref(route.params?.document)
-const editableTitle = ref(route.params?.document)
+const title= ref(route.params?.document);console.log(title.value);console.log("/title");
+const editableTitle = ref(route.params?.document);console.log(route.params?.document);console.log(route.params);
 
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
@@ -33,7 +33,7 @@ const getContent = () =>
 
 const sendToMongo = (data: any, rawText: any, extra?: any) => {
       axios.put('/api/updateNote', {
-        title: route?.params?.title,
+        title: title.value,
         folderCode: route?.params?.folderCode,
         newTitle: editableTitle.value,
         data,
