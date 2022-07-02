@@ -1,5 +1,5 @@
 <template>
-<div class="container-noter" @click="editor.chain().focus().run()">
+<div class="container-noter">
   <div class="button-panel" >
       <button @click="toggleBold" >B</button>
       <button @click="toggleCodeBlock" >Python</button>
@@ -9,7 +9,7 @@
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" >
+  <div class="container-editor" @click="editor.chain().focus().run()" >
     <editor-content :editor="editor" />
   </div>
 </div>

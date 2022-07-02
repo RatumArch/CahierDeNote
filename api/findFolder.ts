@@ -6,9 +6,9 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
     const prisma = new PrismaClient()
 
     const folderCode = <string>req.query?.folderCode
-    console.log(folderCode);
+    console.log(folderCode);console.log("/folderCode");
     
-    const folder = await prisma.folders.findFirst({
+    const folder = await prisma.folders.findFirstOrThrow({
         where: {
             folderCode
         },
@@ -17,6 +17,7 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
         }
     })
     .catch((err) => { console.error(err); })
+console.log(folder);console.log("/folder");
 
     prisma.$disconnect()
     res.status(200).send(folder)
