@@ -6,7 +6,7 @@
                         :class="{empty}" 
                         placeholder="Write \sum"
                         ref="input" />
-    <span class="expression katex" v-html="equationStyled" @click="inputFocus" ></span>
+    <span class="expression katex" v-html="equationStyled" @click.stop.prevent="inputFocus" ></span>
 </node-view-wrapper>
 </template>
 
