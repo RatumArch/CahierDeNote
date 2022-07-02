@@ -13,7 +13,7 @@ async function findLast(req: any, res: VercelResponse) {
     const folderCode = <string>req.query?.folderCode
     console.log(folderCode);
     
-    const folder = await prisma.folders.findFirst({
+    const folder = await prisma.folders.findUnique({
         where: {
             folderCode
         },
@@ -39,7 +39,7 @@ async function findLast(req: any, res: VercelResponse) {
     })
     
   
-    const lastDoc = results[0]
+    const lastDoc = results
     
     res.status(200).send(lastDoc)
     prisma.$disconnect()
