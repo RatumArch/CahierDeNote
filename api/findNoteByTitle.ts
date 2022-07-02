@@ -8,18 +8,10 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const folderCode = req.body.query?.folderCode
     const title = req.body.query?.title
 
-    const folder = await prisma.folders.findFirst({
-        where: {
-            folderCode: folderCode
-        },
-        select: {
-            id: true
-        }
-    })
 
     const note = await prisma.notes.findFirst({
         where: {
-            folderId: folder?.id,
+            folderCode,
             title
         },
         orderBy: {
@@ -36,7 +28,9 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
             }
         })
     }
-    
+
     prisma.$disconnect()
+    console.log(note);
+    
     res.status(200).send(note)
 }

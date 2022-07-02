@@ -18,7 +18,8 @@ async function newFolder(req: any, res: VercelResponse) {
                 create: [{
                     title: newDocumentTitle,
                     raw: 'Your New Note',
-                    html: '<p>Your New Note</p>',                        
+                    html: '<p>Your New Note</p>',
+                    folderCode: newFolderCode                       
                     }
                 ]
             }

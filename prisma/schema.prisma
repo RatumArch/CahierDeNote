@@ -24,6 +24,7 @@ model notes {
   modifiedDate DateTime @updatedAt
   folder       folders? @relation(fields: [folderId], references: [id])
   folderId     String  @db.ObjectId
+  folderCode   String
 }
 
 model trashcollec {
