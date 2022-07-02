@@ -4,8 +4,6 @@ import { _put } from '../utils'
 //@ts-ignore
 import {clientPromise} from "../utils";
 
-const db = process.env.MONGODB_DB
-const collec = process.env.MONGODB_DB_COLLECTION
 
 async function update(req:VercelRequest, res: VercelResponse) {
     const prisma = new PrismaClient()
@@ -36,6 +34,9 @@ async function update(req:VercelRequest, res: VercelResponse) {
     res.status(200).send(updated)
 }
 
+const db = process.env.MONGODB_DB
+const collec = process.env.MONGODB_DB_COLLECTION
+
 async function update2(req:VercelRequest, res: VercelResponse) {
     const params = req.body
     const title = params?.title
@@ -43,7 +44,8 @@ async function update2(req:VercelRequest, res: VercelResponse) {
     const raw = params?.raw
     const html = params?.html
     const newTitle= params?.newTitle
-
+    console.log(params);
+    
     //@ts-ignore
     const client = await clientPromise.then((client: any) => client)
     const datab = client.db(db)
@@ -54,9 +56,10 @@ async function update2(req:VercelRequest, res: VercelResponse) {
         $set: {
             raw,
             html,
-            title: newTitle
+            title: newTitle,
+            modifiedDate: new Date()
         },
-    }, { upsert: true}).catch(() => "Update failed")
+    }).catch(() => "Update failed")
 
     res.status(200).send(updated)
 }
