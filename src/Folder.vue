@@ -46,8 +46,9 @@ const findFolder = async () =>
 
 onBeforeMount(async () => {
   folderData.value= await findFolder()
+  console.log(folderData.value);console.log("/folder data - Folder.vue");
   notesContent.value= folderData.value?.notesContent ?? [5,4]
-  console.log(notesContent.value);
+  console.log(notesContent.value);console.log("/notesContent.value - Folder.vue");
   const document = notesContent.value[0]
   title.value= document?.title ?? 'rr'
   router.replace(`${folderCode.value}/${title.value}`)
