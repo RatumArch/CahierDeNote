@@ -28,13 +28,10 @@ const getContent = () =>
         content.value=res.data?.html ?? "<strong>no html</strong>"; console.log(res.data?.html);
         })
     .catch(() => { 
-      console.error("Document.vue - requête axios" );
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
-const sendToMongo = (data: any, rawText: any, extra?: any) => { 
-      axios.post('/api/insertNote', {html: data, raw: rawText, title, extra})
-
+const sendToMongo = (data: any, rawText: any, extra?: any) => {
       axios.put('/api/updateNote', {
         title: route?.params?.title,
         folderCode: route?.params?.folderCode,
@@ -46,16 +43,13 @@ const sendToMongo = (data: any, rawText: any, extra?: any) => {
     }
 
  getContent()
- onMounted(() => {
-  console.log(route.params);
-  
- })
 
 </script>
 
 <style scoped>
 .editable-title {
     border: none;
+    font-size: inherit;
     padding-left: 5px;
   }
 </style>
