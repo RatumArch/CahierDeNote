@@ -49,15 +49,14 @@ async function update2(req:VercelRequest, res: VercelResponse) {
     const datab = client.db(db)
     const collection = await datab.collection(collec)
 
-    const folderId = await datab.collection(collec).findOne({ folderCode }).then((folder: any) => folder?.id).catch(() => null)
-    const query= { title, folderId }
+    const query= { title, folderCode }
     const updated = await collection.updateOne(query, {
         $set: {
             raw,
             html,
             title: newTitle
-        }
-    }).catch(() => "Update failed")
+        },
+    }, { upsert: true}).catch(() => "Update failed")
 
     res.status(200).send(updated)
 }
