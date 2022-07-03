@@ -7,6 +7,7 @@
                         placeholder="Write \sum"
                         ref="input"
                         @click.stop=""
+                        v-show="showInput"
                         @blur="blurInput" />
     <span class="expression katex" v-html="equationStyled" @click.stop="inputFocus" ></span>
 </node-view-wrapper>
