@@ -3,7 +3,7 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
-    <button>New Document</button>
+    <button @click="createDocument">New Document</button>
 
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
