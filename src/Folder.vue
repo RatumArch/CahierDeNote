@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div class="sidebar">
-    <RouterLink to="/" >Accueil</RouterLink>
+    <h2><RouterLink to="/" >Accueil</RouterLink></h2>
     <div class="content-sidebar">
       <RouterLink :to="{name: 'document', 
                   params: {document: note?.title, folderCode: folderCode } }" 
@@ -49,7 +49,7 @@ onBeforeMount(async () => {
   console.log(folderData.value);console.log("/folder data - Folder.vue");
   notesContent.value= folderData.value?.notesContent
   
-  const document = notesContent.value[0]
+  const document = notesContent.value?.[0]
   title.value= document?.title 
   
   folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.push('/error')
@@ -65,17 +65,17 @@ onBeforeMount(async () => {
 }
 .main {
   padding-right: 5vh;
-  width: 100%;
+  width: 85%;
 }
 .sidebar {
   background-color: darkgreen;
   display: flex;
-  width: 10%;
+  width: 15%;
   height: inherit;
   padding: 10px;
   color: white;
 
-  &.content-sidebar {
+  .content-sidebar {
     position: fixed;
     letter-spacing: 2px;
     overflow: hidden;
