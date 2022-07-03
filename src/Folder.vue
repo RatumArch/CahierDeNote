@@ -3,6 +3,7 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
+    <button>New Document</button>
 
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
@@ -45,6 +46,18 @@ const findFolder = async () =>
     })
       .then(res => res.data)
       .catch(() => null)
+
+  async function createDocument() {
+    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.catch, title: 'test titre non généré'})
+    console.log(newDoc);
+    folderData.value= await findFolder()
+    notesContent.value= folderData.value?.notesContent
+
+    const document = notesContent.value?.[0]
+    title.value= document?.title 
+    
+    folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
+  }
 
 onBeforeMount(async () => {
   folderData.value= await findFolder()
