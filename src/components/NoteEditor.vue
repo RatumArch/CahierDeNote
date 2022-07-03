@@ -116,7 +116,7 @@ export default {
   .button-panel {
     display: inline;
     top: 50px;
-    background-color:#B9F18D;
+    background-color:#4169e1;
     border-bottom-style: solid;
     padding: 10px;
 
@@ -127,6 +127,11 @@ export default {
       padding: 5px;
       background-color: darkcyan;
       color: #FAF594;
+      border-style: solid;
+      border-width: 2px;
+      font-weight: bold;
+      border-radius: 2px;
+      letter-spacing: 1px;
     }
   }
 }

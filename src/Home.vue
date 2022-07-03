@@ -6,7 +6,7 @@
   <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
-  <NoteEditor content="fjk" title="test"/>
+  <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
 </template>
 
