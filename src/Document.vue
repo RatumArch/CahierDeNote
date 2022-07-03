@@ -24,7 +24,7 @@ onMounted(() => {
 
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
-    data: {
+    params: {
       folderCode: route.params?.folderCode,
       title: route.params?.document
     }

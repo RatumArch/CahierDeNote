@@ -37,6 +37,11 @@ const showInput= ref(true)
 
 
 const empty = computed(() => equation.value?.length===0)
+
+onMounted(() => {
+    showInput.value= !empty.value
+})
+
 const inputFocus = () => { showInput.value=true; input.value.focus(); }
 const blurInput = () => {
     if(!empty.value) {

@@ -8,7 +8,7 @@ async function newFolder(req: any, res: VercelResponse) {
     const prisma = new PrismaClient()
     const date = new Date()
     
-    const randomLetter= () => String.fromCharCode( Math.random()*26 )
+    const randomLetter= () => 65 + String.fromCharCode( Math.random()*26 ) // 65 est le points de code UTF-16 de 'A'
     const newFolderCode = randomLetter()+ date.getDate().toString()+date.getMonth().toString()+date.getHours()+date.getMinutes() + randomLetter()
     const newDocumentTitle = 'Document1'
 
