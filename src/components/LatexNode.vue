@@ -7,7 +7,6 @@
                         placeholder="Write \sum"
                         ref="input"
                         @click.stop=""
-                        v-show="showInput"
                         @blur="blurInput" />
     <span class="expression katex" v-html="equationStyled" @click.stop="inputFocus" ></span>
 </node-view-wrapper>
@@ -47,7 +46,7 @@ const blurInput = () => {
 const msgError = ref('')
 
 const applyKatex = (userInput) => {
-    if(isMounted) { props.node.attrs.rawText= userInput }
+    if(isMounted) { props.node.attrs.rawtext= userInput }
     return katex.renderToString(userInput, { throwOnError: false })
 }
 const equationStyled = computed(() => applyKatex(equation.value, { throwOnError: false }) )
