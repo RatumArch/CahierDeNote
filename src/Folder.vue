@@ -34,14 +34,6 @@ const router = useRouter()
 const folderCode = ref('')
 folderCode.value= route.params?.folderCode
 
-const findLastNote = async () =>
-  await axios.get('/api/findLastNote', {
-      params: {
-        folderCode: folderCode.value
-      }
-    })
-    .then(res => res.data)
-    .catch(res => null)
 
 const findFolder = async () =>
   await axios.get('/api/findFolder', {
@@ -55,12 +47,12 @@ const findFolder = async () =>
 onBeforeMount(async () => {
   folderData.value= await findFolder()
   console.log(folderData.value);console.log("/folder data - Folder.vue");
-  notesContent.value= folderData.value?.notesContent ?? [5,4]
-  console.log(notesContent.value);console.log("/notesContent.value - Folder.vue");
-  const document = notesContent.value[0]
-  title.value= document?.title ?? 'rr'
+  notesContent.value= folderData.value?.notesContent
   
-  folderData ? router.replace(`${folderCode.value}/${title.value}`) : router.push('/error')
+  const document = notesContent.value[0]
+  title.value= document?.title 
+  
+  folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.push('/error')
 })
 
 </script>

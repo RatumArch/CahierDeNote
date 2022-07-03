@@ -7,7 +7,6 @@ export const allowedAttributes= {
 export const additionalAllowedTags= ['image-input', 'latex-block']
 
 export function sanitizeText(text: string) {
-    console.log(allowedAttributes);console.log("allowedAttributes");
     return sanitizeHtml( text, {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(additionalAllowedTags),
         allowedAttributes
