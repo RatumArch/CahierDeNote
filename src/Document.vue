@@ -59,5 +59,6 @@ const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
     border: none;
     font-size: inherit;
     padding-left: 5px;
+    width: 100%;
   }
 </style>

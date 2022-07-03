@@ -1,18 +1,20 @@
 <template>
 <div class="container">
+  
   <div class="sidebar">
-    <h2><RouterLink to="/" >Accueil</RouterLink></h2>
-    <div class="content-sidebar">
-      <RouterLink :to="{name: 'document', 
-                  params: {document: note?.title, folderCode: folderCode } }" 
-                  v-for="note of notesContent" :key="note.id"
-                  class="document-link"
-                  :title="note?.title"
-                  >
-          {{note?.title}}
-      </RouterLink>
-    </div>
+    <RouterLink to="/" class="accueil" >Accueil</RouterLink>
+
+    <RouterLink :to="{name: 'document', 
+                params: {document: note?.title, folderCode: folderCode } }" 
+                v-for="note of notesContent" :key="note.id"
+                class="document-link"
+                :title="note?.title"
+                >
+        {{note?.title}}
+    </RouterLink>
+
   </div>
+
   <div class="main">
     <RouterView/>
   </div>
@@ -61,7 +63,7 @@ onBeforeMount(async () => {
 .container {
   display: flex;
   justify-content: space-evenly;
-  height: 100vh;
+  height: 98vh;
 }
 .main {
   padding-right: 5vh;
@@ -75,19 +77,22 @@ onBeforeMount(async () => {
   padding: 10px;
   color: white;
 
-  .content-sidebar {
-    position: fixed;
-    letter-spacing: 2px;
-    overflow: hidden;
 
-    .document-link {
-      color: white;
-      text-decoration: none;
-      
-      &:hover, &:focus {
-        text-decoration: underline;
-      }
+  position: fixed;
+  letter-spacing: 2px;
+  overflow: hidden;
+
+  .accueil {
+    font-weight: bold;
+  }
+  .document-link {
+    color: white;
+    text-decoration: none;
+    
+    &:hover, &:focus {
+      text-decoration: underline;
     }
   }
+  
 }
 </style>

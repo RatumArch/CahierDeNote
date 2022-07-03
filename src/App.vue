@@ -35,6 +35,6 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
 }
 body {
-  margin: 1px
+  margin: 0px
 }
 </style>
