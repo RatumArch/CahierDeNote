@@ -62,8 +62,7 @@ onBeforeMount(async () => {
 <style scoped lang="scss">
 .container {
   display: flex;
-  justify-content: space-evenly;
-  height: 98vh;
+  height: 97vh;
 }
 .main {
   padding-right: 5vh;
@@ -72,22 +71,25 @@ onBeforeMount(async () => {
 .sidebar {
   background-color: darkgreen;
   display: flex;
+  flex-direction: column;
   width: 15%;
   height: inherit;
   padding: 10px;
   color: white;
 
-
-  position: fixed;
   letter-spacing: 2px;
   overflow: hidden;
 
   .accueil {
     font-weight: bold;
+    color: white;
+    font-size: 3vh;
+    margin-bottom: 20px;
   }
   .document-link {
     color: white;
     text-decoration: none;
+    margin-bottom: 10px;
     
     &:hover, &:focus {
       text-decoration: underline;
