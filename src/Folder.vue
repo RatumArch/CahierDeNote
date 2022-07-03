@@ -1,10 +1,20 @@
 <template>
 <div class="container">
+  
   <div class="sidebar">
-    <div class="content-sidebar">
-      <RouterLink :to="{name: 'document', params: {document: note?.title, folderCode: folderCode } }" v-for="note of notesContent" :key="note.id">{{note?.title}}</RouterLink>
-    </div>
+    <RouterLink to="/" class="accueil" >Accueil</RouterLink>
+
+    <RouterLink :to="{name: 'document', 
+                params: {document: note?.title, folderCode: folderCode } }" 
+                v-for="note of notesContent" :key="note.id"
+                class="document-link"
+                :title="note?.title"
+                >
+        {{note?.title}}
+    </RouterLink>
+
   </div>
+
   <div class="main">
     <RouterView/>
   </div>
@@ -26,14 +36,6 @@ const router = useRouter()
 const folderCode = ref('')
 folderCode.value= route.params?.folderCode
 
-const findLastNote = async () =>
-  await axios.get('/api/findLastNote', {
-      params: {
-        folderCode: folderCode.value
-      }
-    })
-    .then(res => res.data)
-    .catch(res => null)
 
 const findFolder = async () =>
   await axios.get('/api/findFolder', {
@@ -46,40 +48,53 @@ const findFolder = async () =>
 
 onBeforeMount(async () => {
   folderData.value= await findFolder()
-  notesContent.value= folderData.value?.notesContent ?? [5,4]
-  console.log(notesContent.value);
-  const document = notesContent.value[0]
-  title.value= document?.title ?? 'rr'
-  router.replace(title?.value)
+  console.log(folderData.value);console.log("/folder data - Folder.vue");
+  notesContent.value= folderData.value?.notesContent
+  
+  const document = notesContent.value?.[0]
+  title.value= document?.title 
+  
+  folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
 })
 
-onMounted(async ()=> {
-  
-  router.replace(title?.value)
-})
 </script>
 
 <style scoped lang="scss">
 .container {
   display: flex;
-  justify-content: space-evenly;
-  min-height: 90vh;
+  height: 97vh;
 }
 .main {
-
   padding-right: 5vh;
-  width: 100%;
+  width: 85%;
 }
 .sidebar {
   background-color: darkgreen;
   display: flex;
-  width: 10%;
-  height: 100vh;
+  flex-direction: column;
+  width: 15%;
+  height: inherit;
   padding: 10px;
   color: white;
 
-  &.content-sidebar {
-    position: fixed;
+  letter-spacing: 2px;
+  overflow: hidden;
+
+  .accueil {
+    font-weight: bold;
+    color: white;
+    font-size: 3vh;
+    margin-bottom: 20px;
   }
+  .document-link {
+    color: white;
+    text-decoration: none;
+    margin-bottom: 10px;
+    
+    &:hover, &:focus {
+      text-decoration: underline;
+    }
+  }
+  
 }
 </style>

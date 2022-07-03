@@ -23,7 +23,7 @@ async function findLast(req: any, res: VercelResponse) {
     })
     const results: any = await prisma.notes.findFirst({
         where: {
-            folderId: folder?.id
+            folderCode
         },
         orderBy: {
             modifiedDate: 'desc'
@@ -39,7 +39,7 @@ async function findLast(req: any, res: VercelResponse) {
     })
     
   
-    const lastDoc = results[0]
+    const lastDoc = results
     
     res.status(200).send(lastDoc)
     prisma.$disconnect()

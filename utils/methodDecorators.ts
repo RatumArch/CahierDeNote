@@ -16,3 +16,6 @@ export const _get = (fn: (req: VercelRequest, res: VercelResponse) => any, req: 
 export const _post = (fn: (req:VercelRequest, res: VercelResponse) => any, req: VercelRequest, res: VercelResponse) => {
     validateHTTPMethod(fn, 'post', req, res)
 }
+export const _put = (fn: (req:VercelRequest, res: VercelResponse) => any, req: VercelRequest, res: VercelResponse) => {
+    validateHTTPMethod(fn, 'put', req, res)
+}

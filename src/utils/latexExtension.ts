@@ -10,9 +10,10 @@ interface Commands<ReturnType> {
 
 const LatexBlock = Node.create({
   name: 'LatexBlock',
-  group: 'block',
+  group: 'inline',
   //content: 'inline*',
   priority: 201,
+  inline: true,
   
 
   addAttributes() {
@@ -21,7 +22,7 @@ const LatexBlock = Node.create({
         default: 'rawTText'
       },
       rawtext: {
-        default: '\\frac{a}{b}'
+        default: ''
       },
       latexNodeId: {
         default: ''

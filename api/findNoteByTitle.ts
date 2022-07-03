@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client'
-
+import sanitizeHtml from 'sanitize-html';
+import { sanitizeText } from '../utils';
 
 export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const prisma = new PrismaClient()
@@ -8,22 +9,23 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const folderCode = req.body.query?.folderCode
     const title = req.body.query?.title
 
-    const folder = await prisma.folders.findFirst({
-        where: {
-            folderCode
-        },
-        select: {
-            id: true
-        }
-    })
 
     const note = await prisma.notes.findFirst({
         where: {
-            folderId: folder?.id,
+            folderCode,
             title
+        },
+        orderBy: {
+            modifiedDate: 'desc',
         }
     })
 
+    if(note) {
+        note.html = sanitizeText( note?.html )
+    }
+
     prisma.$disconnect()
+    console.log(note);
+    
     res.status(200).send(note)
 }

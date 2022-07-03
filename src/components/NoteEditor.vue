@@ -1,6 +1,5 @@
 <template>
-<h1><input type="text" placeholder="titre" class="editable-title" v-model="editableTitle" /></h1>
-<div class="container-noter" @click="editor.chain().focus().run()">
+<div class="container-noter">
   <div class="button-panel" >
       <button @click="toggleBold" >B</button>
       <button @click="toggleCodeBlock" >Python</button>
@@ -10,7 +9,7 @@
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" >
+  <div class="container-editor" @click="editor.chain().focus().run()" >
     <editor-content :editor="editor" />
   </div>
 </div>
@@ -36,7 +35,8 @@ export default {
   },
   props: {
     content: { type: String, required: false },
-    title: { type: String, required: false }
+    title: { type: String, required: false },
+    sendToMongo: {required: false}
   },
   setup(props: any) {
     const editor = useEditor({
@@ -59,25 +59,20 @@ export default {
     })
   
     const route = useRoute()
-    const editableTitle = ref<string>(props.title)
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
     //@ts-ignore
-    const addImage = () => editor.value?.chain().focus().addImage() .focus().setHardBreak().run()
+    const addImage = () => editor.value?.chain().focus().addImage() .focus().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
     //@ts-ignore
-    const toggleLatex = () => editor.value?.chain().focus().insertContent("<latex-block></latex-block>").run()
+    const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => { 
-      const data = editor.value?.getHTML()
-      const rawtext = editor.value?.getText()
-      
-      axios.post('/api/insertNote', {html: data, raw: rawtext})
-    }
+    const sendToMongo = () => props.sendToMongo(editor.value?.getHTML(), editor.value?.getText())
+
 
     onUpdated(() => {
         editor.value?.chain().setContent(props.content).focus().run()        
@@ -86,33 +81,23 @@ export default {
         editor.value?.destroy()
     })
     
-    return { editor, editableTitle, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
+    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
   },
 }
 </script>
 
 <style lang="scss">
-.editable-title {
-    border: none;
-    font-size: inherit;
-    padding-left: 5px;
-  }
 .container-noter {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-style: solid;
-  border-width: 3px;
-  border-radius: 20px;
-  border-bottom-style: none;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
 
-  cursor: text;
-  
   .container-editor {
-    height: 100%;
+    min-height: 50vh;
+    max-height: 65vh;
     padding: 5vw;
+    overflow-y: scroll;
+    cursor: text;
 
     pre {
       background: #0D0D0D;
@@ -131,7 +116,7 @@ export default {
   .button-panel {
     display: inline;
     top: 50px;
-    background-color:#B9F18D;
+    background-color:#4169e1;
     border-bottom-style: solid;
     padding: 10px;
 
@@ -142,6 +127,11 @@ export default {
       padding: 5px;
       background-color: darkcyan;
       color: #FAF594;
+      border-style: solid;
+      border-width: 2px;
+      font-weight: bold;
+      border-radius: 2px;
+      letter-spacing: 1px;
     }
   }
 }

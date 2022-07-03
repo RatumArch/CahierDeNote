@@ -1,7 +1,7 @@
 <template>
-
+  <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div class="main">
-    <NoteEditor :content="content" :title="title" />
+    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
   </div>
 
 </template>
@@ -9,31 +9,56 @@ y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route= useRoute()
 const content = ref('')
-const title= ref(route.params?.document)
+const title= ref('')
+const editableTitle = ref(route.params?.document);console.log(route.params?.document);console.log(route.params);
+
+onMounted(() => {
+  title.value= <string>route.params?.document
+  editableTitle.value = route.params?.document
+})
+
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
     data: {
-      title: title.value,
-      folderCode: route.params?.folderCode
+      folderCode: route.params?.folderCode,
+      title: route.params?.document
     }
   })
     .then(res => {
-        content.value=res.data?.html ?? "<strong>no html</strong>"; console.log(res.data?.html);
+        content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found"; console.log(res.data?.html);
         })
     .catch(() => { 
-      console.error("Document.vue - requête axios" );
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
- getContent()
- onMounted(() => {
-  console.log(route.params);
-  
+const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
+  const newTitle = editableTitle.value!==title.value ? editableTitle.value : null
+      axios.put('/api/updateNote', {
+        title: route.params?.document,
+        folderCode: route?.params?.folderCode,
+        newTitle,
+        html: htmlContent,
+        raw: rawText,
+        extra
+      })
+    }
+
+ onBeforeMount(() => {
+  getContent()
  })
 
 </script>
+
+<style scoped>
+.editable-title {
+    border: none;
+    font-size: inherit;
+    padding-left: 5px;
+    width: 100%;
+  }
+</style>
