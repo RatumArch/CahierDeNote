@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <div class="sidebar">
-    <RouterLink to="/" ><h1>Accueil</h1></RouterLink>
+    <RouterLink to="/" >Accueil</RouterLink>
     <div class="content-sidebar">
       <RouterLink :to="{name: 'document', 
                   params: {document: note?.title, folderCode: folderCode } }" 
@@ -72,14 +72,13 @@ onBeforeMount(async () => {
   height: 100vh;
 }
 .main {
-
   padding-right: 5vh;
   width: 100%;
 }
 .sidebar {
   background-color: darkgreen;
   display: flex;
-  width: 15%;
+  width: 10%;
   height: inherit;
   padding: 10px;
   color: white;

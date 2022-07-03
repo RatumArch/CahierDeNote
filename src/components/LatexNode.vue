@@ -5,8 +5,11 @@
                         class="expression input" 
                         :class="{empty}" 
                         placeholder="Write \sum"
-                        ref="input" />
-    <span class="expression katex" v-html="equationStyled" @click.stop.prevent="inputFocus" ></span>
+                        ref="input"
+                        @click.stop=""
+                        v-show="showInput"
+                        @blur="blurInput" />
+    <span class="expression katex" v-html="equationStyled" @click.stop="inputFocus" ></span>
 </node-view-wrapper>
 </template>
 
@@ -29,10 +32,17 @@ onMounted(() => {
 })
 
 const input = ref(null)
-const equation = ref(props.node?.attrs?.rawtext ?? 'try \\frac{a}{b}')
-console.log(props.node?.attrs?.rawtext);console.log("rawtext");
+const equation = ref(props.node?.attrs?.rawtext)
+const showInput= ref(true)
+
+
 const empty = computed(() => equation.value?.length===0)
-const inputFocus = () => { input.value.focus();}
+const inputFocus = () => { showInput.value=true; input.value.focus(); }
+const blurInput = () => {
+    if(!empty.value) {
+        showInput.value=false
+    }
+}
 
 const msgError = ref('')
 
@@ -55,7 +65,7 @@ const equationStyled = computed(() => applyKatex(equation.value, { throwOnError:
     &.input {
         width: 5ex;
         &:focus {
-            width: 80%;
+            width: 50ex;
             padding: 2px;
         }
         &.empty {
