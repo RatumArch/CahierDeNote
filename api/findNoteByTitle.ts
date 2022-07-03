@@ -6,8 +6,8 @@ import { sanitizeText } from '../utils';
 export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const prisma = new PrismaClient()
     
-    const folderCode = req.body.query?.folderCode
-    const title = req.body.query?.title
+    const folderCode = req.query?.folderCode
+    const title = req.query?.title
 
 
     const note = await prisma.notes.findFirst({
