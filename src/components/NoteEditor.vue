@@ -93,8 +93,8 @@ export default {
   height: 100%;
 
   .container-editor {
-    min-height: 70vh;
-    max-height: 80vh;
+    min-height: 50vh;
+    max-height: 70vh;
     padding: 5vw;
     overflow-y: scroll;
     cursor: text;
