@@ -84,7 +84,7 @@ const isTypingRunning = (e: MouseEvent) => { isTyping.value = true; }
 const isTypingStopped = (e: MouseEvent) => {
   keyUpTimeStamp.value=e.timeStamp
   isTyping.value = false
-  return keyUpTimeStamp
+  return keyUpTimeStamp.value
 }
 
 // Auto sync avec timeout
