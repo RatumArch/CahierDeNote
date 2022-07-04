@@ -88,19 +88,27 @@ const isTypingStopped = (e: MouseEvent) => {
   return keyUpTimeStamp.value
 }
 
-// Auto sync avec timeout
-let interval = setInterval(() => {
+const interval =ref<any>(null)
+
+watch(isTyping, (value) => {
+  if(value && !interval) {
+    // Auto sync avec timeout
+interval.value = setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
   console.log(TypingStatusArray.value[length-1]);
   
-  if(TypingStatusArray.value[length]-TypingStatusArray.value[length-1]===0 )
-    sendToMongo()
-}, 1000)
-
+  if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]===0 )
+    { 
+      sendToMongo()
+      //clearInterval(interval.value)
+    }
+  }, 1000)
+  }
+})
 
 onUnmounted(() => {
-  clearInterval(interval)
+  clearInterval(interval.value)
 })
     
     return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
