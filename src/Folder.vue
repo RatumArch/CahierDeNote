@@ -56,7 +56,7 @@ const findFolder = async () =>
     const document = notesContent.value?.[0]
     title.value= document?.title 
     
-    folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
+    folderData.value&&title.value ? router.replace(`${title.value}`) : router.replace('/error')
   }
 
 onBeforeMount(async () => {
@@ -98,6 +98,9 @@ onBeforeMount(async () => {
     color: white;
     font-size: 3vh;
     margin-bottom: 20px;
+  }
+  button {
+    margin-bottom: 10px;
   }
   .document-link {
     color: white;

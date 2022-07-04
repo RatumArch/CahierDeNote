@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <ReloadPWA />
   <a class="link newdoc" @click="createFolder">
     New Document
   </a>
