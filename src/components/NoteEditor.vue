@@ -91,10 +91,11 @@ const isTypingStopped = (e: MouseEvent) => {
 let timeout = setTimeout(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
+  console.log(TypingStatusArray.value[length]);
   
   if(TypingStatusArray.value[length]-TypingStatusArray.value[length-1]===0 )
     sendToMongo()
-}, 600)
+}, 1000)
 
 
 onUnmounted(() => {
