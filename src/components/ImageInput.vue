@@ -12,7 +12,6 @@
         </span>
         <form v-if="showFormLink" @submit.prevent="" >
             <button @click.stop="hideFormLink" >X</button>
-            <button type="submit">Ok</button>
             <input type="text" placeholder="Feature à implémenter" class="input-link" @click.stop="" />
         </form>
         <span class="preview-label dragging" v-if="showLabel" draggable="true" data-drag-handle >
