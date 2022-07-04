@@ -1,7 +1,7 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div class="main">
-    <NoteEditor :content="content" :title="title" :sendToMongo="saveDocument" />
+    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
   </div>
 
 </template>
@@ -37,6 +37,10 @@ const getContent = () =>
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
+const newTitle = editableTitle.value!==title.value ? <string> editableTitle.value : null
+const sendToMongo = (html: string, raw: string) => 
+  saveDocument(<string>route.params?.document, <string>route.params?.folderCode, html, raw, newTitle)
+    .catch(() => {console.error("save document");})
 
  onBeforeMount(() => {
   getContent()

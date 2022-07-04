@@ -9,7 +9,7 @@ import axios from "axios"
  * @param newTitle Optionnel. Nouveau titre à donner au document
  * @param extra Données additionnelles
  */
-export async function saveDocument(title: string, folderCode: string, htmlContent: string, rawText: string, newTitle?: string,  extra?: any) {
+export async function saveDocument(title: string, folderCode: string, htmlContent: string, rawText: string, newTitle?: string|null,  extra?: any) {
     return await axios.put('/api/updateNote', {
           title,
           folderCode,

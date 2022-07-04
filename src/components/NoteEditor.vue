@@ -10,7 +10,7 @@
       <button @click="sendToMongo" class="send">Save</button>
   </div>
   <div class="container-editor" @click="editor.chain().focus().run()" >
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor" @keyup="" @keydown="" />
   </div>
 </div>
 </template>
@@ -19,7 +19,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
+import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 //import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
@@ -27,6 +27,7 @@ import ImageNode from '../utils/imgNodeExtension.js'
 import axios from 'axios';
 //import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
+
 
 export default {
   name: 'NoteEditor',
@@ -66,7 +67,7 @@ export default {
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => props.sendToMongo(editor.value?.getHTML(), editor.value?.getText())
+    const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
     onUpdated(() => {
@@ -75,6 +76,17 @@ export default {
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
+
+const isTyping = ref(false)
+const isTypingRunning = () => { isTyping.value = true }
+const isTypingStopped = (e: any) => {
+  isTyping.value = false
+}
+watch(isTyping, (value) => {
+  isTyping ? console.log("typing... ") : console.log("keyup !");
+  
+  
+})
     
     return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
   },
