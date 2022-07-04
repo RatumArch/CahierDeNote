@@ -25,7 +25,7 @@ import ImageNode from '../utils/imgNodeExtension.js'
 // load all highlight.js languages
 //import lowlight from 'lowlight'
 import axios from 'axios';
-//import LatexBlock from '../utils/latexExtension.ts'
+import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
 
@@ -46,6 +46,7 @@ export default {
           codeBlock: false
         }),
         ImageNode,
+        LatexBlock,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
@@ -91,7 +92,7 @@ const isTypingStopped = (e: MouseEvent) => {
 let interval = setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
-  console.log(TypingStatusArray.value[length]);
+  console.log(TypingStatusArray.value[length-1]);
   
   if(TypingStatusArray.value[length]-TypingStatusArray.value[length-1]===0 )
     sendToMongo()
@@ -99,7 +100,7 @@ let interval = setInterval(() => {
 
 
 onUnmounted(() => {
-  clearTimeout(interval)
+  clearInterval(interval)
 })
     
     return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
