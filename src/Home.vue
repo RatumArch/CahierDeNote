@@ -8,16 +8,15 @@
   </RouterLink><input type="text" v-model="folderCode"/>
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
+  <font-awesome-icon icon="fa-solid fa-file-image" />
+  <NoteEditor content="<p>III</p>" />
 </template>
 
 <script setup lang="ts">
-import ImageInput from "./components/ImageInput.vue"
-
 import { ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
-import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";

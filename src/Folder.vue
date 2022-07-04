@@ -48,11 +48,11 @@ const findFolder = async () =>
       .catch(() => null)
 
   async function createDocument() {
-    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.catch, title: 'test titre non généré'})
+    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'test titre non généré'})
     console.log(newDoc);
     folderData.value= await findFolder()
     notesContent.value= folderData.value?.notesContent
-
+    console.log(notesContent)
     const document = notesContent.value?.[0]
     title.value= document?.title 
     

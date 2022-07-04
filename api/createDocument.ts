@@ -10,7 +10,7 @@ export default async function newDocument(req: any, res: VercelResponse) {
     const prisma = new PrismaClient()
     
     const newid = new ObjectId()
-    const folderCode= req.body.folderCode
+    const folderCode= req.body?.folderCode
     const title= req.body?.title
 
     const folder = await prisma.folders.findFirst( { where: {folderCode }, select: {id: true} } )

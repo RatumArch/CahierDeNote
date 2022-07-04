@@ -18,7 +18,11 @@ const ImageNode = Node.create({
       },
       nodeId: {
         default: ''
-      }
+      },
+      width: {
+        default: '84px'
+      },
+      height: '84px'
     }
   },
 

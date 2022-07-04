@@ -21,11 +21,11 @@ import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+//import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
-import lowlight from 'lowlight'
+//import lowlight from 'lowlight'
 import axios from 'axios';
-import LatexBlock from '../utils/latexExtension.ts'
+//import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
 export default {
@@ -44,11 +44,6 @@ export default {
         StarterKit.configure({
           codeBlock: false
         }),
-        CodeBlockLowlight.configure({
-          defaultLanguage: 'python',
-          lowlight
-        }),
-        LatexBlock,
         ImageNode,
         TextAlign.configure({
           types: ['paragraph'],
