@@ -19,7 +19,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted, onUpdated, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 //import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
@@ -87,6 +87,19 @@ const isTypingStopped = (e: MouseEvent) => {
   return keyUpTimeStamp
 }
 
+// Auto sync avec timeout
+let timeout = setTimeout(() => {
+  TypingStatusArray.value.push(keyUpTimeStamp.value)
+  const length= TypingStatusArray.value.length
+  
+  if(TypingStatusArray.value[length]-TypingStatusArray.value[length-1]===0 )
+    sendToMongo()
+}, 600)
+
+
+onUnmounted(() => {
+  clearTimeout(timeout)
+})
     
     return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
   },

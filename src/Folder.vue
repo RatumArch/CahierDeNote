@@ -26,7 +26,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { onBeforeMount, onMounted, ref } from 'vue';
-
+import { saveDocument } from '../utils';
 
 const folderData = ref(null)
 const notesContent = ref(null)
@@ -48,6 +48,7 @@ const findFolder = async () =>
       .catch(() => null)
 
   async function createDocument() {
+
     const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'test titre non généré'})
     console.log(newDoc);
     folderData.value= await findFolder()
