@@ -87,28 +87,6 @@ const isTypingStopped = (e: MouseEvent) => {
   return keyUpTimeStamp
 }
 
-watch(isTyping, (value) => {  
-  if(value) { 
-    console.log("typing... ")
-    TypingStatusArray.value.push(keyUpTimeStamp.value)
-    
-    
-    
-  }
-  else {
-    TypingStatusArray.value.push(Date.now());
-    const timeout = setTimeout(() => { 
-      TypingStatusArray.value.push(Date.now());
-      console.log("timeout")
-      
-      if(TypingStatusArray.value[length] - TypingStatusArray.value[length-1] > 4000) {
-        console.log("Stop tyo")
-      }
-      }, 5000)
-      const length: number = TypingStatusArray.value.length
-    
-  }
-})
     
     return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
   },
