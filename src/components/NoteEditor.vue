@@ -9,8 +9,8 @@
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" @click="editor.chain().focus().run()" >
-    <editor-content :editor="editor" @keyup="" @keydown="" />
+  <div class="container-editor" @click="(e) => editor.chain().focus().run()" >
+    <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
   </div>
 </div>
 </template>
@@ -78,17 +78,39 @@ export default {
     })
 
 const isTyping = ref(false)
-const isTypingRunning = () => { isTyping.value = true }
-const isTypingStopped = (e: any) => {
+const TypingStatusArray = ref<number[]>([])
+const keyUpTimeStamp = ref(0)
+const isTypingRunning = (e: MouseEvent) => { isTyping.value = true; }
+const isTypingStopped = (e: MouseEvent) => {
+  keyUpTimeStamp.value=e.timeStamp
   isTyping.value = false
+  return keyUpTimeStamp
 }
-watch(isTyping, (value) => {
-  isTyping ? console.log("typing... ") : console.log("keyup !");
-  
-  
+
+watch(isTyping, (value) => {  
+  if(value) { 
+    console.log("typing... ")
+    TypingStatusArray.value.push(keyUpTimeStamp.value)
+    
+    
+    
+  }
+  else {
+    TypingStatusArray.value.push(Date.now());
+    const timeout = setTimeout(() => { 
+      TypingStatusArray.value.push(Date.now());
+      console.log("timeout")
+      
+      if(TypingStatusArray.value[length] - TypingStatusArray.value[length-1] > 4000) {
+        console.log("Stop tyo")
+      }
+      }, 5000)
+      const length: number = TypingStatusArray.value.length
+    
+  }
 })
     
-    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
+    return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
   },
 }
 </script>

@@ -17,6 +17,7 @@ const route= useRoute()
 const content = ref('')
 const title= ref('')
 const editableTitle = ref(route.params?.document);console.log(route.params?.document);console.log(route.params);
+const folderCode=ref<string|string[]>(route.params?.folderCode)
 
 onMounted(() => {
   title.value= <string>route.params?.document
@@ -38,9 +39,16 @@ const getContent = () =>
       })
 
 const newTitle = editableTitle.value!==title.value ? <string> editableTitle.value : null
-const sendToMongo = (html: string, raw: string) => 
-  saveDocument(<string>route.params?.document, <string>route.params?.folderCode, html, raw, newTitle)
-    .catch(() => {console.error("save document");})
+const sendToMongo = async (html: string, raw: string) => 
+  await axios.put('/api/updateNote', {
+          title,
+          folderCode,
+          newTitle,
+          html,
+          raw,
+        })
+        .catch((err) => { console.error(err);
+        })
 
  onBeforeMount(() => {
   getContent()

@@ -124,16 +124,21 @@ export default {
 }
 .preview-label {
     overflow: hidden;
-    font-size: 20px;
+    font-size: 15px;
     padding: 5px;
     text-align: center;
     box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.75);
     background-color: white;
     border-radius: 10px;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
     margin-right: 5px;   
+}
+.preview-label:hover {
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
 }
 .dragging {
         cursor: all-scroll;
