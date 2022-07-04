@@ -1,7 +1,7 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div class="main">
-    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
+    <NoteEditor :content="content" :title="title" :sendToMongo="saveDocument" />
   </div>
 
 </template>
@@ -11,6 +11,7 @@ import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { saveDocument } from '../utils';
 
 const route= useRoute()
 const content = ref('')
@@ -36,17 +37,6 @@ const getContent = () =>
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
-const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
-  const newTitle = editableTitle.value!==title.value ? editableTitle.value : null
-      axios.put('/api/updateNote', {
-        title: route.params?.document,
-        folderCode: route?.params?.folderCode,
-        newTitle,
-        html: htmlContent,
-        raw: rawText,
-        extra
-      })
-    }
 
  onBeforeMount(() => {
   getContent()

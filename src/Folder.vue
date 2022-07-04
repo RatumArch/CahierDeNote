@@ -17,7 +17,7 @@
   </div>
 
   <div class="main">
-    <RouterView v-for="note of notesContent" :key="note.id" />
+    <RouterView />
   </div>
 </div>
 </template>
@@ -68,6 +68,10 @@ onBeforeMount(async () => {
   title.value= document?.title 
   
   folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
+})
+
+onMounted(() => {
+  console.log("route loaded")
 })
 
 </script>
