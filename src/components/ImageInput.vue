@@ -53,7 +53,7 @@ export default {
 
         const width = ref({ little: '50px', medium: '200px', large: '600px' })
         
-        const blobUrl = ref<string>(props.src)
+        const blobUrl = ref<string>('')
         
 
         const input= ref<any>(null)
@@ -82,7 +82,7 @@ export default {
         
         
         
-        const showLabel= ref(true)   
+        const showLabel= ref(props.node.attrs.src?.length===0 && blobUrl.value?.length===0)   
         const showFormLink = ref(false)
         const openLabel = () => { showLabel.value= true }
         const hideLabel = () => { 

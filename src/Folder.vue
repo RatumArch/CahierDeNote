@@ -17,7 +17,7 @@
   </div>
 
   <div class="main">
-    <RouterView/>
+    <RouterView v-for="note of notesContent" :key="note.id" />
   </div>
 </div>
 </template>
