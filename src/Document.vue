@@ -9,26 +9,29 @@ y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { saveDocument } from '../utils';
 
 const route= useRoute()
 const content = ref('')
-const title= ref('')
-const editableTitle = ref(route.params?.document);console.log(route.params?.document);console.log(route.params);
+const title= ref(route.params?.document)
+const editableTitle = ref(route.params?.document);
 const folderCode=ref<string|string[]>(route.params?.folderCode)
 
 onMounted(() => {
-  title.value= <string>route.params?.document
+  //title.value= <string>route.params?.document
   editableTitle.value = route.params?.document
+  //folderCode.value = route.params?.folderCode
+  console.log(folderCode.value);
+  
 })
 
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
     params: {
-      folderCode: route.params?.folderCode,
-      title: route.params?.document
+      folderCode: folderCode.value,
+      title: title.value
     }
   })
     .then(res => {
@@ -38,14 +41,15 @@ const getContent = () =>
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
-const newTitle = editableTitle.value!==title.value ? <string> editableTitle.value : null
-const sendToMongo = async (html: string, raw: string) => 
+const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
+const sendToMongo = async (html: string, raw: string, extra?: object) => 
   await axios.put('/api/updateNote', {
-          title,
-          folderCode,
-          newTitle,
+          title: title.value,
+          folderCode: folderCode.value,
+          newTitle: newTitle.value,
           html,
           raw,
+          extra
         })
         .catch((err) => { console.error(err);
         })
