@@ -78,9 +78,10 @@ export default {
         editor.value?.destroy()
     })
 
+
 const isTyping = ref(false)
 const TypingStatusArray = ref<number[]>([])
-const keyUpTimeStamp = ref(0)
+const keyUpTimeStamp = ref(1234)
 const isTypingRunning = (e: MouseEvent) => { isTyping.value = true; }
 const isTypingStopped = (e: MouseEvent) => {
   keyUpTimeStamp.value=e.timeStamp
@@ -90,7 +91,8 @@ const isTypingStopped = (e: MouseEvent) => {
 
 const interval =ref<any>(null)
 
-interval.value = setInterval(() => {
+const defineInterval = () => {
+  return setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
   console.log(TypingStatusArray.value[length-1]);
@@ -98,9 +100,18 @@ interval.value = setInterval(() => {
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
       sendToMongo()
-      //clearInterval(interval.value)
+      clearInterval(interval.value)
+      interval.value=null
     }
-  }, 1000)
+  }, 1500)
+}
+
+//interval.value= defineInterval()
+watch(isTyping, (value) => {
+  if(value && !interval) {
+    interval.value= defineInterval()
+  }
+})
 
 onUnmounted(() => {
   clearInterval(interval.value)
