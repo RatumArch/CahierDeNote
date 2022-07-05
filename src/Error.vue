@@ -1,5 +1,7 @@
 <template>
     <h1>Error Processing</h1>
     <strong>We are sorry.</strong>
-    <p>Go back</p>
+    <RouterLink to="/">Go back Home</RouterLink>
 </template>
+
+<script setup></script>

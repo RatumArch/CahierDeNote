@@ -101,6 +101,7 @@ const defineInterval = () => {
     { 
       sendToMongo()
       clearInterval(interval.value)
+      interval.value=null
     }
   }, 1500)
 }
