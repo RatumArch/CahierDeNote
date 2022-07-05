@@ -21,7 +21,7 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     })
 
     if(notes) {
-        notes = notes.map((doc) => doc.html = sanitizeText( doc?.html ))
+        notes = notes.map((doc) => {doc.html = sanitizeText( doc?.html ); return doc })
     }
 
     prisma.$disconnect()
