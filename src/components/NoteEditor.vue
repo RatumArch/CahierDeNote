@@ -101,14 +101,13 @@ const defineInterval = () => {
     { 
       sendToMongo()
       clearInterval(interval.value)
-      interval.value=null
     }
   }, 1500)
 }
 
-//interval.value= defineInterval()
+interval.value= defineInterval()
 watch(isTyping, (value) => {
-  if(value && !interval) {
+  if(value && !interval.value) {
     interval.value= defineInterval()
   }
 })
