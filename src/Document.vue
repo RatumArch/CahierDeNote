@@ -1,7 +1,7 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div class="main">
-    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
+    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo"  />
   </div>
 
 </template>

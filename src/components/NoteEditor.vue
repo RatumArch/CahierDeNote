@@ -8,15 +8,16 @@
       <button @click="toCenter" >center</button>
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
+      <button @click="toggleAutoSave" class="send" >Auto save {{ autoSaveEnabled ? 'enabled' : 'disabled' }}</button>
   </div>
-  <div class="container-editor" @click="(e) => editor.chain().focus().run()" >
+  <div class="container-editor" @click="(e) => editor?.chain().focus().run()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
   </div>
 </div>
 </template>
 
-<script lang="ts">
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+<script lang="ts" setup>
+import { useEditor, EditorContent, Content } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
@@ -29,17 +30,15 @@ import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
 
-export default {
-  name: 'NoteEditor',
-  components: {
-    EditorContent,
-  },
-  props: {
+
+  const props = defineProps({
     content: { type: String, required: false },
     title: { type: String, required: false },
-    sendToMongo: {required: false}
-  },
-  setup(props: any) {
+    sendToMongo: {required: false, type: Function, default: () => {} },
+  })
+
+const content = ref(props.content)
+
     const editor = useEditor({
       extensions: [
         StarterKit.configure({
@@ -72,7 +71,7 @@ export default {
 
 
     onUpdated(() => {
-        editor.value?.chain().setContent(props.content).focus().run()        
+        editor.value?.chain().setContent(<Content>props.content).focus().run()        
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()
@@ -90,6 +89,12 @@ const isTypingStopped = (e: MouseEvent) => {
 }
 
 const interval =ref<any>(null)
+const autoSaveEnabled = ref(true)
+
+function toggleAutoSave() {
+  autoSaveEnabled.value = !autoSaveEnabled.value
+  !autoSaveEnabled.value && clearInterval(interval.value)
+}
 
 const defineInterval = () => {
   return setInterval(() => {
@@ -106,9 +111,9 @@ const defineInterval = () => {
   }, 1500)
 }
 
-interval.value= defineInterval()
+
 watch(isTyping, (value) => {
-  if(value && !interval.value) {
+  if(value && !interval.value && autoSaveEnabled.value) {
     interval.value= defineInterval()
   }
 })
@@ -117,9 +122,7 @@ onUnmounted(() => {
   clearInterval(interval.value)
 })
     
-    return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
-  },
-}
+
 </script>
 
 <style lang="scss">
