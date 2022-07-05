@@ -9,8 +9,8 @@
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" @click="editor.chain().focus().run()" >
-    <editor-content :editor="editor" />
+  <div class="container-editor" @click="(e) => editor.chain().focus().run()" >
+    <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
   </div>
 </div>
 </template>
@@ -19,14 +19,15 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted, onUpdated, ref } from 'vue'
+import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+//import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
-import lowlight from 'lowlight'
+//import lowlight from 'lowlight'
 import axios from 'axios';
 import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
+
 
 export default {
   name: 'NoteEditor',
@@ -44,12 +45,8 @@ export default {
         StarterKit.configure({
           codeBlock: false
         }),
-        CodeBlockLowlight.configure({
-          defaultLanguage: 'python',
-          lowlight
-        }),
-        LatexBlock,
         ImageNode,
+        LatexBlock,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
@@ -71,7 +68,7 @@ export default {
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => props.sendToMongo(editor.value?.getHTML(), editor.value?.getText())
+    const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
     onUpdated(() => {
@@ -80,8 +77,47 @@ export default {
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
+
+
+const isTyping = ref(false)
+const TypingStatusArray = ref<number[]>([])
+const keyUpTimeStamp = ref(1234)
+const isTypingRunning = (e: MouseEvent) => { isTyping.value = true; }
+const isTypingStopped = (e: MouseEvent) => {
+  keyUpTimeStamp.value=e.timeStamp
+  isTyping.value = false
+  return keyUpTimeStamp.value
+}
+
+const interval =ref<any>(null)
+
+const defineInterval = () => {
+  return setInterval(() => {
+  TypingStatusArray.value.push(keyUpTimeStamp.value)
+  const length= TypingStatusArray.value.length
+  console.log(TypingStatusArray.value[length-1]);
+  
+  if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
+    { 
+      sendToMongo()
+      clearInterval(interval.value)
+      interval.value=null
+    }
+  }, 1500)
+}
+
+interval.value= defineInterval()
+watch(isTyping, (value) => {
+  if(value && !interval.value) {
+    interval.value= defineInterval()
+  }
+})
+
+onUnmounted(() => {
+  clearInterval(interval.value)
+})
     
-    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter }
+    return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
   },
 }
 </script>

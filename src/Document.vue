@@ -11,11 +11,13 @@ import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { saveDocument } from '../utils';
 
 const route= useRoute()
 const content = ref('')
 const title= ref('')
 const editableTitle = ref(route.params?.document);console.log(route.params?.document);console.log(route.params);
+const folderCode=ref<string|string[]>(route.params?.folderCode)
 
 onMounted(() => {
   title.value= <string>route.params?.document
@@ -24,7 +26,7 @@ onMounted(() => {
 
 const getContent = () => 
   axios.get('/api/findNoteByTitle', {
-    data: {
+    params: {
       folderCode: route.params?.folderCode,
       title: route.params?.document
     }
@@ -36,17 +38,17 @@ const getContent = () =>
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
       })
 
-const sendToMongo = (htmlContent: string, rawText: string, extra?: any) => {
-  const newTitle = editableTitle.value!==title.value ? editableTitle.value : null
-      axios.put('/api/updateNote', {
-        title: route.params?.document,
-        folderCode: route?.params?.folderCode,
-        newTitle,
-        html: htmlContent,
-        raw: rawText,
-        extra
-      })
-    }
+const newTitle = editableTitle.value!==title.value ? <string> editableTitle.value : null
+const sendToMongo = async (html: string, raw: string) => 
+  await axios.put('/api/updateNote', {
+          title,
+          folderCode,
+          newTitle,
+          html,
+          raw,
+        })
+        .catch((err) => { console.error(err);
+        })
 
  onBeforeMount(() => {
   getContent()

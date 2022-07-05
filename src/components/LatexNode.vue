@@ -37,6 +37,11 @@ const showInput= ref(true)
 
 
 const empty = computed(() => equation.value?.length===0)
+
+onMounted(() => {
+    showInput.value= empty.value
+})
+
 const inputFocus = () => { showInput.value=true; input.value.focus(); }
 const blurInput = () => {
     if(!empty.value) {
@@ -47,7 +52,7 @@ const blurInput = () => {
 const msgError = ref('')
 
 const applyKatex = (userInput) => {
-    if(isMounted) { props.node.attrs.rawText= userInput }
+    if(isMounted) { props.node.attrs.rawtext= userInput }
     return katex.renderToString(userInput, { throwOnError: false })
 }
 const equationStyled = computed(() => applyKatex(equation.value, { throwOnError: false }) )

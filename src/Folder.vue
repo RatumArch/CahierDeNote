@@ -3,6 +3,7 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
+    <button @click="createDocument">New Document</button>
 
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
@@ -16,7 +17,7 @@
   </div>
 
   <div class="main">
-    <RouterView/>
+    <RouterView />
   </div>
 </div>
 </template>
@@ -46,6 +47,19 @@ const findFolder = async () =>
       .then(res => res.data)
       .catch(() => null)
 
+  async function createDocument() {
+
+    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'test titre non généré'})
+    console.log(newDoc);
+    folderData.value= await findFolder()
+    notesContent.value= folderData.value?.notesContent
+    console.log(notesContent)
+    const document = notesContent.value?.[0]
+    title.value= document?.title 
+    
+    folderData.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
+  }
+
 onBeforeMount(async () => {
   folderData.value= await findFolder()
   console.log(folderData.value);console.log("/folder data - Folder.vue");
@@ -55,6 +69,10 @@ onBeforeMount(async () => {
   title.value= document?.title 
   
   folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
+})
+
+onMounted(() => {
+  console.log("route loaded")
 })
 
 </script>
@@ -85,6 +103,9 @@ onBeforeMount(async () => {
     color: white;
     font-size: 3vh;
     margin-bottom: 20px;
+  }
+  button {
+    margin-bottom: 10px;
   }
   .document-link {
     color: white;
