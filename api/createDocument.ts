@@ -8,6 +8,7 @@ import { _post } from '../utils/index';
 const prisma = new PrismaClient()
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
+const foldersCollection= process.env.MONGODB_DB_FOLDER_COLLECTION
 
 export default async function newDocument(req: any, res: VercelResponse) {
     const prisma = new PrismaClient()

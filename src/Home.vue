@@ -9,7 +9,7 @@
   </RouterLink><input type="text" v-model="folderCode"/>
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
-  <font-awesome-icon icon="fa-solid fa-file-image" />
+  <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="<p>III</p>" />
 </template>
 
@@ -45,6 +45,9 @@ const createFolder = async () => {
   //const documentTitle = newFolder?.notesContent[0]?.title ?? 'noDocument'
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
+
+const purged = ref('purge')
+const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
 
 </script>
 
