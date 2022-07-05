@@ -51,7 +51,7 @@ export default async function newDocument(req: any, res: VercelResponse) {
         folderCode,
         folderId: folder?.id,
         title: newDocumentTitle,
-        html: '', raw: '',
+        html: '<h2>Your new note</h2>', raw: 'Your new note',
         modifiedDate: new Date(),
         creationDate: new Date()
     })
@@ -60,7 +60,8 @@ export default async function newDocument(req: any, res: VercelResponse) {
         res.status(500).send("<strong style='color:red;'>ERREUR</strong>non inséré")
     })
 
-    res.status(200).send(insertion)
+    const created = await collection.findOne({_id: new ObjectId(insertion.insertedId)})
+    res.status(200).send(created)
     prisma.$disconnect()
 }
 

@@ -49,7 +49,7 @@ const findFolder = async () =>
 
   async function createDocument() {
 
-    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'testTitre'})
+    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'testTitre'}).then(doc => doc.data)
     console.log(newDoc);
     folderData.value= await findFolder()
     notesContent.value= folderData.value?.notesContent
@@ -57,7 +57,7 @@ const findFolder = async () =>
     const document = notesContent.value?.[0]
     title.value= document?.title 
     
-    folderData.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
+    folderData.value&&title.value ? router.push(`${newDoc?.title}`) : router.replace('/error')
   }
 
 onBeforeMount(async () => {
