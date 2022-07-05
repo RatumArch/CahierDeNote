@@ -10,7 +10,7 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const title = <string>req.query?.title
 
 
-    const note = await prisma.notes.findFirst({
+    let notes = await prisma.notes.findMany({
         where: {
             folderCode,
             title
@@ -20,12 +20,12 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
         }
     })
 
-    if(note) {
-        note.html = sanitizeText( note?.html )
+    if(notes) {
+        notes = notes.map((doc) => doc.html = sanitizeText( doc?.html ))
     }
 
     prisma.$disconnect()
-    console.log(note);
+    console.log(notes);
     
-    res.status(200).send(note)
+    res.status(200).send(notes[0])
 }
