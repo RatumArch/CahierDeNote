@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { serializeDoc, clientPromise } from "../utils/index"
 import { PrismaClient } from '@prisma/client'
 import { ObjectId } from 'bson';
-import { _post, _get } from '../utils/index';
+import { _post } from '../utils/index';
 
 const prisma = new PrismaClient()
 const db = process.env.MONGODB_DB
@@ -18,12 +18,12 @@ export default async function newDocument(req: any, res: VercelResponse) {
     const collection = await datab.collection(collec)
     
     const newid = new ObjectId()
-    const query = req.query
-    const folderCode= req.query?.folderCode
-    const title= req.query?.title
-    const html=query.html
-    const raw= query.raw
-    const extra = query?.extra
+    const body = req.body
+    const folderCode= req.body?.folderCode
+    const title= req.body?.title
+    const html=body.html
+    const raw= body.raw
+    const extra = body?.extra
     
 
     const folder = await prisma.folders.findFirst( { where: {folderCode }, select: {id: true} } )
@@ -65,4 +65,4 @@ export default async function newDocument(req: any, res: VercelResponse) {
     prisma.$disconnect()
 }
 
-const createDocument = (req:VercelRequest, res:VercelResponse) => _get(newDocument, req, res)
+const createDocument = (req:VercelRequest, res:VercelResponse) => _post(newDocument, req, res)
