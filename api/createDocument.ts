@@ -28,7 +28,7 @@ export default async function newDocument(req: any, res: VercelResponse) {
             i++;
             titleToGenerate= `${standartTitle}`+i
         }
-        console.log(titleToGenerate);console.log('Titre généré automatiquement')
+        console.log(titleToGenerate);console.log('TitreG')
         return titleToGenerate
     }
 
