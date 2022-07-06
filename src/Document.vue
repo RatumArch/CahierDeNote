@@ -35,6 +35,7 @@ const getContent = () =>
     }
   })
     .then(res => {
+      console.log("resdata"); console.log(res.data);console.log("/Document.vue resdata");
         content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
         })
     .catch(() => { 
