@@ -10,10 +10,12 @@ y/2
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { saveDocument } from '../utils';
 
 const route= useRoute()
+const router = useRouter()
+
 const content = ref('')
 const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
@@ -22,9 +24,7 @@ const folderCode=computed(() => route.params?.folderCode)
 onMounted(() => {
   //title.value= <string>route.params?.document
   editableTitle.value = route.params?.document
-  //folderCode.value = route.params?.folderCode
-  console.log(folderCode.value);
-  
+  //folderCode.value = route.params?.folderCode  
 })
 
 const getContent = () => 
@@ -59,6 +59,7 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
  })
  onUpdated(() => {
   getContent().then(() => { console.log("updated content")}).catch(() => { console.error("error updated")})
+  editableTitle.value = title.value
  })
 
 </script>
