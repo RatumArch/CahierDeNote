@@ -1,7 +1,9 @@
 <template>
   <main>
-  <RouterView v-slot="Loader" >
-    <component :is="Loader"/>
+  <RouterView v-slot="{Component}" >
+  <Transition name="folder">
+    <component :is="Component"/>
+  </Transition>
   </RouterView>
   </main>
 </template>
@@ -22,6 +24,7 @@ export default defineComponent({
     ReloadPWA,
     ImageInp,
     ImageInput,
+    Loader,
     RouterView,
     RouterLink
   },
@@ -37,5 +40,12 @@ export default defineComponent({
 }
 body {
   margin: 0px
+}
+.folder-enter-active , .folder-leave-active {
+  transition: all 1s ease-out;
+}
+.folder-enter-to, .folder-leave-from {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>

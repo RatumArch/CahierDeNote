@@ -1,13 +1,11 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
-      <Transition name="button-save">
-        <div>
-          <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >
-            Auto save
-          </button>
-        </div>
-      </Transition>
+      <div>
+        <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >
+          Auto save
+        </button>
+      </div>
       <div class="message-server"><pre><strong>{{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
@@ -105,7 +103,7 @@ function toggleAutoSave(interval: any) {
   background-color: lightgray;
   text-decoration: underline;
 }
-.button-save-enter-active .auto-save {
+.auto-save {
   transition: all 0.5s ease-out;
 }
 .editable-title {

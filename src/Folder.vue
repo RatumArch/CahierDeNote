@@ -56,10 +56,7 @@ const findFolder = async () =>
     
     notesContent.value= await findFolder()
     
-    const document = notesContent.value?.[0]
-    title.value= document?.title 
-    
-    folderData.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
+    newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
 
 onBeforeMount(async () => {

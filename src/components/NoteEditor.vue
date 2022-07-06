@@ -110,6 +110,7 @@ const defineInterval = () => {
 
 watch(isTyping, (value) => {
   content.value = editor.value?.getHTML()
+  console.log(content.value)
   if(value && !interval.value && props.autoSaveEnabled) {
     interval.value= defineInterval()
   }
