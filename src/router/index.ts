@@ -5,6 +5,8 @@ import Document from '@/Document'
 import Folder from '@/Folder.vue'
 import Error from "@/Error.vue";
 
+import axios from "axios";
+
 const router = createRouter({
     history: createWebHistory(),
     routes: [{
@@ -25,10 +27,23 @@ const router = createRouter({
     },
     { 
         path: '/:toutAutresRoutes*', component: Error,
-        beforeEnter: (to, from) => {
+        beforeEnter: async (to, from) => {
+            
             console.log("before Enter route")
             console.log(to.params?.toutAutresRoutes);
-            console.log(to.path.split('/'));console.log("\tpath.split('/')");
+            const params: string[] = <string[]>to.params?.toutAutresRoutes
+            if(params[0]==='folder') {
+                
+                const folderRequest = await axios.get('/api/findFolder', { params: {folderCode: params[0]} }).then((res) => res.data)
+                const firstNoteInFolder = folderRequest[0]
+                console.log('\tTentative axios requête')
+                const title = firstNoteInFolder?.title
+                if(folderRequest) {
+                    console.log(`${params[0]}/${title}`)
+                    return `${params[0]}/${title}`
+                }
+            }
+            
             console.log("/before Enter route")
         }
     }
