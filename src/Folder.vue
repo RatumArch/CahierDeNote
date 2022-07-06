@@ -3,7 +3,9 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
-    <button @click="createDocument">New Document</button>
+    <button @click="createDocument">
+      <font-awesome-icon icon="fa-solid fa-add" /> New note
+    </button>
 
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
@@ -17,7 +19,7 @@
   </div>
 
   <div class="main">
-    <RouterView />
+    <RouterView v-for="note of notesContent" :key="note.id" />
   </div>
 </div>
 </template>
@@ -49,11 +51,11 @@ const findFolder = async () =>
 
   async function createDocument() {
 
-    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'testTitre'}).then(doc => doc.data)
+    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value }).then(doc => doc.data)
     
     folderData.value= await findFolder()
     notesContent.value= folderData.value?.notesContent
-    
+    console.log(notesContent.value);console.log("/notes content")
     const document = notesContent.value?.[0]
     title.value= document?.title 
     
@@ -86,6 +88,9 @@ onMounted(() => {
 .main {
   padding-right: 5vh;
   width: 85%;
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
 }
 .sidebar {
   background-color: darkgreen;

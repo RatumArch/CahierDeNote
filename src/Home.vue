@@ -9,7 +9,7 @@
   </RouterLink><input type="text" v-model="folderCode"/>
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
-  <button class="link" @click="purge" ><font-awesome-icon icon="fa-solid fa-add" /> {{purged}}</button>
+  <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="<p>III</p>" />
 </template>
 
