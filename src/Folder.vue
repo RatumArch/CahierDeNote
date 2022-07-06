@@ -59,7 +59,7 @@ const findFolder = async () =>
     const document = notesContent.value?.[0]
     title.value= document?.title 
     
-    folderData.value&&title.value ? router.push(`${newDoc?.title}`) : router.replace('/error')
+    folderData.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
     console.log(route.params);console.log("/Route params - Folder.vue");
   }
 
@@ -88,9 +88,6 @@ onMounted(() => {
 .main {
   padding-right: 5vh;
   width: 85%;
-  display: flex;
-  flex-direction: row;
-  overflow-x: scroll;
 }
 .sidebar {
   background-color: darkgreen;

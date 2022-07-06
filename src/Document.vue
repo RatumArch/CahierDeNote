@@ -64,9 +64,14 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
 
 <style scoped>
 .editable-title {
-    border: none;
-    font-size: inherit;
-    padding-left: 5px;
-    width: 100%;
-  }
+  border: none;
+  font-size: inherit;
+  padding-left: 5px;
+  width: 100%;
+}
+.main {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+}
 </style>
