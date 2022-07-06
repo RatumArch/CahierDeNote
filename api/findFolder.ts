@@ -12,11 +12,7 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
             folderCode
         },
         include: {
-            notesContent: {
-                orderBy: {
-                    modifiedDate: 'desc'
-                }
-            }
+            notesContent: true
         }
     })
     .catch((err) => { 
@@ -25,7 +21,7 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
      })
 console.log(folder?.[0]?.notesContent);console.log("/folder");
 // @ts-ignore
-folder[0].notesContent = folder?.[0]?.notesContent.map((note) => { note.html = sanitizeText(note?.html); return note}) ?? 
+//folder[0].notesContent = folder?.[0]?.notesContent.map((note) => { note.html = sanitizeText(note?.html); return note}) ?? 
 
     prisma.$disconnect()
     res.status(200).send(folder?.[0])
