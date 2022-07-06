@@ -1,16 +1,15 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
-  <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled"  />
-
-    <div>
+  <div>
       <Transition name="button-save">
         <div>
-          <button @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >Auto save {{ autoSaveEnabled ? 'enabled' : 'disabled' }}</button>
+          <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >Auto save {{ autoSaveEnabled ? 'enabled' : 'disabled' }}</button>
         </div>
       </Transition>
       <div class="message-server"><pre><strong>{{messageFromServer}}</strong> </pre> </div>
     </div>
+  <div class="main">
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled"  />
   </div>
 
 </template>
