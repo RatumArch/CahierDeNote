@@ -78,11 +78,11 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
   await getContent()
  })
  
- watch(title, async (newValue) => {
+/*  watch(title, async (newValue) => {
   await getContent()
   editableTitle.value = newValue
  })
-
+ */
 const autoSaveEnabled = ref(true)
 function toggleAutoSave(interval: any) {
   autoSaveEnabled.value = !autoSaveEnabled.value
