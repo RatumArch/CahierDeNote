@@ -72,7 +72,7 @@ onBeforeMount(async () => {
   folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
 })
 
-onUpdated(() => {
+onUpdated(async () => {
   notesContent.value = await findFolder()
 })
 
