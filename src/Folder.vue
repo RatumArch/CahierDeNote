@@ -19,7 +19,7 @@
   </div>
 
   <div class="main">
-    <RouterView :key="note.id" />
+    <RouterView />
   </div>
 </div>
 </template>
@@ -67,7 +67,7 @@ onBeforeMount(async () => {
   folderData.value= await findFolder()
   
   notesContent.value= folderData.value
-  console.log("Folder.vue");console.log(notesContent.value[0]?.title);console.log("/onbeforemount Folder.vue");
+  console.log("Folder.vue");console.log(notesContent.value);console.log(notesContent.value[0]?.id);console.log("/onbeforemount Folder.vue");
   const document = notesContent.value[0]
   title.value= document?.title 
   
