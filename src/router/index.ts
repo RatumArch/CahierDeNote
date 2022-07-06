@@ -29,7 +29,6 @@ const router = createRouter({
     { 
         path: '/:toutAutresRoutes*', component: Loader,
         beforeEnter: async (to, from) => {
-            
             console.log("before Enter route")
             console.log(to.params?.toutAutresRoutes);
             const params: string[] = <string[]>to.params?.toutAutresRoutes

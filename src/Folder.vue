@@ -65,7 +65,7 @@ onBeforeMount(async () => {
   const document = notesContent.value[0]
   title.value= document?.title 
   
-  notesContent.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
+  notesContent.value&&title.value ? router.push(`${folderCode.value}/${title.value}`) : router.replace('/error')
 })
 
 

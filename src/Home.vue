@@ -10,6 +10,7 @@
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
+  <NoteEditor content="<pre>dkdk  dkdkddkm</pre>" :auto-save-enabled="false" />
 </template>
 
 <script setup lang="ts">
