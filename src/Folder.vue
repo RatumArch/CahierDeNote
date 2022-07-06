@@ -8,8 +8,7 @@
     </button>
 
     <RouterLink :to="{name: 'document', 
-                params: {document: note?.title, folderCode: folderCode } }" 
-                v-for="note of notesContent" :key="note.id"
+                params: {document: note?.title, folderCode: folderCode } }"
                 class="document-link"
                 :title="note?.title"
                 >

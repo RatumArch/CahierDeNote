@@ -59,6 +59,10 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
   await getContent().then(() => { console.log("get Content")}).catch(() => console.error("error getcontent"))
  })
  
+ watch(route.params, (value) => {
+  console.log("params changed")
+  editableTitle.value=value
+ })
 
 </script>
 
