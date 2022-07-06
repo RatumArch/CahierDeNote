@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter, createWebHashHistory } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 
 import Home from '@/Home.vue'
 import Document from '@/Document'
@@ -9,7 +9,7 @@ import Loader from '@/Loader.vue'
 import axios from "axios";
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: [{
         path: '/folder/:folderCode',
         component: Folder,
@@ -27,7 +27,7 @@ const router = createRouter({
         component: Error
     },
     { 
-        path: '/:toutAutresRoutes*', component: Loader,
+        path: '/:toutAutresRoutes*', component: Error,
         beforeEnter: async (to, from) => {
             console.log("before Enter route")
             console.log(to.params?.toutAutresRoutes);

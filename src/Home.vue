@@ -7,10 +7,11 @@
   <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
-  <!-- <NoteEditor content="fjk" title="test"/> -->
+  
   </div>
-  <button class="link" @click="purge" >{{purged}}</button>
-  <NoteEditor content="<pre>dkdk  dkdkddkm</pre>" :auto-save-enabled="false" v-if="isDev" />
+  <button class="link" @click="purge" v-if="isDev" >{{purged}}</button>
+  <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" />
+  <Loader v-if="isLoading" />
 </template>
 
 <script setup lang="ts">
@@ -24,14 +25,16 @@ import { useRoute, useRouter } from "vue-router";
 
 const folderCode = ref('')
 const router = useRouter()
+const isLoading=ref(false)
 
 const createFolder = async () => {
+  isLoading.value=true
   const newFolder = 
     await axios.post('/api/createFolder')
       .then(res => res.data).catch(() => null)
-      
+  
   folderCode.value=newFolder?.folderCode ?? 'error'
-  //const documentTitle = newFolder?.notesContent[0]?.title ?? 'noDocument'
+  isLoading.value=false
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
 
