@@ -8,7 +8,6 @@
       <button @click="toCenter" >center</button>
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
-      <button @click="toggleAutoSave" class="send" >Auto save {{ autoSaveEnabled ? 'enabled' : 'disabled' }}</button>
   </div>
   <div class="container-editor" @click="(e) => editor?.chain().focus().run()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -35,6 +34,8 @@ import { useRoute } from 'vue-router'
     content: { type: String, required: false },
     title: { type: String, required: false },
     sendToMongo: {required: false, type: Function, default: () => {} },
+    autoSaveEnabled: { type: Boolean, required: true },
+    toggleAutoSave: { type: Function, required: false}
   })
 
 const content = ref(props.content)
@@ -89,18 +90,13 @@ const isTypingStopped = (e: MouseEvent) => {
 }
 
 const interval =ref<any>(null)
-const autoSaveEnabled = ref(true)
 
-function toggleAutoSave() {
-  autoSaveEnabled.value = !autoSaveEnabled.value
-  !autoSaveEnabled.value && clearInterval(interval.value)
-}
+
 
 const defineInterval = () => {
   return setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
-  console.log(TypingStatusArray.value[length-1]);
   
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
@@ -113,7 +109,7 @@ const defineInterval = () => {
 
 
 watch(isTyping, (value) => {
-  if(value && !interval.value && autoSaveEnabled.value) {
+  if(value && !interval.value && props.autoSaveEnabled) {
     interval.value= defineInterval()
   }
 })

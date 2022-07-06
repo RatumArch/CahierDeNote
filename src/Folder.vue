@@ -3,6 +3,7 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
+    <div title="save this code to retrieve your folder later" >{{folderCode}}</div>
     <button @click="createDocument">
       <font-awesome-icon icon="fa-solid fa-add" /> New note
     </button>

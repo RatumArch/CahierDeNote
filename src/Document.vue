@@ -1,7 +1,8 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div class="main">
-    <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo"  />
+    <button @click="toggleAutoSave" class="send" >Auto save {{ autoSaveEnabled ? 'enabled' : 'disabled' }}</button>
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled"  />
   </div>
 
 </template>
@@ -59,11 +60,15 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
   await getContent()
  })
  
- watch(title, (newValue) => {
-  console.log(newValue); console.log(route.params); console.log("/Route params changed - Folder.vue");
-  getContent().then(() => { console.log("content updated !")})
+ watch(title, async (newValue) => {
+  await getContent()
   editableTitle.value = newValue
  })
+
+const autoSaveEnabled = ref(true)
+function toggleAutoSave(interval: any) {
+  autoSaveEnabled.value = !autoSaveEnabled.value
+}
 
 </script>
 
@@ -77,6 +82,5 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
 .main {
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
 }
 </style>
