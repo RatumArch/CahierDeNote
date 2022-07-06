@@ -67,7 +67,7 @@ onBeforeMount(async () => {
   folderData.value= await findFolder()
   
   notesContent.value= folderData.value
-  //console.log(notesContent.value);
+  console.log("Document.vue");console.log(notesContent.value?.title);console.log("/Document.vue");
   const document = notesContent.value[0]
   title.value= document?.title 
   
