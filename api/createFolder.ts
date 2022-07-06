@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client'
-import { _post, _get } from '../utils'
+import { _post } from '../utils'
 
 const prisma = new PrismaClient()
 
@@ -35,6 +35,6 @@ async function newFolder(req: any, res: VercelResponse) {
     prisma.$disconnect()
 }
 
-const newFolder2 = (req: VercelRequest, res: VercelResponse) => _get(newFolder, req, res)
+const newFolder2 = (req: VercelRequest, res: VercelResponse) => _post(newFolder, req, res)
 
 export default newFolder2
