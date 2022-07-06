@@ -54,7 +54,7 @@ const findFolder = async () =>
     const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value }).then(doc => doc.data)
     
     folderData.value= await findFolder()
-    notesContent.value= folderData.value?.notesContent
+    notesContent.value= folderData.value
     console.log(notesContent.value);console.log("/notes content")
     const document = notesContent.value?.[0]
     title.value= document?.title 
