@@ -67,7 +67,7 @@ onBeforeMount(async () => {
   folderData.value= await findFolder()
   
   notesContent.value= folderData.value
-  console.log(notesContent.value);
+  //console.log(notesContent.value);
   const document = notesContent.value[0]
   title.value= document?.title 
   
