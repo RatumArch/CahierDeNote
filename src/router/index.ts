@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter, createWebHashHistory } from "vue-router";
 
 import Home from '@/Home.vue'
 import Document from '@/Document'
@@ -9,7 +9,7 @@ import Loader from '@/Loader.vue'
 import axios from "axios";
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [{
         path: '/folder/:folderCode',
         component: Folder,
