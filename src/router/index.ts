@@ -22,7 +22,8 @@ const router = createRouter({
     {
         path: '/error',
         component: Error
-    }
+    },
+    { path: '/:routepath*', component: Error}
 ]
 })
 
