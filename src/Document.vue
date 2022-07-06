@@ -3,7 +3,9 @@
   <div>
       <Transition name="button-save">
         <div>
-          <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >Auto save {{ autoSaveEnabled ? 'enabled' : 'disabled' }}</button>
+          <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >
+            Auto save
+          </button>
         </div>
       </Transition>
       <div class="message-server"><pre><strong>{{messageFromServer}}</strong> </pre> </div>
