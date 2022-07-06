@@ -108,7 +108,7 @@ const defineInterval = () => {
       clearInterval(interval.value)
       interval.value=null
     }
-  }, 1500)
+  }, 800)
 }
 
 

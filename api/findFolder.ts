@@ -7,7 +7,7 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
 
     const folderCode = <string>req.query?.folderCode
     
-    const folder = await prisma.folders.findFirst({
+    const folder = await prisma.folders.findMany({
         where: {
             folderCode
         },
@@ -23,7 +23,7 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
         res.status(404).send("Ce dossier est introuvable")
         return null
      })
-console.log(folder?.notesContent);console.log("/folder");
+console.log(folder?.[0]?.notesContent);console.log("/folder");
 
 
     prisma.$disconnect()

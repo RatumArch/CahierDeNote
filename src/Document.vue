@@ -9,15 +9,15 @@ y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { saveDocument } from '../utils';
 
 const route= useRoute()
 const content = ref('')
-const title= ref(route.params?.document)
+const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
-const folderCode=ref<string|string[]>(route.params?.folderCode)
+const folderCode=computed(() => route.params?.folderCode)
 
 onMounted(() => {
   //title.value= <string>route.params?.document
@@ -35,7 +35,7 @@ const getContent = () =>
     }
   })
     .then(res => {
-        content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found"; console.log(res.data?.html);
+        content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
         })
     .catch(() => { 
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
@@ -54,8 +54,11 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
         .catch((err) => { console.error(err);
         })
 
- onBeforeMount(() => {
-  getContent()
+ onBeforeMount(async () => {
+  await getContent().then(() => { console.log("get Content")}).catch(() => console.error("error getcontent"))
+ })
+ onUpdated(() => {
+  getContent().then(() => { console.log("updated content")}).catch(() => { console.error("error updated")})
  })
 
 </script>

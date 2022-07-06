@@ -50,19 +50,20 @@ const findFolder = async () =>
   async function createDocument() {
 
     const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value, title: 'testTitre'}).then(doc => doc.data)
-    console.log(newDoc);
+    
     folderData.value= await findFolder()
     notesContent.value= folderData.value?.notesContent
-    console.log(notesContent)
+    
     const document = notesContent.value?.[0]
     title.value= document?.title 
     
     folderData.value&&title.value ? router.push(`${newDoc?.title}`) : router.replace('/error')
+    console.log(route.params);console.log("/Route params - Folder.vue");
   }
 
 onBeforeMount(async () => {
   folderData.value= await findFolder()
-  console.log(folderData.value);console.log("/folder data - Folder.vue");
+  
   notesContent.value= folderData.value?.notesContent
   
   const document = notesContent.value?.[0]
