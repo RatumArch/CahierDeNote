@@ -8,7 +8,8 @@
     </button>
 
     <RouterLink :to="{name: 'document', 
-                params: {document: note?.title, folderCode: folderCode } }"
+                params: {document: note?.title, folderCode: folderCode } }" 
+                v-for="note of notesContent" :key="note.id"
                 class="document-link"
                 :title="note?.title"
                 >
@@ -18,7 +19,7 @@
   </div>
 
   <div class="main">
-    <RouterView v-for="note of notesContent" :key="note.id" />
+    <RouterView :key="note.id" />
   </div>
 </div>
 </template>
