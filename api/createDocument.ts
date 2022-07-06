@@ -10,7 +10,7 @@ const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
 const foldersCollection= process.env.MONGODB_DB_FOLDER_COLLECTION
 
-export default async function newDocument(req: any, res: VercelResponse) {
+async function newDocument(req: any, res: VercelResponse) {
     const prisma = new PrismaClient()
 
     //@ts-ignore
@@ -42,7 +42,7 @@ export default async function newDocument(req: any, res: VercelResponse) {
             i++;
             titleToGenerate= `${standartTitle}`+i
         }
-        console.log(titleToGenerate);console.log('TitreG')
+        
         return titleToGenerate
     }
 
@@ -67,3 +67,4 @@ export default async function newDocument(req: any, res: VercelResponse) {
 }
 
 const createDocument = (req:VercelRequest, res:VercelResponse) => _post(newDocument, req, res)
+export default createDocument

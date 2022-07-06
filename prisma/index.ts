@@ -7,8 +7,6 @@ async function main() {
   await prisma.$connect()
   // ... you will write your Prisma Client queries here
   const allnotes = prisma.notes.findMany()
-  console.log(allnotes);
-  
 }
 
 main()

@@ -28,7 +28,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 
 
 const folderData = ref(null)
@@ -56,7 +56,7 @@ const findFolder = async () =>
     
     folderData.value= await findFolder()
     notesContent.value= folderData.value
-    console.log(title.value);console.log(notesContent.value);console.log("/notes content")
+    
     const document = notesContent.value?.[0]
     title.value= document?.title 
     
@@ -64,18 +64,16 @@ const findFolder = async () =>
   }
 
 onBeforeMount(async () => {
-  folderData.value= await findFolder()
+  notesContent.value= await findFolder()  
   
-  notesContent.value= folderData.value
-  console.log("Folder.vue");console.log(notesContent.value);console.log(notesContent.value[0]?.id);console.log("/onbeforemount Folder.vue");
   const document = notesContent.value[0]
   title.value= document?.title 
   
   folderData.value&&title.value ? router.replace(`${folderCode.value}/${title.value}`) : router.replace('/error')
 })
 
-onMounted(() => {
-  console.log("route loaded")
+onUpdated(() => {
+  notesContent.value = await findFolder()
 })
 
 </script>

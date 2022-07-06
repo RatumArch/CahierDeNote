@@ -10,7 +10,6 @@
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
-  <NoteEditor content="<p>III</p>" />
 </template>
 
 <script setup lang="ts">
@@ -21,17 +20,6 @@ import ReloadPWA from "./components/ReloadPWA.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
-
-
-const cloudName = 'dzggewhvt'
-const onSubmit = (e: any) => {
-  const cloudName = 'dzggewhvt'
-  axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-    file: e.target.value,
-    upload_preset: 'ze5mrykg'
-      } ).then(res => { console.log(res.data);
-      })
-}
 
 const folderCode = ref('')
 const router = useRouter()

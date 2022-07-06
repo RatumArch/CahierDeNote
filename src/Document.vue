@@ -36,7 +36,6 @@ const getContent = () =>
     }
   })
     .then(res => {
-      console.log("resdata"); console.log(res.data);console.log("/Document.vue resdata");
         content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
         })
     .catch(() => { 
@@ -44,8 +43,9 @@ const getContent = () =>
       })
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
-const sendToMongo = async (html: string, raw: string, extra?: object) => 
-  await axios.put('/api/updateNote', {
+async function sendToMongo(html: string, raw: string, extra?: object) { 
+  const updated = 
+    await axios.put('/api/updateNote', {
           title: title.value,
           folderCode: folderCode.value,
           newTitle: newTitle.value,
@@ -53,8 +53,10 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
           raw,
           extra
         })
-        .catch((err) => { console.error(err);
-        })
+
+    newTitle.value && router.replace(newTitle.value); 
+    return updated.data
+  }
 
  onBeforeMount(async () => {
   await getContent()
