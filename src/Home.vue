@@ -10,7 +10,7 @@
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
-  <NoteEditor content="<pre>dkdk  dkdkddkm</pre>" :auto-save-enabled="false" />
+  <NoteEditor content="<pre>dkdk  dkdkddkm</pre>" :auto-save-enabled="false" v-if="isDev" />
 </template>
 
 <script setup lang="ts">
@@ -37,6 +37,7 @@ const createFolder = async () => {
 
 const purged = ref('purge')
 const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
+const isDev = ref(import.meta.env.DEV)
 
 </script>
 

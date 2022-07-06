@@ -52,7 +52,7 @@ const content = ref(props.content)
           defaultAlignment: 'left'
         })
       ],
-      content: content.value
+      content: props.content
     })
   
     const route = useRoute()

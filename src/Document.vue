@@ -44,6 +44,7 @@ const getContent = () =>
     }
   })
     .then(res => {
+      console.log("findNoteByTitle");console.log(res.data);console.log("findNoteByTitle");
         content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
         })
     .catch(() => { 
