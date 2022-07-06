@@ -4,6 +4,7 @@ import Home from '@/Home.vue'
 import Document from '@/Document'
 import Folder from '@/Folder.vue'
 import Error from "@/Error.vue";
+import Loader from '@/Loader.vue'
 
 import axios from "axios";
 
@@ -26,7 +27,7 @@ const router = createRouter({
         component: Error
     },
     { 
-        path: '/:toutAutresRoutes*', component: Error,
+        path: '/:toutAutresRoutes*', component: Loader,
         beforeEnter: async (to, from) => {
             
             console.log("before Enter route")
@@ -42,6 +43,12 @@ const router = createRouter({
                     console.log(`${params[0]}/${title}`)
                     return `${params[0]}/${title}`
                 }
+                else {
+                    return { path: '/error'}
+                }
+            }
+            else {
+                return { path: '/error'}
             }
             
             console.log("/before Enter route")
