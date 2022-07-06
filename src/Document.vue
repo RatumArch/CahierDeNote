@@ -9,8 +9,7 @@ y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
-import { watch } from 'fs';
-import { computed, onBeforeMount, onMounted, onUpdated, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { saveDocument } from '../utils';
 
@@ -60,9 +59,9 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
  })
  
  watch(route.params, (value) => {
-  console.log("params changed")
-  editableTitle.value=value
- })
+  console.log("params changed");
+  editableTitle.value=value?.document
+ } )
 
 </script>
 
