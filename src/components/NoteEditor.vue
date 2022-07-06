@@ -52,7 +52,7 @@ const content = ref(props.content)
           defaultAlignment: 'left'
         })
       ],
-      content: props.content
+      content: content.value
     })
   
     const route = useRoute()
@@ -109,6 +109,7 @@ const defineInterval = () => {
 
 
 watch(isTyping, (value) => {
+  content.value = editor.value?.getHTML()
   if(value && !interval.value && props.autoSaveEnabled) {
     interval.value= defineInterval()
   }

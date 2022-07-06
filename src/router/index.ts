@@ -23,7 +23,15 @@ const router = createRouter({
         path: '/error',
         component: Error
     },
-    { path: '/:toutAutresRoutes', component: Error}
+    { 
+        path: '/:toutAutresRoutes', component: Error,
+        beforeEnter: (to, from) => {
+            console.log("before Enter route")
+            console.log(to.path);
+            console.log(to.path.split('/'));console.log("\tpath.split('/')");
+            console.log("/before Enter route")
+        }
+    }
 ]
 })
 

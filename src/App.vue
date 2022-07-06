@@ -1,6 +1,8 @@
 <template>
   <main>
-  <RouterView/>
+  <RouterView v-slot="Loader" >
+    <component :is="Loader"/>
+  </RouterView>
   </main>
 </template>
 
@@ -12,7 +14,7 @@ import ReloadPWA from "./components/ReloadPWA.vue";
 import { RouterView, RouterLink } from "vue-router";
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "@/components/NoteEditor.vue";
-import axios from "axios";
+import Loader from './Loader.vue'
 export default defineComponent({
   name: "App",
   components: {
