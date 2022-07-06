@@ -60,7 +60,6 @@ const findFolder = async () =>
     title.value= document?.title 
     
     folderData.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
-    console.log(route.params);console.log("/Route params - Folder.vue");
   }
 
 onBeforeMount(async () => {

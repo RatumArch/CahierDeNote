@@ -60,6 +60,8 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
  })
  
  watch(title, (newValue) => {
+  console.log(newValue); console.log(route.params); console.log("/Route params changed - Folder.vue");
+  getContent().then(() => { console.log("content updated !")})
   editableTitle.value = newValue
  })
 
