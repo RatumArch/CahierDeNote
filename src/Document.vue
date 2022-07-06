@@ -59,6 +59,10 @@ const sendToMongo = async (html: string, raw: string, extra?: object) =>
   await getContent()
  })
  
+ watch(title, (newValue) => {
+  editableTitle.value = newValue
+ })
+
 </script>
 
 <style scoped>
