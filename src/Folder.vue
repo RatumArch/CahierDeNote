@@ -78,6 +78,10 @@ onBeforeMount(async () => {
 .container {
   display: flex;
   height: 97vh;
+  gap: 10px;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: lightgray;
 }
 .main {
   padding-right: 5vh;

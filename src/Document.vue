@@ -96,15 +96,16 @@ function toggleAutoSave(interval: any) {
   background-color: #006400;
   color: white;
   border-radius: 10px;
-  padding: 2px;
+  padding: 5px;
   border-style: none;
   text-decoration: none;
+  letter-spacing: 2px;
 }
 .auto-save .disabled {
   background-color: lightgray;
   text-decoration: underline;
 }
-.button-save-enter-active {
+.button-save-enter-active .auto-save {
   transition: all 0.5s ease-out;
 }
 .editable-title {
@@ -112,9 +113,5 @@ function toggleAutoSave(interval: any) {
   font-size: inherit;
   padding-left: 5px;
   width: 100%;
-}
-.main {
-  display: flex;
-  flex-direction: row;
 }
 </style>
