@@ -24,11 +24,11 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
         return null
      })
 console.log(folder?.[0]?.notesContent);console.log("/folder");
-
-const sanitizedFolder = folder?.[0]?.notesContent.map((note) => { note.html = sanitizeText(note?.html); return note})
+// @ts-ignore
+folder[0].notesContent = folder?.[0]?.notesContent.map((note) => { note.html = sanitizeText(note?.html); return note}) ?? 
 
     prisma.$disconnect()
-    res.status(200).send(sanitizedFolder)
+    res.status(200).send(folder?.[0])
 }
 
 const findFolder2 = (req: VercelRequest, res: VercelResponse) => _get(findFolder, req, res)
