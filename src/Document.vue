@@ -11,7 +11,7 @@
       <div class="message-server"><pre><strong>{{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled"  />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-memo="[autoSaveEnabled]"  />
   </div>
 
 </template>
