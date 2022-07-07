@@ -82,7 +82,17 @@ onMounted(async () => {
     isLoading.value=false
     throw "requête findFolder raté - Foldervue"
   }
-  notesContent.value&&title.value ? router.push(`${folderCode.value}/${title.value}`) : router.replace('/error')
+
+  const paramFolder = route.params?.folderCode
+  const paramsTitle = route.params?.document
+  
+  (paramFolder && !paramsTitle) && router.push(`${paramFolder}/${title.value}`);
+  (paramFolder && !paramsTitle) && console.log("(paramFolder && !paramsTitle) - Foldervue");
+  (paramFolder && paramsTitle) && router.push(`${paramFolder}/${paramsTitle}`)
+  (paramFolder && paramsTitle) && console.log("(paramFolder && paramsTitle) - Foldervue");
+  (paramFolder && !paramsTitle && !title.value) && router.push('/error')
+  (paramFolder && !paramsTitle && !title.value) && console.log("(paramFolder && !paramsTitle && !title.value) && router.push('/error') - Folder.vue")
+  
   isLoading.value=false
 })
 onUpdated(() => {

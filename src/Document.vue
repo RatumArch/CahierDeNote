@@ -101,12 +101,11 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
 
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
-  isLoading.value=true
-  const data = await getContent()
-  console.log(data);console.log("/toggleAutoSave - Document.vue");
-  isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
-  content.value = "<h2>Chganjge !!!!!!!!!!!!!!!!!!!!!!!!</h2>GJJJJJJJJGJJGJGJG"
+  const data = await getContent()
+  
+  console.log(data);console.log("/toggleAutoSave - Document.vue");
+  content.value = data?.html ?? "Auto save mal togglé"
 }
 
 </script>

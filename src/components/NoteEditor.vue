@@ -75,7 +75,8 @@ console.log(props.content);console.log("/Noteeditor");
 
 
     onUpdated(async () => {
-        
+      console.log("début updated  : "+props.autoSaveEnabled)
+        !props.autoSaveEnabled && sendToMongo().then(() => { console.log("On a enregistrer car l'auto save été désactivé et qu'on voulait éviter de perdre le texte après la mise à jour de notEditor") } )
         editor.value?.chain().setContent(<Content>props.content).focus().run()
         console.log("Note editor.vue onUpdated")
         console.log(props.content)
