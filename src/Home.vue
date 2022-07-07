@@ -39,7 +39,18 @@ const createFolder = async () => {
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
 
-onMounted(() => )
+onMounted(() => {
+  const paramFolder = route.params?.folderCode
+  console.log(paramFolder)
+  const paramsTitle = route.params?.document ?? ''
+  console.log(route.params?.document); console.log(typeof route.params?.document)
+  const isParamFolder = paramFolder.length>0
+  const isParamTitle: boolean = paramsTitle.length > 0;
+
+  (isParamFolder && isParamTitle) && router.push(`/folder/${paramFolder}/${paramsTitle}`);
+  (isParamFolder && !isParamTitle) && router.push(`/folder/${paramFolder}`);
+  (!isParamFolder && !isParamTitle) && router.push(`/error`);
+})
 
 const purged = ref('purge')
 const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
