@@ -11,7 +11,7 @@
     <button @click="createDocument">
       <font-awesome-icon icon="fa-solid fa-add" /> New note
     </button>
-<Loader v-if="isLoading"/>
+
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
                 v-for="note of notesContent" :key="note?.title"
@@ -80,11 +80,10 @@ onBeforeMount(async () => {
   
   title.value= document?.title
   console.log(title)
-  
+  console.log(paramFolder);console.log("/paramFolder")
   (title.value) && router.push(`/folder/${paramFolder}/${title.value}`);
   (!title.value) && router.push('/error')
-  
-  
+    
   isLoading.value=false
 })
 onUpdated(() => {

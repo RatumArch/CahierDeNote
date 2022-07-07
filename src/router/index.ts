@@ -15,7 +15,7 @@ const router = createRouter({
         component: Folder,
         name: 'folder',
         children: [{
-            path: ':document',
+            path: ':document?',
             component: Document,
             name: 'document'
         }
