@@ -82,7 +82,7 @@ onMounted(async () => {
     isLoading.value=false
     throw "requête findFolder raté - Foldervue"
   }
-  notesContent.value&&title.value ? router.push(`${folderCode}/${title.value}`) : router.replace('/error')
+  notesContent.value&&title.value ? router.push(`${folderCode.value}/${title.value}`) : router.replace('/error')
   isLoading.value=false
 })
 onUpdated(() => {

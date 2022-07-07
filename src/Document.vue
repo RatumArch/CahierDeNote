@@ -43,6 +43,7 @@ onMounted(() => {
 
 async function getContent()  {
   isLoading.value=true
+  console.log(folderCode.value)
   const params = { folderCode: folderCode.value, title: title.value }
   const request = await axios.get('/api/findNoteByTitle', {params})
   const data = request.data
