@@ -77,23 +77,24 @@ onBeforeMount(async () => {
   notesContent.value= await findNoteFromFolder()
   
   const document = notesContent.value[0]
-  
+  console.log(notesContent.value);
   title.value= document?.title;
 
   console.log("folder vue");
   console.log(document);
   console.log(title.value);console.log(folderCode.value)
   
+  
+})
+onMounted(() => {
   if(title.value) {
+    console.log("Folderviu ");console.log(folderCode.value);console.log("/folderCode.value");
     console.log(`/folder/${folderCode.value}/${title.value}`)
-router.push(`/folder/${folderCode.value}/${title.value}`);
+    router.push(`/folder/${folderCode.value}/${title.value}`);
   }
   else {
     router.push('/error')
   }
-})
-onUpdated(() => {
-  findNoteFromFolder().then(() => { console.log("folder updated")})
 })
 
 </script>
