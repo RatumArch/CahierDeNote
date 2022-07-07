@@ -88,7 +88,7 @@ onBeforeMount(async () => {
 
   const paramFolder = route.params?.folderCode
   
-  (title.value) && router.push(`${paramFolder}/${title.value}`);
+  (title.value) && router.push(`/folder/${paramFolder}/${title.value}`);
   (!title.value) && router.push('/error')
   
   
