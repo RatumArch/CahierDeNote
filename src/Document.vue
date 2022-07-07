@@ -10,7 +10,7 @@
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo"  />
   </div>
 
 </template>
@@ -90,7 +90,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
   isLoading.value=true
-    
+
   isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
 }
