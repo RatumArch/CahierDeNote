@@ -53,8 +53,8 @@ const copy = () =>
     .catch((err) => { copiedMsg.value='fail to copy' })
 
 
-const findNoteFromFolder = async () =>
-  await axios.get('/api/findNoteFromFolder', {
+const findNotesFromFolder = async () =>
+  await axios.get('/api/findNotesFromFolder', {
       params: {
         folderCode: folderCode.value ?? "no-folder-code"
       }
@@ -66,7 +66,7 @@ const findNoteFromFolder = async () =>
 
     const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value }).then(doc => doc.data)
     
-    notesContent.value= await findNoteFromFolder()
+    notesContent.value= await findNotesFromFolder()
     
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
@@ -75,7 +75,7 @@ onBeforeMount(() => {
 })
 onBeforeMount(async () => {
   isLoading.value=true
-  notesContent.value= await findNoteFromFolder()
+  notesContent.value= await findNotesFromFolder()
   
   const document = notesContent.value[0]
   console.log(notesContent.value);

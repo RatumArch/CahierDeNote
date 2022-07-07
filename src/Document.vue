@@ -129,7 +129,7 @@ async function toggleAutoSave(interval: any) {
   text-decoration: underline;
   animation: none;
 }
-.auto-save.onSave {
+.auto-save.on-save {
   animation-name: auto-save-anim;
   animation-iteration-count: infinite;
   animation-duration: 0.8s;
