@@ -100,6 +100,7 @@ async function toggleAutoSave(interval: any) {
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
+  content.value = "<h2>Chganjge !!!!!!!!!!!!!!!!!!!!!!!!</h2>GJJJJJJJJGJJGJGJG"
 }
 
 </script>

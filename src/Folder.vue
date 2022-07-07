@@ -10,7 +10,7 @@
     <button @click="createDocument">
       <font-awesome-icon icon="fa-solid fa-add" /> New note
     </button>
-
+<Loader v-if="isLoading"/>
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
                 v-for="note of notesContent" :key="note.id"
@@ -32,6 +32,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
+import Loader from './Loader.vue';
 
 
 const folderData = ref(null)
@@ -39,6 +40,7 @@ const notesContent = ref(null)
 const title= ref('error')
 const route = useRoute()
 const router = useRouter()
+const isLoading = ref(false)
 
 const folderCode = ref('')
 folderCode.value= route.params?.folderCode
@@ -47,7 +49,7 @@ const copiedMsg=ref('')
 const copy = () =>
   navigator.clipboard.writeText(route.fullPath)
     .then(() => { console.log(`copied ${route.fullPath}`); console.log(import.meta.env.url) ;copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
-    .catch((err) => { console.log(`NON copied`); console.error(err)})
+    .catch((err) => { console.log(`NON copied`); console.error(err); console.error(route.fullPath)})
 
 
 const findFolder = async () =>
@@ -119,7 +121,7 @@ watch(route.params?.dcoument, async (newValue) => {
     margin-bottom: 10px;
   }
   .copy {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     &:hover {
       font-weight: bold;
       cursor: pointer;
