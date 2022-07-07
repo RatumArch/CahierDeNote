@@ -107,9 +107,11 @@ onBeforeMount(async () => {
   }
   .documents-enter-to {
     height: 70%;
+    opacity: 1;
   }
   .documents-enter-from {
     height: 10%;
+    opacity: 0;
   }
 }
 .sidebar {

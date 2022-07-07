@@ -101,15 +101,15 @@ async function toggleAutoSave() {
   content.value = data?.html ?? "Auto save mal togglé"
 }
 onBeforeRouteUpdate(async (to, from) => {
-  console.log(to.params);console.log(from.params);console.log("/before rout rupdate");
-  editableTitle.value=from.params?.document
-/*   savingTriggered.value=true
-  // @ts-ignore
-  const data = await getContent(folderCode.value, from.params?.document)
-  console.log(data);console.log("routre update");
-  editableTitle.value= editableTitle!==data?.title && data.title
-  content.value = data?.html ?? "watch" */
+  savingTriggered.value=true
+  editableTitle.value=to.params?.document
+  
+  savingTriggered.value = false
 })
+const updateContent = async () => {
+  const data = await getContent(<string>folderCode.value, <string>route.params?.document)
+  content.value = data?.html ?? "updated after event received"
+}
 
 </script>
 
