@@ -39,6 +39,9 @@ import { useRoute } from 'vue-router'
   })
 
 const content = ref(props.content)
+console.log(props.content);console.log("/Noteeditor");
+
+
 
     const editor = useEditor({
       extensions: [
@@ -71,9 +74,9 @@ const content = ref(props.content)
     const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
-    /* onUpdated(() => {
+    onUpdated(() => {
         editor.value?.chain().setContent(<Content>content.value).focus().run()        
-    }) */
+    })
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })

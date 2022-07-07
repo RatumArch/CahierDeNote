@@ -2,7 +2,7 @@
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
       <div>
-        <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
+        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
           Auto save
         </button>
         <Loader v-if="isLoading" />
@@ -47,8 +47,8 @@ const getContent = () =>
     }
   })
     .then(res => {
-      console.log("findNoteByTitle");console.log(res.data);console.log("findNoteByTitle");
         content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
+        console.log("content.value");console.log(content.value);console.log("findNoteByTitle");
         })
     .catch(() => { 
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
@@ -87,7 +87,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
   isLoading.value=true
-  await getContent()
+  !autoSaveEnabled.value && await getContent()
   isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
 }
