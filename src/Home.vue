@@ -39,15 +39,7 @@ const createFolder = async () => {
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
 
-onMounted(() => {
-  const paramFolder = route.params?.folderCode
-  console.log("Homevu")
-  const paramsTitle = route.params?.document ?? ''
-  console.log(route.params); console.log(typeof route.params?.document)
-  const isParamFolder = paramFolder?.length>0
-  const isParamTitle: boolean = paramsTitle?.length > 0;
 
-})
 
 const purged = ref('purge')
 const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
