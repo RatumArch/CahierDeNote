@@ -34,7 +34,7 @@ import { useRoute } from 'vue-router'
     content: { type: String, required: false },
     title: { type: String, required: false },
     sendToMongo: {required: false, type: Function, default: () => {} },
-    //autoSaveEnabled: { type: Boolean, required: true, default: true },
+    autoSaveEnabled: { type: Boolean, required: true, default: true },
     toggleAutoSave: { type: Function, required: false}
   })
 
@@ -74,9 +74,9 @@ console.log(props.content);console.log("/Noteeditor");
     const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
-    onUpdated(() => {
+    /* onUpdated(() => {
         editor.value?.chain().setContent(<Content>content.value).focus().run()        
-    })
+    }) */
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
@@ -112,7 +112,7 @@ const defineInterval = () => {
 
 
 watch(isTyping, (value) => {
-  if(value && !interval.value) {
+  if(value && !interval.value && props.autoSaveEnabled) {
     interval.value= defineInterval()
   }
 })
