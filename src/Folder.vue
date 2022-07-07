@@ -53,10 +53,10 @@ const findFolder = async () =>
     console.log(newDoc);
     folderData.value= await findFolder()
     notesContent.value= folderData.value?.notesContent
-    console.log(notesContent)
+    console.log(notesContent.value)
     const document = notesContent.value?.[0]
     title.value= document?.title 
-    
+    console.log(title.value)
     folderData.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
   }
 
