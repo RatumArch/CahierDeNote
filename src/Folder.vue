@@ -46,8 +46,8 @@ folderCode.value= route.params?.folderCode
 const copiedMsg=ref('')
 const copy = () =>
   navigator.clipboard.write(route.fullPath)
-    .then((text) => { console.log(`copied ${text}`); console.log(import.meta.env.url) ;copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
-    .catch(() => { console.log(`NON copied ${text}`);})
+    .then(() => { console.log(`copied ${route.fullPath}`); console.log(import.meta.env.url) ;copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
+    .catch(() => { console.log(`NON copied`);})
 
 
 const findFolder = async () =>
