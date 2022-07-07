@@ -79,9 +79,9 @@ onBeforeMount(async () => {
   const document = notesContent.value[0]
   
   title.value= document?.title
-  console.log(title)
-  console.log(paramFolder);console.log("/paramFolder")
-  (title.value) && router.push(`/folder/${paramFolder}/${title.value}`);
+  console.log(title.value);console.log(folderCode.value)
+  
+  (title.value) && router.push(`/folder/${folderCode.value}/${title.value}`);
   (!title.value) && router.push('/error')
     
   isLoading.value=false
