@@ -85,19 +85,15 @@ onBeforeMount(async () => {
   console.log(document);
   console.log(title.value);
   console.log(folderCode.value);
+
+  
+  console.log("Folderviu ");console.log(folderCode.value);console.log("/folderCode.value");
+  console.log("Folderviu ");console.log(title.value);console.log("/folderCode.value");
+  console.log(`/folder/${folderCode.value}/${title.value}`)
+  router.push(`/folder/${folderCode.value}/${title.value}`);
+
   
   
-})
-onMounted(() => {
-  if(title.value) {
-    console.log("Folderviu ");console.log(folderCode.value);console.log("/folderCode.value");
-    console.log("Folderviu ");console.log(title.value);console.log("/folderCode.value");
-    console.log(`/folder/${folderCode.value}/${title.value}`)
-    router.push(`/folder/${folderCode.value}/${title.value}`);
-  }
-  else {
-    router.push('/error')
-  }
 })
 
 </script>
