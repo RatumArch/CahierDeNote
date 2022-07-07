@@ -51,7 +51,6 @@ const getContent = () =>
   })
     .then(res => {
         content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
-        console.log("content.value");console.log(content.value);console.log("findNoteByTitle");
         })
     .catch(() => { 
       content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
@@ -59,7 +58,7 @@ const getContent = () =>
   
 function setMessageServer(msg: string) {
   messageFromServer.value=msg
-  const timeout = setTimeout(() => {messageFromServer.value=msg; clearTimeout(timeout)}, 5000)
+  const timeout = setTimeout(() => {messageFromServer.value=''; clearTimeout(timeout)}, 5000)
 }
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
@@ -88,6 +87,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
   isLoading.value=true
   await getContent()
   editableTitle.value=newValue
+  isLoading.value=false
  })
 
 const autoSaveEnabled = ref(true)
@@ -110,44 +110,43 @@ async function toggleAutoSave(interval: any) {
   text-decoration: none;
   letter-spacing: 2px;
   transition: all 0.8s ease-in;
-  animation-name: auto-save-anim;
-  animation-iteration-count: infinite;
-  animation-duration: 0.8s;
+  
 }
 .auto-save.disabled {
   background-color: lightgray;
   text-decoration: underline;
 }
 .auto-save.onSave {
-  @keyframes auto-save-anim {
-    from {
-      background: linear-gradient(to right, darkgreen 5%, lightblue);
-    }
-    25% {
-      border-right-width: 5px;
-      border-bottom-width: 5px;
-      border-top-width: 5px;
-      background: linear-gradient(to right, darkgreen 25%, lightblue);
-    }
-    50% {
-      border-bottom-width: 5px;
-      border-top-width: 5px;
-      background: linear-gradient(to right, darkgreen 50%, lightblue);
-    }
-    75% {
-      border-left-width: 5px;
-      border-bottom-width: 5px;
-      border-top-width: 5px;
-      background: linear-gradient(to right, darkgreen 75%, lightblue);
-    }
-    from {
-      background: darkgreen;
-    }
+  animation-name: auto-save-anim;
+  animation-iteration-count: infinite;
+  animation-duration: 0.8s;
+}
+@keyframes auto-save-anim {
+  from {
+    background: linear-gradient(to right, darkgreen 5%, lightblue);
+  }
+  25% {
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-top-width: 5px;
+    background: linear-gradient(to right, darkgreen 25%, lightblue);
+  }
+  50% {
+    border-bottom-width: 5px;
+    border-top-width: 5px;
+    background: linear-gradient(to right, darkgreen 50%, lightblue);
+  }
+  75% {
+    border-left-width: 5px;
+    border-bottom-width: 5px;
+    border-top-width: 5px;
+    background: linear-gradient(to right, darkgreen 75%, lightblue);
+  }
+  from {
+    background: darkgreen;
   }
 }
-.auto-save {
-  transition: all 0.5s ease-out;
-}
+
 .editable-title {
   border: none;
   font-size: inherit;

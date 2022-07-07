@@ -1,7 +1,8 @@
 <template>
 <div class="loader">
+    <div class="pancarte">
     <h1>Loading...</h1>
-    <progress/>
+    </div>
 </div>
 </template>
 
@@ -23,6 +24,11 @@ h1 {
     background-color: blanchedalmond;
     position: fixed;
     top: 10vh;
+}
+.pancarte {
+    opacity: 1;
+    background-color: white;
+    overflow: hidden;
 }
 progress {
     width: 100%;
