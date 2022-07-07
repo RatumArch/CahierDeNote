@@ -88,10 +88,11 @@ onMounted(async () => {
   
   const paramFolder = route.params?.folderCode
   console.log(paramFolder)
+  console.log("paramsTitle");
   const paramsTitle = route.params?.document
   console.log(paramsTitle); console.log(typeof paramsTitle)
-  const isParamFolder = paramFolder.length>0
-  const isParamTitle = paramsTitle.length>0
+  const isParamFolder = paramFolder?.length>0
+  const isParamTitle = paramsTitle?.length>0
   
   
   (isParamTitle) && router.push(`${paramFolder}/${paramsTitle}`);

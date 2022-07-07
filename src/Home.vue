@@ -41,11 +41,11 @@ const createFolder = async () => {
 
 onMounted(() => {
   const paramFolder = route.params?.folderCode
-  console.log(paramFolder)
+  console.log("Homevu")
   const paramsTitle = route.params?.document ?? ''
   console.log(route.params?.document); console.log(typeof route.params?.document)
-  const isParamFolder = paramFolder.length>0
-  const isParamTitle: boolean = paramsTitle.length > 0;
+  const isParamFolder = paramFolder?.length>0
+  const isParamTitle: boolean = paramsTitle?.length > 0;
 
   (isParamFolder && isParamTitle) && router.push(`/folder/${paramFolder}/${paramsTitle}`);
   (isParamFolder && !isParamTitle) && router.push(`/folder/${paramFolder}`);
