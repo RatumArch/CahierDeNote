@@ -1,5 +1,6 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
+  <button class="auto-save"></button>
   <div class="main">
     <NoteEditor :content="content" :title="title" :sendToMongo="sendToMongo" />
   </div>
@@ -18,6 +19,7 @@ const content = ref('')
 const title= ref('')
 const editableTitle = ref(route.params?.document);console.log(route.params?.document);console.log(route.params);
 const folderCode=ref<string|string[]>(route.params?.folderCode)
+
 
 onMounted(() => {
   title.value= <string>route.params?.document
