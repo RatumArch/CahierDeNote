@@ -70,9 +70,7 @@ const findNotesFromFolder = async () =>
     
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
-onBeforeMount(() => {
-  console.log(route.params)
-})
+  
 onBeforeMount(async () => {
   isLoading.value=true
   notesContent.value= await findNotesFromFolder()
@@ -81,15 +79,6 @@ onBeforeMount(async () => {
   console.log(notesContent.value);
   title.value= document?.title;
 
-  console.log("folder vue");
-  console.log(document);
-  console.log(title.value);
-  console.log(folderCode.value);
-
-  
-  console.log("Folderviu ");console.log(folderCode.value);console.log("/folderCode.value");
-  console.log("Folderviu ");console.log(title.value);console.log("/folderCode.value");
-  console.log(`/folder/${folderCode.value}/${title.value}`)
   router.push(`/folder/${folderCode.value}/${title.value}`);  
 })
 

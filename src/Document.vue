@@ -41,10 +41,10 @@ onMounted(() => {
   editableTitle.value = route.params?.document  
 })
 
-async function getContent()  {
+async function getContent(folderCode: string, title: string)  {
   isLoading.value=true
-  console.log(folderCode.value)
-  const params = { folderCode: folderCode.value, title: title.value }
+  console.log(title)
+  const params = { folderCode, title }
   const request = await axios.get('/api/findNoteByTitle', {params})
   const data = request.data
   
@@ -52,9 +52,10 @@ async function getContent()  {
   return data
   }
 onMounted(async() => {
-  const data = await getContent()
+  console.log(title.value);console.log("/title.value");
+  const data = await getContent(<string>folderCode.value, <string>title.value)
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
-  console.log("route");console.log(route.params);console.log(route.params?.document);
+  
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
   if(content.value) {
     isDataLoaded.value = true
@@ -91,9 +92,11 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
 
 
 const autoSaveEnabled = ref(true)
-async function toggleAutoSave(interval: any) {
+async function toggleAutoSave() {
   autoSaveEnabled.value = !autoSaveEnabled.value
-  const data = await getContent()
+  console.log(title.value);console.log("/toggler title.value");
+  // @ts-ignore
+  const data = await getContent(folderCode.value, title.value)
   
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   content.value = data?.html ?? "Auto save mal togglé"
