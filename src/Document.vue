@@ -21,6 +21,7 @@ import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { saveDocument } from '../utils';
+import Loader from './Loader.vue';
 
 const route= useRoute()
 const router = useRouter()
@@ -33,10 +34,12 @@ const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
 
-onMounted(() => {
+onMounted(async() => {
   //title.value= <string>route.params?.document
   editableTitle.value = route.params?.document
-  //folderCode.value = route.params?.folderCode  
+  isLoading.value=true
+  await getContent() 
+  isLoading.value=false
 })
 
 const getContent = () => 
@@ -79,11 +82,11 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
     return updated.data
   }
 
- onBeforeMount(async () => {
-  await getContent()
- })
+
  
- watch(title, (newValue) => {
+ watch(title, async (newValue) => {
+  isLoading.value=true
+  await getContent()
   editableTitle.value=newValue
  })
 
