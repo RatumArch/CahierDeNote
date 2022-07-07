@@ -129,9 +129,7 @@ async function toggleAutoSave(interval: any) {
     background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
-    border-right-width: 5px;
     border-bottom-width: 5px;
-    border-top-width: 5px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 50%, lightblue);
@@ -144,9 +142,7 @@ async function toggleAutoSave(interval: any) {
     background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
-    border-left-width: 5px;
-    border-bottom-width: 5px;
-    border-top-width: 5px;
+    border-bottom-width: 1px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 10%, lightblue);

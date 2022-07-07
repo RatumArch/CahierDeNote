@@ -75,9 +75,9 @@ console.log(props.content);console.log("/Noteeditor");
 
 
     onUpdated(() => {
+        sendToMongo()
         editor.value?.chain().setContent(<Content>props.content).focus().run()
         console.log("update")    
-        sendToMongo()
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()

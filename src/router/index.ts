@@ -52,7 +52,8 @@ const router = createRouter({
             
             console.log("/before Enter route")
         }
-    }
+    },
+    { path: '/loader', component: Loader}
 ]
 })
 

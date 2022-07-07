@@ -1,7 +1,9 @@
 <template>
 <div class="loader">
     <div class="pancarte">
-    <h1>Loading...</h1>
+    <h1>Loading</h1>
+        <font-awesome-icon class="icon" icon="fa-solid fa-file-text" />
+
     </div>
 </div>
 </template>
@@ -15,52 +17,57 @@ h1 {
     letter-spacing: 1ex;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
-}
-.loader {
-    padding: 5vw;
-    width: 90vw;
-    height: 90vh;
-    opacity: 0.7;
-    background-color: blanchedalmond;
-    position: fixed;
-    top: 10vh;
-    left: 0px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration: underline;
+    animation-name: loading-anim;
+    animation-iteration-count: infinite;
+    animation-duration: 0.8s;
 
+}
+.icon {
+    height: 40vh;
     animation-name: loading-anim;
     animation-iteration-count: infinite;
     animation-duration: 0.8s;
 }
-.pancarte {
-    opacity: 1;
+.loader {
     background-color: white;
+    width: 100%;
+    top: 20vh;
+}
+.pancarte {
+    background-color: blanchedalmond;
     overflow: hidden;
+    position: fixed;
+    padding: 20vw;
+    top: 15vh;
+    height: 50vh;
 }
 progress {
     width: 100%;
 }
 @keyframes loading-anim {
   from {
-    background: linear-gradient(to right, darkgreen 75%, lightblue);
     opacity: 0.2;
   }
   10% {
-    background: linear-gradient(to right, darkgreen 50%, lightblue);
+    
     opacity: 0.4;
   }
   25% {
-    background: linear-gradient(to right, darkgreen 50%, lightblue);
+    
     opacity: 0.8;
   }
   50% {
-    background: linear-gradient(to right, darkgreen 25%, lightblue);
+    
     opacity: 1;
   }
   75% {
-    background: linear-gradient(to right, darkgreen 10%, lightblue);
+    
     opacity: 0.8;
   }
   from {
-    background: darkgreen;
+    
     opacity: 0.4;
   }
 }
