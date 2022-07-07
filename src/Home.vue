@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <ReloadPWA />
+    <ReloadPWA v-if="isDev" />
   <a class="link newdoc" @click="createFolder">
     New Document
   </a>
@@ -9,7 +9,7 @@
   </RouterLink><input type="text" v-model="folderCode"/>
   
   </div>
-  <button class="link" @click="purge" v-if="isDev" >{{purged}}</button>
+  <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" />
   <Loader v-if="isLoading" />
 </template>

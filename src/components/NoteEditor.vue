@@ -9,7 +9,7 @@
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" @click="(e) => editor?.chain().focus().run()" >
+  <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
   </div>
 </div>
@@ -71,9 +71,9 @@ const content = ref(props.content)
     const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
-    onUpdated(() => {
-        editor.value?.chain().setContent(<Content>props.content).focus().run()        
-    })
+    /*onUpdated(() => {
+        editor.value?.chain().setContent(<Content>content.value).focus().run()        
+    })*/
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })
