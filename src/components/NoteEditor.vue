@@ -76,7 +76,7 @@ console.log(props.content);console.log("/Noteeditor");
 
     onUpdated(async () => {
         await sendToMongo().then(() => { console.log("/Note editor.vue onUpdated")})
-        editor.value?.chain().setContent(<Content>props.content).focus().run()
+        //editor.value?.chain().setContent(<Content>props.content).focus().run()
     })
     
 

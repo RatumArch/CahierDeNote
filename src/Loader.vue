@@ -53,26 +53,26 @@ progress {
 @keyframes loading-anim {
   from {
     opacity: 0.2;
-    background: linear-gradient( darkgreen 5%, lightblue);
+    color: linear-gradient( darkgreen 5%, lightblue);
   }
   10% {
-    background: linear-gradient( darkgreen 15%, lightblue);
+    color: linear-gradient( darkgreen 15%, lightblue);
     opacity: 0.4;
   }
   25% {
-    background: linear-gradient( darkgreen 25%, lightblue);
+    color: linear-gradient( darkgreen 25%, lightblue);
     opacity: 0.8;
   }
   50% {
-    background: linear-gradient( darkgreen 50%, lightblue);
+    color: linear-gradient( darkgreen 50%, lightblue);
     opacity: 1;
   }
   75% {
-    background: linear-gradient( darkgreen 75%, lightblue);
+    color: linear-gradient( darkgreen 75%, lightblue);
     opacity: 0.8;
   }
   from {
-    background: linear-gradient( darkgreen 100%, lightblue);
+    color: linear-gradient( darkgreen 100%, lightblue);
     opacity: 0.4;
   }
 }

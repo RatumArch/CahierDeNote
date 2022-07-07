@@ -51,7 +51,7 @@ async function getContent()  {
 onBeforeMount(async() => {
   const data = await getContent()
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
-  console.log("/document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
+  console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
 })
 
 function setMessageServer(msg: string) {
