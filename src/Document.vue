@@ -99,7 +99,7 @@ async function toggleAutoSave() {
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   content.value = data?.html ?? "Auto save mal togglé"
 }
-watch(route.params?.documents, async (newValue) => {
+watch(route.params?.document, async (newValue) => {
   savingTriggered.value=true
   // @ts-ignore
   const data = await getContent(folderCode.value, newValue)
