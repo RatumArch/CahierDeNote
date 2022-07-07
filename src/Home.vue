@@ -4,14 +4,14 @@
   <a class="link newdoc" @click="createFolder">
     New Document
   </a>
-  <RouterLink class="link load-doc">
+  <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
   
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" />
-  <Loader v-if="isLoading" />
+  
 </template>
 
 <script setup lang="ts">
@@ -39,6 +39,15 @@ const createFolder = async () => {
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
 
+onMounted(() => {
+  const paramFolder = route.params?.folderCode
+  console.log("Homevu")
+  const paramsTitle = route.params?.document ?? ''
+  console.log(route.params); console.log(typeof route.params?.document)
+  const isParamFolder = paramFolder?.length>0
+  const isParamTitle: boolean = paramsTitle?.length > 0;
+
+})
 
 const purged = ref('purge')
 const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
