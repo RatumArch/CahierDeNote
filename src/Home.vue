@@ -10,7 +10,7 @@
   <!-- <NoteEditor content="fjk" title="test"/> -->
   </div>
   <font-awesome-icon icon="fa-solid fa-file-image" />
-  <NoteEditor content="<p>III</p>" />
+  <NoteEditor content="<p>III</p>" v-if="isDev" />
 </template>
 
 <script setup lang="ts">
@@ -22,7 +22,7 @@ import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 
-
+const isDev = import.meta.env.DEV
 const cloudName = 'dzggewhvt'
 const onSubmit = (e: any) => {
   const cloudName = 'dzggewhvt'
