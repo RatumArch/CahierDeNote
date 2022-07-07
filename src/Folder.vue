@@ -63,11 +63,17 @@ onBeforeMount(async () => {
   notesContent.value= await findFolder()  
   
   const document = notesContent.value[0]
+  console.log("\tFolder.vue -\tdocument");console.log(document);console.log("/Folder.vue -\tdocument");
   title.value= document?.title 
   
   notesContent.value&&title.value ? router.push(`${folderCode.value}/${title.value}`) : router.replace('/error')
 })
-
+watch(route.params?.dcoument, async (newValue) => {
+  
+  notesContent.value= await findFolder() 
+  
+  
+ })
 
 </script>
 

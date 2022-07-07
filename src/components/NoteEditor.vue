@@ -75,12 +75,10 @@ console.log(props.content);console.log("/Noteeditor");
 
 
     onUpdated(async () => {
-        await sendToMongo()
+        await sendToMongo().then(() => { console.log("/Note editor.vue onUpdated")})
         editor.value?.chain().setContent(<Content>props.content).focus().run()
     })
-    onBeforeUnmount(() => {
-        editor.value?.destroy()
-    })
+    
 
 
 const isTyping = ref(false)
@@ -95,7 +93,10 @@ const isTypingStopped = (e: MouseEvent) => {
 
 const interval =ref<any>(null)
 
-
+onBeforeUnmount(() => {
+    editor.value?.destroy()
+    clearInterval(interval)
+})
 
 const defineInterval = () => {
   return setInterval(() => {

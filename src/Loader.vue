@@ -1,7 +1,7 @@
 <template>
 <div class="loader">
     <div class="pancarte">
-    <h1>Loading</h1>
+    <h1>Wait</h1>
         <font-awesome-icon class="icon" icon="fa-solid fa-file-text" />
 
     </div>
@@ -44,7 +44,7 @@ h1 {
     position: fixed;
     padding: 20vw;
     top: 15vh;
-    height: 50vh;
+    height: 30vh;
     z-index: 100;
 }
 progress {
@@ -53,25 +53,26 @@ progress {
 @keyframes loading-anim {
   from {
     opacity: 0.2;
+    background: linear-gradient( darkgreen 5%, lightblue);
   }
   10% {
-    
+    background: linear-gradient( darkgreen 15%, lightblue);
     opacity: 0.4;
   }
   25% {
-    
+    background: linear-gradient( darkgreen 25%, lightblue);
     opacity: 0.8;
   }
   50% {
-    
+    background: linear-gradient( darkgreen 50%, lightblue);
     opacity: 1;
   }
   75% {
-    
+    background: linear-gradient( darkgreen 75%, lightblue);
     opacity: 0.8;
   }
   from {
-    
+    background: linear-gradient( darkgreen 100%, lightblue);
     opacity: 0.4;
   }
 }

@@ -20,12 +20,16 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
         }
     })
 
+    prisma.$disconnect()
+
     if(notes) {
         notes = notes.map((doc) => {doc.html = sanitizeText( doc?.html ); return doc })
-    }
-
-    prisma.$disconnect()
-    console.log(notes);
+        console.log(notes);
     
-    res.status(200).send(notes[0])
+        res.status(200).send(notes[0])
+    }
+    else {
+        res.status(495).send({status: 'error', message: "requête ratée"})
+    }
+    
 }

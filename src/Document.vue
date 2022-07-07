@@ -34,31 +34,29 @@ const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
 
-onMounted(async() => {
+onMounted(() => {
   //title.value= <string>route.params?.document
-  editableTitle.value = route.params?.document
-  isLoading.value=true
-  await getContent() 
-  isLoading.value=false
+  editableTitle.value = route.params?.document  
 })
 
-const getContent = () => 
-  axios.get('/api/findNoteByTitle', {
-    params: {
-      folderCode: folderCode.value,
-      title: title.value
-    }
-  })
-    .then(res => {
-        content.value=res.data?.html ?? res.data?.raw ?? "<strong>Error :</strong> no text found";
-        })
-    .catch(() => { 
-      content.value= "<p><strong>Ereur : </strong> chargement du document</p>"
-      })
+async function getContent()  {
+  isLoading.value=true
+  const params = { folderCode: folderCode.value, title: title.value }
+  const request = await axios.get('/api/findNoteByTitle', {params})
+  const data = request.data
   
+  isLoading.value=false
+  return data
+  }
+onBeforeMount(async() => {
+  const data = await getContent()
+  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  console.log("/document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
+})
+
 function setMessageServer(msg: string) {
   messageFromServer.value=msg
-  const timeout = setTimeout(() => {messageFromServer.value=''; clearTimeout(timeout)}, 5000)
+  const timeout = setTimeout(() => {messageFromServer.value=''; }, 5000)
 }
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
@@ -85,8 +83,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
  
  watch(title, async (newValue) => {
   isLoading.value=true
-  await getContent()
-  console.log(content.value)
+  console.log(content.value);console.log("/document.vue watcher");
   editableTitle.value=newValue
   isLoading.value=false
  })
@@ -94,7 +91,8 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
   isLoading.value=true
-  
+  const data = await getContent()
+  console.log(data);console.log("/toggleAutoSave - Document.vue");
   isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
 }
@@ -130,19 +128,19 @@ async function toggleAutoSave(interval: any) {
     background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
-    border-bottom-width: 5px;
+    border-bottom-width: 2px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 50%, lightblue);
   }
   50% {
-    border-bottom-width: 5px;
+    border-bottom-width: 2px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
-    border-bottom-width: 1px;
+    border-bottom-width: 2px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 10%, lightblue);
