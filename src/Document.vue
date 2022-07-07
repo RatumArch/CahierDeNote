@@ -100,7 +100,7 @@ async function toggleAutoSave() {
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   content.value = data?.html ?? "Auto save mal togglé"
 }
-onBeforeRouteUpdate((to, from) => {
+onBeforeRouteUpdate(async (to, from) => {
   savingTriggered.value=true
   // @ts-ignore
   const data = await getContent(folderCode.value, from.params?.document)

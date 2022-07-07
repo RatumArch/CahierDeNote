@@ -8,7 +8,7 @@
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
 
-  <Loader v-if="isLoading" />
+  <progress v-if="isLoading" />
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" />

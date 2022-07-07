@@ -24,7 +24,11 @@
   </div>
 
   <div class="main">
-    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}"/>
+    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}">
+    <Transition name="documents">
+      <component :is="Component"/>
+    </Transition>
+    </RouterView>
   </div>
 </div>
 </template>
