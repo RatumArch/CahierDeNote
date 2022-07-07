@@ -79,24 +79,25 @@ onMounted(async () => {
   const document = notesContent.value[0]
   
   title.value= document?.title 
+  console.log(title.value)
   if(!notesContent.value) {
     isLoading.value=false
     throw "requête findFolder raté - Foldervue"
   }
 
-  isLoading.value=false
+  
   const paramFolder = route.params?.folderCode
   const paramsTitle = route.params?.document
   const isParamFolder = paramFolder.length>0
   const isParamTitle = paramsTitle.length>0
   
 
-  (paramFolder && !isParamTitle && title.value) && (router.push(`${paramFolder}/${title.value}`));
+  (paramFolder && !isParamTitle && title.value) && (router.push(`/folder/${paramFolder}/${title.value}`));
   (isParamFolder && !isParamTitle && title.value) && console.log("(isParamFolder && !isParamTitle && title.value) - Foldervue");
   (isParamFolder && isParamTitle) && router.push(`${paramFolder}/${paramsTitle}`)
   (isParamFolder && isParamTitle) && console.log("(isParamFolder && paramsTitle) - Foldervue");
-  (isParamFolder && !isParamTitle && !title.value) && router.push('/error')
-  (isParamFolder && !isParamTitle && !title.value) && console.log("(isParamFolder && !isParamTitle && !title.value) && router.push('/error') - Folder.vue")
+  (!isParamFolder && !isParamTitle && !title.value) && router.push('/error')
+  (!isParamFolder && !isParamTitle && !title.value) && console.log("(isParamFolder && !isParamTitle && !title.value) && router.push('/error') - Folder.vue")
   
   isLoading.value=false
 })
