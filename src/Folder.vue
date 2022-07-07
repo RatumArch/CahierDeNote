@@ -14,7 +14,7 @@
 <Loader v-if="isLoading"/>
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
-                v-for="note of notesContent" :key="note.title"
+                v-for="note of notesContent" :key="note?.title"
                 class="document-link"
                 :title="note?.title"
                 >
@@ -92,12 +92,10 @@ onMounted(async () => {
   const isParamTitle = paramsTitle.length>0
   
 
-  (paramFolder && !isParamTitle && title.value) && (router.push(`/folder/${paramFolder}/${title.value}`));
-  (isParamFolder && !isParamTitle && title.value) && console.log("(isParamFolder && !isParamTitle && title.value) - Foldervue");
-  (isParamFolder && isParamTitle) && router.push(`${paramFolder}/${paramsTitle}`)
-  (isParamFolder && isParamTitle) && console.log("(isParamFolder && paramsTitle) - Foldervue");
-  (!isParamFolder && !isParamTitle && !title.value) && router.push('/error')
-  (!isParamFolder && !isParamTitle && !title.value) && console.log("(isParamFolder && !isParamTitle && !title.value) && router.push('/error') - Folder.vue")
+  title.value && (router.push(`/${paramFolder}/${title.value}`));
+  
+  (!title.value) && router.push('/error')
+  
   
   isLoading.value=false
 })
