@@ -71,9 +71,9 @@ const content = ref(props.content)
     const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
-    /*onUpdated(() => {
+    onUpdated(() => {
         editor.value?.chain().setContent(<Content>content.value).focus().run()        
-    })*/
+    })
     onBeforeUnmount(() => {
         editor.value?.destroy()
     })

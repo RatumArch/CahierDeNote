@@ -5,11 +5,12 @@
         <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >
           Auto save
         </button>
+        <Loader v-if="isLoading" />
       </div>
       <div class="message-server"><pre><strong>{{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-memo="[autoSaveEnabled]"  />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" />
   </div>
 
 </template>
@@ -24,6 +25,7 @@ import { saveDocument } from '../utils';
 const route= useRoute()
 const router = useRouter()
 const messageFromServer= ref('')
+const isLoading=ref(false)
 
 const content = ref('')
 const title= computed(() => route.params?.document)
@@ -81,7 +83,9 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
 
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
+  isLoading.value=true
   await getContent()
+  isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
 }
 
@@ -96,10 +100,43 @@ async function toggleAutoSave(interval: any) {
   border-style: none;
   text-decoration: none;
   letter-spacing: 2px;
+  transition: all 0.8s ease-in;
+  animation-name: auto-save-anim;
+  animation-iteration-count: infinite;
 }
 .auto-save .disabled {
   background-color: lightgray;
   text-decoration: underline;
+}
+.auto-save .on-save {
+  animation-name: auto-save-anim;
+  animation-iteration-count: infinite;
+  animation-duration: 0.8s;
+  @keyframes auto-save-anim {
+    from {
+      background: linear-gradient(to right, darkgreen 5%, lightblue);
+    }
+    25% {
+      border-right-width: 5px;
+      border-bottom-width: 5px;
+      border-top-width: 5px;
+      background: linear-gradient(to right, darkgreen 25%, lightblue);
+    }
+    50% {
+      border-bottom-width: 5px;
+      border-top-width: 5px;
+      background: linear-gradient(to right, darkgreen 50%, lightblue);
+    }
+    75% {
+      border-left-width: 5px;
+      border-bottom-width: 5px;
+      border-top-width: 5px;
+      background: linear-gradient(to right, darkgreen 75%, lightblue);
+    }
+    from {
+      background: darkgreen;
+    }
+  }
 }
 .auto-save {
   transition: all 0.5s ease-out;
