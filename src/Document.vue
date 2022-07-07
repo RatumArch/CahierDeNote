@@ -7,7 +7,7 @@
         </button>
         <Loader v-if="isLoading" />
       </div>
-      <div class="message-server"><pre><strong>{{messageFromServer}}</strong> </pre> </div>
+      <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
     <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" />
@@ -28,7 +28,7 @@ const messageFromServer= ref('')
 const isLoading=ref(false)
 const isSaveLoading=ref(false)
 
-const content = ref('')
+const content = ref("docuemnt. ddd file rttt")
 const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
@@ -56,7 +56,7 @@ const getContent = () =>
   
 function setMessageServer(msg: string) {
   messageFromServer.value=msg
-  const timeout = setTimeout(() => {messageFromServer.value=''; clearTimeout(timeout)}, 5000)
+  const timeout = setTimeout(() => {messageFromServer.value=msg; clearTimeout(timeout)}, 5000)
 }
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
@@ -83,11 +83,14 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
   await getContent()
  })
  
+ watch(title, (newValue) => {
+  editableTitle.value=newValue
+ })
 
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
   isLoading.value=true
-  !autoSaveEnabled.value && await getContent()
+    
   isLoading.value=false
   autoSaveEnabled.value = !autoSaveEnabled.value
 }
@@ -106,15 +109,13 @@ async function toggleAutoSave(interval: any) {
   transition: all 0.8s ease-in;
   animation-name: auto-save-anim;
   animation-iteration-count: infinite;
+  animation-duration: 0.8s;
 }
 .auto-save.disabled {
   background-color: lightgray;
   text-decoration: underline;
 }
 .auto-save.onSave {
-  animation-name: auto-save-anim;
-  animation-iteration-count: infinite;
-  animation-duration: 0.8s;
   @keyframes auto-save-anim {
     from {
       background: linear-gradient(to right, darkgreen 5%, lightblue);
