@@ -72,7 +72,7 @@ const findFolder = async () =>
 onBeforeMount(() => {
   console.log(route.params)
 })
-onMounted(async () => {
+onBeforeMount(async () => {
   isLoading.value=true
   notesContent.value= await findFolder()  
   
@@ -89,7 +89,7 @@ onMounted(async () => {
   const isParamFolder = paramFolder.length>0
   const isParamTitle = paramsTitle.length>0
 
-  (paramFolder && !isParamTitle) && (router.push(`${isParamFolder}/${title.value}`));
+  (paramFolder && !isParamTitle) && (router.push(`${paramFolder}/${title.value}`));
   (isParamFolder && !isParamTitle) && console.log("(isParamFolder && !isParamTitle) - Foldervue");
   (isParamFolder && paramsTitle) && router.push(`${paramFolder}/${paramsTitle}`)
   (isParamFolder && paramsTitle) && console.log("(isParamFolder && paramsTitle) - Foldervue");
