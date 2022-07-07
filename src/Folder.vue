@@ -90,10 +90,7 @@ onBeforeMount(async () => {
   console.log("Folderviu ");console.log(folderCode.value);console.log("/folderCode.value");
   console.log("Folderviu ");console.log(title.value);console.log("/folderCode.value");
   console.log(`/folder/${folderCode.value}/${title.value}`)
-  router.push(`/folder/${folderCode.value}/${title.value}`);
-
-  
-  
+  router.push(`/folder/${folderCode.value}/${title.value}`);  
 })
 
 </script>

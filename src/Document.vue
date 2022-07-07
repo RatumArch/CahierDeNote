@@ -89,16 +89,6 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
   }
 
 
- 
- watch(title, async (newValue) => {
-  isLoading.value=true
-  const request= await getContent()
-  content.value= request.data?.html ?? "nno content from watcher"
-  console.log(content.value);console.log("/document.vue watcher");
-  editableTitle.value=newValue
-  isLoading.value=false
- })
-
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave(interval: any) {
   autoSaveEnabled.value = !autoSaveEnabled.value
@@ -129,7 +119,7 @@ async function toggleAutoSave(interval: any) {
   text-decoration: underline;
   animation: none;
 }
-.auto-save.on-save {
+.auto-save.onSave {
   animation-name: auto-save-anim;
   animation-iteration-count: infinite;
   animation-duration: 0.8s;
