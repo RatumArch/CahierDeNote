@@ -66,7 +66,7 @@ console.log(props.content);console.log("/Noteeditor");
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
     //@ts-ignore
-    const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
+    //const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
