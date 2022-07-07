@@ -33,9 +33,10 @@ h1 {
 .loader {
     background-color: white;
     width: 100%;
-    top: 20vh;
-    position: fixed;
-    height: 100L;
+    top: 0vh;
+    position: absolute;
+    height: 100%;
+    z-index: 100;
 }
 .pancarte {
     background-color: blanchedalmond;
@@ -44,6 +45,7 @@ h1 {
     padding: 20vw;
     top: 15vh;
     height: 50vh;
+    z-index: 100;
 }
 progress {
     width: 100%;

@@ -29,7 +29,7 @@ const messageFromServer= ref('')
 const isLoading=ref(false)
 const isSaveLoading=ref(false)
 
-const content = ref("docuemnt. ddd file rttt")
+const content = ref("write here")
 const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
@@ -118,6 +118,7 @@ async function toggleAutoSave(interval: any) {
 .auto-save.disabled {
   background-color: lightgray;
   text-decoration: underline;
+  animation: none;
 }
 .auto-save.onSave {
   animation-name: auto-save-anim;
@@ -136,7 +137,6 @@ async function toggleAutoSave(interval: any) {
   }
   50% {
     border-bottom-width: 5px;
-    border-top-width: 5px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 25%, lightblue);

@@ -71,13 +71,12 @@ console.log(props.content);console.log("/Noteeditor");
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
+    const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
-    onUpdated(() => {
-        sendToMongo()
+    onUpdated(async () => {
+        await sendToMongo()
         editor.value?.chain().setContent(<Content>props.content).focus().run()
-        console.log("update")    
     })
     onBeforeUnmount(() => {
         editor.value?.destroy()
