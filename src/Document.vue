@@ -36,10 +36,6 @@ const folderCode=computed(() => route.params?.folderCode)
 
 const isDataLoaded = ref(false)
 
-onMounted(() => {
-  //title.value= <string>route.params?.document
-  editableTitle.value = route.params?.document  
-})
 
 async function getContent(folderCode: string, title: string)  {
   isLoading.value=true
@@ -60,6 +56,7 @@ onMounted(async() => {
   if(content.value) {
     isDataLoaded.value = true
   }
+  editableTitle.value=route.params?.document
 })
 
 function setMessageServer(msg: string) {

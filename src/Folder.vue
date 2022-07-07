@@ -24,7 +24,11 @@
   </div>
 
   <div class="main">
-    <RouterView v-if="notesContent[0]?.title" />
+    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}">
+    <KeepAlive>
+      <component :is="Component"/>
+    </KeepAlive>
+    </RouterView>
   </div>
 </div>
 </template>
@@ -70,7 +74,7 @@ const findNotesFromFolder = async () =>
     
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
-  
+
 onBeforeMount(async () => {
   isLoading.value=true
   notesContent.value= await findNotesFromFolder()
