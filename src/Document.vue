@@ -29,7 +29,7 @@ const messageFromServer= ref('')
 const isLoading=ref(false)
 const isSaveLoading=ref(false)
 
-const content = ref("write here")
+const content = ref("")
 const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
@@ -54,6 +54,7 @@ async function getContent()  {
 onMounted(async() => {
   const data = await getContent()
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  console.log("route");console.log(route.params);console.log(route.params?.document);
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
   if(content.value) {
     isDataLoaded.value = true
