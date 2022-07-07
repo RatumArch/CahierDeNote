@@ -20,7 +20,7 @@ import NoteEditor from '@/components/NoteEditor.vue';
 import { propsToAttrMap } from '@vue/shared';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { saveDocument } from '../utils';
 import Loader from './Loader.vue';
 
@@ -64,7 +64,7 @@ function setMessageServer(msg: string) {
   messageFromServer.value=msg
   const timeout = setTimeout(() => {messageFromServer.value=''; }, 5000)
 }
-
+const logg = () => { console.log("Documentv - event received")}
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
 const sendToMongo = async (html: string, raw: string, extra?: object) => { 
   isSaveLoading.value=true
@@ -78,11 +78,12 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
           extra
         })
 
-    if(!updated.data) {
-      isLoading.value=false
+    if(!updated.data || updated.status>=400) {
+      isSaveLoading.value=false
+      setMessageServer(updated.statusText)
     }
-    updated.status>=400 && setMessageServer(updated.statusText)
-    updated.status<400 && newTitle.value && router.replace(newTitle.value);
+    
+    if(updated.status<400 && newTitle.value) router.replace(newTitle.value);
 
     isSaveLoading.value=false
     return updated.data
@@ -99,11 +100,11 @@ async function toggleAutoSave() {
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   content.value = data?.html ?? "Auto save mal togglé"
 }
-watch(route.params?.document, async (newValue) => {
+onBeforeRouteUpdate((to, from) => {
   savingTriggered.value=true
   // @ts-ignore
-  const data = await getContent(folderCode.value, newValue)
-  console.log(data);
+  const data = await getContent(folderCode.value, from.params?.document)
+  console.log(data);console.log("routre update");
   editableTitle.value= data?.title ?? "titre mal changé"
   content.value = data?.html ?? "watch"
 })

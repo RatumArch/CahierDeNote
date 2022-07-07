@@ -24,11 +24,7 @@
   </div>
 
   <div class="main">
-    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}">
-    <KeepAlive>
-      <component :is="Component"/>
-    </KeepAlive>
-    </RouterView>
+    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}"/>
   </div>
 </div>
 </template>
