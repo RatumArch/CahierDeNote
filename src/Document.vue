@@ -10,13 +10,14 @@
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" :savingTriggered="savingTriggered" @contentSaved="setMessageServer('jfjfdjdjdjd')" />
   </div>
 
 </template>
 y/2
 <script setup lang="ts">
 import NoteEditor from '@/components/NoteEditor.vue';
+import { propsToAttrMap } from '@vue/shared';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -28,6 +29,7 @@ const router = useRouter()
 const messageFromServer= ref('')
 const isLoading=ref(false)
 const isSaveLoading=ref(false)
+const savingTriggered= ref(false)
 
 const content = ref("")
 const title= computed(() => route.params?.document)
@@ -39,7 +41,6 @@ const isDataLoaded = ref(false)
 
 async function getContent(folderCode: string, title: string)  {
   isLoading.value=true
-  console.log(title)
   const params = { folderCode, title }
   const request = await axios.get('/api/findNoteByTitle', {params})
   const data = request.data
@@ -49,7 +50,7 @@ async function getContent(folderCode: string, title: string)  {
   }
 onMounted(async() => {
   console.log(title.value);console.log("/title.value");
-  const data = await getContent(<string>folderCode.value, <string>title.value)
+  const data = await getContent(<string>folderCode.value, <string>route.params?.document)
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
   
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
@@ -98,6 +99,14 @@ async function toggleAutoSave() {
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   content.value = data?.html ?? "Auto save mal togglé"
 }
+watch(route.params?.documents, async (newValue) => {
+  savingTriggered.value=true
+  // @ts-ignore
+  const data = await getContent(folderCode.value, newValue)
+  console.log(data);
+  editableTitle.value= data?.title ?? "titre mal changé"
+  content.value = data?.html ?? "watch"
+})
 
 </script>
 

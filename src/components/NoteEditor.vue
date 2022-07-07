@@ -35,8 +35,10 @@ import { useRoute } from 'vue-router'
     title: { type: String, required: false },
     sendToMongo: {required: false, type: Function, default: () => {} },
     autoSaveEnabled: { type: Boolean, required: true, default: true },
-    toggleAutoSave: { type: Function, required: false}
+    toggleAutoSave: { type: Function, required: false},
+    savingTriggered: { type: Boolean, required: true}
   })
+  const emit = defineEmits(['contentSaved'])
 
 const content = ref("rrrrrrrrrttt")
 console.log(props.content);console.log("/Noteeditor");
@@ -75,12 +77,15 @@ console.log(props.content);console.log("/Noteeditor");
 
     onUpdated(async () => {
       console.log("début updated  : "+props.autoSaveEnabled)
-        props.autoSaveEnabled && await sendToMongo().then(() => { console.log("On a enregistrer car l'auto save été désactivé et qu'on voulait éviter de perdre le texte après la mise à jour de notEditor") } )
+        props.savingTriggered && 
+          await sendToMongo()
+            .then(() => { console.log("On a enregistrer car l'auto save été désactivé et qu'on voulait éviter de perdre le texte après la mise à jour de notEditor") } )
+            .then(() => emit('contentSaved'))
         editor.value?.chain().setContent(<Content>props.content).focus().run()
         console.log("Note editor.vue onUpdated")
         console.log(props.content)
         console.log("/Note editor.vue onUpdated")
-        await sendToMongo().then(() => { console.log("/Note editor.vue onUpdated sendTo")})
+        
     }) 
     
 

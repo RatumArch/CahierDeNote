@@ -7,7 +7,8 @@
   <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
-  
+
+  <Loader v-if="isLoading" />
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" />
@@ -22,6 +23,7 @@ import ReloadPWA from "./components/ReloadPWA.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import Loader from "./Loader.vue";
 
 const folderCode = ref('')
 const router = useRouter()
