@@ -4,7 +4,7 @@
   <a class="link newdoc" @click="createFolder">
     New Document
   </a>
-  <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
+  <RouterLink class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
   

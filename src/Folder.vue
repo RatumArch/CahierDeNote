@@ -43,7 +43,7 @@ const router = useRouter()
 const isLoading = ref(false)
 
 const folderCode = ref('')
-folderCode.value= route.params?.folderCode
+
 
 const copiedMsg=ref('')
 const copy = () =>
@@ -74,17 +74,23 @@ onBeforeMount(() => {
 })
 onBeforeMount(async () => {
   isLoading.value=true
-  notesContent.value= await findFolder()  
+  notesContent.value= await findFolder()
   
   const document = notesContent.value[0]
   
-  title.value= document?.title
+  title.value= document?.title;
+
+  console.log("folder vue");
+  console.log(document);
   console.log(title.value);console.log(folderCode.value)
   
-  (title.value) && router.push(`/folder/${folderCode.value}/${title.value}`);
-  (!title.value) && router.push('/error')
-    
-  isLoading.value=false
+  if(title.value) {
+    console.log(`/folder/${folderCode.value}/${title.value}`)
+router.push(`/folder/${folderCode.value}/${title.value}`);
+  }
+  else {
+    router.push('/error')
+  }
 })
 onUpdated(() => {
   findFolder().then(() => { console.log("folder updated")})
