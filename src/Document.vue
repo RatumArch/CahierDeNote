@@ -86,6 +86,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
  watch(title, async (newValue) => {
   isLoading.value=true
   await getContent()
+  console.log(content.value)
   editableTitle.value=newValue
   isLoading.value=false
  })
@@ -105,12 +106,14 @@ async function toggleAutoSave(interval: any) {
   background-color: #006400;
   color: white;
   border-radius: 10px;
-  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding: 7px;
   border-style: none;
   text-decoration: none;
   letter-spacing: 2px;
   transition: all 0.8s ease-in;
-  
+  cursor: pointer;  
 }
 .auto-save.disabled {
   background-color: lightgray;
@@ -123,24 +126,30 @@ async function toggleAutoSave(interval: any) {
 }
 @keyframes auto-save-anim {
   from {
-    background: linear-gradient(to right, darkgreen 5%, lightblue);
+    background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
     border-right-width: 5px;
     border-bottom-width: 5px;
     border-top-width: 5px;
-    background: linear-gradient(to right, darkgreen 25%, lightblue);
+    border-style: solid;
+    border-color: blueviolet;
+    background: linear-gradient(to right, darkgreen 50%, lightblue);
   }
   50% {
     border-bottom-width: 5px;
     border-top-width: 5px;
-    background: linear-gradient(to right, darkgreen 50%, lightblue);
+    border-style: solid;
+    border-color: blueviolet;
+    background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
     border-left-width: 5px;
     border-bottom-width: 5px;
     border-top-width: 5px;
-    background: linear-gradient(to right, darkgreen 75%, lightblue);
+    border-style: solid;
+    border-color: blueviolet;
+    background: linear-gradient(to right, darkgreen 10%, lightblue);
   }
   from {
     background: darkgreen;
