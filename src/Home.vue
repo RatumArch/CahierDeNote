@@ -43,13 +43,13 @@ onMounted(() => {
   const paramFolder = route.params?.folderCode
   console.log("Homevu")
   const paramsTitle = route.params?.document ?? ''
-  console.log(route.params?.document); console.log(typeof route.params?.document)
+  console.log(route.params); console.log(typeof route.params?.document)
   const isParamFolder = paramFolder?.length>0
   const isParamTitle: boolean = paramsTitle?.length > 0;
 
   (isParamFolder && isParamTitle) && router.push(`/folder/${paramFolder}/${paramsTitle}`);
   (isParamFolder && !isParamTitle) && router.push(`/folder/${paramFolder}`);
-  (!isParamFolder && !isParamTitle) && router.push(`/error`);
+  (!isParamFolder && !isParamTitle) && console.log("rester là")
 })
 
 const purged = ref('purge')
