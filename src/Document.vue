@@ -10,7 +10,7 @@
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" :savingTriggered="savingTriggered" @contentSaved="setMessageServer('jfjfdjdjdjd')" />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" :savingTriggered="savingTriggered" @contentSaved="logg" />
   </div>
 
 </template>
@@ -101,12 +101,14 @@ async function toggleAutoSave() {
   content.value = data?.html ?? "Auto save mal togglé"
 }
 onBeforeRouteUpdate(async (to, from) => {
-  savingTriggered.value=true
+  console.log(to.params);console.log(from.params);console.log("/before rout rupdate");
+  editableTitle.value=from.params?.document
+/*   savingTriggered.value=true
   // @ts-ignore
   const data = await getContent(folderCode.value, from.params?.document)
   console.log(data);console.log("routre update");
-  editableTitle.value= data?.title ?? "titre mal changé"
-  content.value = data?.html ?? "watch"
+  editableTitle.value= editableTitle!==data?.title && data.title
+  content.value = data?.html ?? "watch" */
 })
 
 </script>

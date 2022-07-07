@@ -100,6 +100,17 @@ onBeforeMount(async () => {
 .main {
   padding-right: 5vh;
   width: 85%;
+  
+  .documents-enter-active {
+    transition: all 0.3s ease-out;
+    height: 50%;
+  }
+  .documents-enter-to {
+    height: 70%;
+  }
+  .documents-enter-from {
+    height: 10%;
+  }
 }
 .sidebar {
   background-color: darkgreen;
