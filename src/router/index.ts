@@ -28,7 +28,7 @@ const router = createRouter({
     },
     { 
         path: '/:toutAutresRoutes*', component: Error,
-        beforeEnter: async (to, from) => {
+        /* beforeEnter: async (to, from) => {
             console.log("before Enter route")
             console.log(to.params?.toutAutresRoutes);
             const params: string[] = <string[]>to.params?.toutAutresRoutes
@@ -51,7 +51,7 @@ const router = createRouter({
             }
             
             console.log("/before Enter route")
-        }
+        } */
     },
     { path: '/loader', component: Loader}
 ]
