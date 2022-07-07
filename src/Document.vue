@@ -60,7 +60,7 @@ function setMessageServer(msg: string) {
 }
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
-async function sendToMongo(html: string, raw: string, extra?: object) { 
+const sendToMongo = async (html: string, raw: string, extra?: object) => { 
   isSaveLoading.value=true
   const updated = 
     await axios.put('/api/updateNote', {
@@ -72,7 +72,10 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
           extra
         })
 
-    updated.status>=400 && setMessageServer(updated.data?.message)
+    if(!updated.data) {
+      isLoading.value=false
+    }
+    updated.status>=400 && setMessageServer(updated.statusText)
     updated.status<400 && newTitle.value && router.replace(newTitle.value);
 
     isSaveLoading.value=false
@@ -84,7 +87,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
  watch(title, async (newValue) => {
   isLoading.value=true
   const request= await getContent()
-  content.value= await request.data.html
+  content.value= await request.data?.html ?? "nno content from watcher"
   console.log(content.value);console.log("/document.vue watcher");
   editableTitle.value=newValue
   isLoading.value=false
