@@ -16,7 +16,6 @@ h1 {
     text-shadow: 1px 1px 2px blue;
     letter-spacing: 1ex;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-decoration: underline;
     animation-name: loading-anim;

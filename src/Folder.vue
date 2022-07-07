@@ -92,9 +92,9 @@ onMounted(async () => {
   
 
   (paramFolder && !isParamTitle && title.value) && (router.push(`${paramFolder}/${title.value}`));
-  (isParamFolder && !isParamTitle) && console.log("(isParamFolder && !isParamTitle) - Foldervue");
-  (isParamFolder && paramsTitle) && router.push(`${paramFolder}/${paramsTitle}`)
-  (isParamFolder && paramsTitle) && console.log("(isParamFolder && paramsTitle) - Foldervue");
+  (isParamFolder && !isParamTitle && title.value) && console.log("(isParamFolder && !isParamTitle && title.value) - Foldervue");
+  (isParamFolder && isParamTitle) && router.push(`${paramFolder}/${paramsTitle}`)
+  (isParamFolder && isParamTitle) && console.log("(isParamFolder && paramsTitle) - Foldervue");
   (isParamFolder && !isParamTitle && !title.value) && router.push('/error')
   (isParamFolder && !isParamTitle && !title.value) && console.log("(isParamFolder && !isParamTitle && !title.value) && router.push('/error') - Folder.vue")
   
