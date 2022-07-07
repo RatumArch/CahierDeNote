@@ -79,14 +79,7 @@ onBeforeMount(async () => {
   const document = notesContent.value[0]
   
   title.value= document?.title
-  console.log(title.value);console.log('/(title.value');
-  if(!notesContent.value) {
-    isLoading.value=false
-    throw "requête findFolder raté - Foldervue"
-  }
-
-
-  const paramFolder = route.params?.folderCode
+  console.log(title)
   
   (title.value) && router.push(`/folder/${paramFolder}/${title.value}`);
   (!title.value) && router.push('/error')
