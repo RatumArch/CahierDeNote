@@ -40,7 +40,7 @@ const router = createRouter({
                 const title = firstNoteInFolder?.title
                 if(folderRequest) {
                     console.log(`${params[0]}/${title}`)
-                    return `${params[0]}/${title}`
+                    return { name: 'folder' }
                 }
                 else {
                     return { path: '/error'}

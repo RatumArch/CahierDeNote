@@ -72,7 +72,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
           extra
         })
 
-    updated.status===400 && setMessageServer(updated.data?.message)
+    updated.status>=400 && setMessageServer(updated.data?.message)
     updated.status<400 && newTitle.value && router.replace(newTitle.value);
 
     isSaveLoading.value=false
