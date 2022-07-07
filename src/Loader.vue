@@ -34,6 +34,8 @@ h1 {
     background-color: white;
     width: 100%;
     top: 20vh;
+    position: fixed;
+    height: 100L;
 }
 .pancarte {
     background-color: blanchedalmond;
