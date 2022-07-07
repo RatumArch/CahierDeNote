@@ -28,7 +28,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
+import { onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 
 
 const folderData = ref(null)
