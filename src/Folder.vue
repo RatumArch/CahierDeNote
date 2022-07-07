@@ -45,9 +45,9 @@ folderCode.value= route.params?.folderCode
 
 const copiedMsg=ref('')
 const copy = () =>
-  navigator.clipboard.write(route.fullPath)
+  navigator.clipboard.writeText(route.fullPath)
     .then(() => { console.log(`copied ${route.fullPath}`); console.log(import.meta.env.url) ;copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
-    .catch(() => { console.log(`NON copied`);})
+    .catch((err) => { console.log(`NON copied`); console.error(err)})
 
 
 const findFolder = async () =>
@@ -75,7 +75,7 @@ onBeforeMount(async () => {
   console.log("\tFolder.vue -\tdocument");console.log(document);console.log("/Folder.vue -\tdocument");
   title.value= document?.title 
   
-  notesContent.value&&title.value ? router.push(`${folderCode.value}/${title.value}`) : router.replace('/error')
+  notesContent.value&&title.value ? router.push(`${title.value}`) : router.replace('/error')
 })
 watch(route.params?.dcoument, async (newValue) => {
   notesContent.value= await findFolder()   
