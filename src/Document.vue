@@ -2,7 +2,7 @@
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
       <div>
-        <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled}" >
+        <button type="button" @click.stop="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
           Auto save
         </button>
         <Loader v-if="isLoading" />
@@ -26,6 +26,7 @@ const route= useRoute()
 const router = useRouter()
 const messageFromServer= ref('')
 const isLoading=ref(false)
+const isSaveLoading=ref(false)
 
 const content = ref('')
 const title= computed(() => route.params?.document)
@@ -60,6 +61,7 @@ function setMessageServer(msg: string) {
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
 async function sendToMongo(html: string, raw: string, extra?: object) { 
+  isSaveLoading.value=true
   const updated = 
     await axios.put('/api/updateNote', {
           title: title.value,
@@ -73,6 +75,7 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
     updated.status===400 && setMessageServer(updated.data?.message)
     updated.status<400 && newTitle.value && router.replace(newTitle.value);
 
+    isSaveLoading.value=false
     return updated.data
   }
 
@@ -108,7 +111,7 @@ async function toggleAutoSave(interval: any) {
   background-color: lightgray;
   text-decoration: underline;
 }
-.auto-save .on-save {
+.auto-save .onSave {
   animation-name: auto-save-anim;
   animation-iteration-count: infinite;
   animation-duration: 0.8s;
