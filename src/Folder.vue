@@ -34,6 +34,7 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
+import { computed } from '@vue/reactivity';
 
 
 const notesContent = ref(['rrien'])
@@ -42,7 +43,7 @@ const route = useRoute()
 const router = useRouter()
 const isLoading = ref(false)
 
-const folderCode = ref('')
+const folderCode = computed(() => route.params?.folderCode)
 
 
 const copiedMsg=ref('')
@@ -55,7 +56,7 @@ const copy = () =>
 const findNoteFromFolder = async () =>
   await axios.get('/api/findNoteFromFolder', {
       params: {
-        folderCode: folderCode.value
+        folderCode: folderCode.value ?? "no-folder-code"
       }
     })
       .then(res => res.data)
@@ -82,13 +83,15 @@ onBeforeMount(async () => {
 
   console.log("folder vue");
   console.log(document);
-  console.log(title.value);console.log(folderCode.value)
+  console.log(title.value);
+  console.log(folderCode.value);
   
   
 })
 onMounted(() => {
   if(title.value) {
     console.log("Folderviu ");console.log(folderCode.value);console.log("/folderCode.value");
+    console.log("Folderviu ");console.log(title.value);console.log("/folderCode.value");
     console.log(`/folder/${folderCode.value}/${title.value}`)
     router.push(`/folder/${folderCode.value}/${title.value}`);
   }
