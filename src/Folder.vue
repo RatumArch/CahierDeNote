@@ -92,7 +92,7 @@ onMounted(async () => {
   const isParamTitle = paramsTitle.length>0
   
 
-  title.value && (router.push(`/${paramFolder}/${title.value}`));
+  title.value && (router.push(`${paramFolder}/${title.value}`));
   
   (!title.value) && router.push('/error')
   
