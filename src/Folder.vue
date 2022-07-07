@@ -3,7 +3,7 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
-    <div title="save this code to retrieve your folder later" class="copy" @click="copy" >
+    <div title="Copy this link to retrieve your folder later" class="copy" @click="copy" >
       <font-awesome-icon icon="fa-solid fa-clipboard" />
       {{folderCode}}
       <pre>{{copiedMsg}}</pre>
@@ -48,8 +48,8 @@ folderCode.value= route.params?.folderCode
 const copiedMsg=ref('')
 const copy = () =>
   navigator.clipboard.writeText(window.location.href)
-    .then(() => { console.log(`copied ${route.fullPath}`); console.log(import.meta.env.url) ;copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
-    .catch((err) => { console.log(`NON copied`); console.error(err); console.error(route.fullPath)})
+    .then(() => { copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
+    .catch((err) => { copiedMsg.value='fail to copy' })
 
 
 const findFolder = async () =>
@@ -69,7 +69,9 @@ const findFolder = async () =>
     
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
-
+onBeforeMount(() => {
+  console.log(route.params)
+})
 onMounted(async () => {
   isLoading.value=true
   notesContent.value= await findFolder()  
