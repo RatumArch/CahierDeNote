@@ -83,6 +83,8 @@ async function sendToMongo(html: string, raw: string, extra?: object) {
  
  watch(title, async (newValue) => {
   isLoading.value=true
+  const request= await getContent()
+  content.value= await request.data.html
   console.log(content.value);console.log("/document.vue watcher");
   editableTitle.value=newValue
   isLoading.value=false
