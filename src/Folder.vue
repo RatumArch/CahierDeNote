@@ -52,8 +52,8 @@ const copy = () =>
     .catch((err) => { copiedMsg.value='fail to copy' })
 
 
-const findFolder = async () =>
-  await axios.get('/api/findFolder', {
+const findNoteFromFolder = async () =>
+  await axios.get('/api/findNoteFromFolder', {
       params: {
         folderCode: folderCode.value
       }
@@ -65,7 +65,7 @@ const findFolder = async () =>
 
     const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value }).then(doc => doc.data)
     
-    notesContent.value= await findFolder()
+    notesContent.value= await findNoteFromFolder()
     
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
@@ -74,7 +74,7 @@ onBeforeMount(() => {
 })
 onBeforeMount(async () => {
   isLoading.value=true
-  notesContent.value= await findFolder()
+  notesContent.value= await findNoteFromFolder()
   
   const document = notesContent.value[0]
   
@@ -93,7 +93,7 @@ router.push(`/folder/${folderCode.value}/${title.value}`);
   }
 })
 onUpdated(() => {
-  findFolder().then(() => { console.log("folder updated")})
+  findNoteFromFolder().then(() => { console.log("folder updated")})
 })
 
 </script>
