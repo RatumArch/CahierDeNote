@@ -72,20 +72,20 @@ const findFolder = async () =>
 onBeforeMount(() => {
   console.log(route.params)
 })
-onMounted(async () => {
+onBeforeMount(async () => {
   isLoading.value=true
   notesContent.value= await findFolder()  
   
   const document = notesContent.value[0]
   
-  title.value= document?.title 
+  title.value= document?.title
   console.log(title.value);console.log('/(title.value');
   if(!notesContent.value) {
     isLoading.value=false
     throw "requête findFolder raté - Foldervue"
   }
 
-  
+
   const paramFolder = route.params?.folderCode
   console.log(paramFolder)
   console.log("paramsTitle");
@@ -95,9 +95,8 @@ onMounted(async () => {
   const isParamTitle = paramsTitle?.length>0
   
   
-  (isParamTitle) && router.push(`${paramFolder}/${paramsTitle}`);
-  (!isParamTitle && title.value) && router.push(`${paramFolder}/${title.value}`);
-  (!isParamTitle && !title.value) && router.push('/error')
+  (title.value) && router.push(`${paramFolder}/${title.value}`);
+  (!title.value) && router.push('/error')
   
   
   isLoading.value=false
