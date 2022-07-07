@@ -1,9 +1,6 @@
 <template>
   <main>
-  <RouterView v-slot="{Component}" >
-  <Transition name="folder">
-    <component :is="Component"/>
-  </Transition>
+  <RouterView  >
   </RouterView>
   </main>
 </template>
@@ -40,12 +37,5 @@ export default defineComponent({
 }
 body {
   margin: 0px
-}
-.folder-enter-active , .folder-leave-active {
-  transition: all 1s ease-out;
-}
-.folder-enter-to, .folder-leave-from {
-  transform: translateX(20px);
-  opacity: 0;
 }
 </style>
