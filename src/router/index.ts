@@ -19,7 +19,10 @@ const router = createRouter({
             component: Document,
             name: 'document'
         }
-        ]
+        ],
+        beforeEnter: ((to, from) => {
+            return { path: '/loader'}
+        })
     },
     { path: '/', component: Home, alias: ['/home', '/index'] },
     {

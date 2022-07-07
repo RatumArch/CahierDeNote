@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
@@ -25,6 +25,7 @@ import { useRoute, useRouter } from "vue-router";
 
 const folderCode = ref('')
 const router = useRouter()
+const route = useRoute()
 const isLoading=ref(false)
 
 const createFolder = async () => {
@@ -37,6 +38,8 @@ const createFolder = async () => {
   isLoading.value=false
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
+
+onMounted(() => )
 
 const purged = ref('purge')
 const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })

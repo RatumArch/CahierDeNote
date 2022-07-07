@@ -24,7 +24,7 @@
   </div>
 
   <div class="main">
-    <RouterView />
+    <RouterView v-if="notesContent[0]?.title" />
   </div>
 </div>
 </template>
@@ -79,7 +79,7 @@ onMounted(async () => {
   const document = notesContent.value[0]
   
   title.value= document?.title 
-  console.log(title.value)
+  console.log(title.value);console.log('/(title.value');
   if(!notesContent.value) {
     isLoading.value=false
     throw "requête findFolder raté - Foldervue"
@@ -87,12 +87,14 @@ onMounted(async () => {
 
   
   const paramFolder = route.params?.folderCode
+  console.log(paramFolder)
   const paramsTitle = route.params?.document
+  console.log(paramsTitle); console.log(typeof paramsTitle)
   const isParamFolder = paramFolder.length>0
   const isParamTitle = paramsTitle.length>0
   
 
-  title.value && (router.push(`${paramFolder}/${title.value}`));
+  (isParamFolder && isParamTitle)
   
   (!title.value) && router.push('/error')
   
