@@ -14,7 +14,7 @@
 <Loader v-if="isLoading"/>
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
-                v-for="note of notesContent" :key="note.id"
+                v-for="note of notesContent" :key="note.title"
                 class="document-link"
                 :title="note?.title"
                 >
@@ -36,8 +36,7 @@ import { onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
 
 
-const folderData = ref(null)
-const notesContent = ref(null)
+const notesContent = ref(['rrien'])
 const title= ref('error')
 const route = useRoute()
 const router = useRouter()
