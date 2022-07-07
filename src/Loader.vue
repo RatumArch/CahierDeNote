@@ -25,7 +25,7 @@ h1 {
 
 }
 .icon {
-    height: 40vh;
+    height: 89%;
     animation-name: loading-anim;
     animation-iteration-count: infinite;
     animation-duration: 0.8s;
@@ -52,12 +52,10 @@ progress {
 }
 @keyframes loading-anim {
   from {
-    opacity: 0.2;
     color: linear-gradient( darkgreen 5%, lightblue);
   }
   10% {
     color: linear-gradient( darkgreen 15%, lightblue);
-    opacity: 0.4;
   }
   25% {
     color: linear-gradient( darkgreen 25%, lightblue);
