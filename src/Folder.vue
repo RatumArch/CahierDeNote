@@ -3,7 +3,10 @@
   
   <div class="sidebar">
     <RouterLink to="/" class="accueil" >Accueil</RouterLink>
-    <div title="save this code to retrieve your folder later" >{{folderCode}}</div>
+    <div title="save this code to retrieve your folder later" @click="copy" >
+      <font-awesome-icon icon="fa-solid fa-clipboard" />
+      {{folderCode}}
+    </div>
     <button @click="createDocument">
       <font-awesome-icon icon="fa-solid fa-add" /> New note
     </button>
@@ -40,6 +43,11 @@ const router = useRouter()
 const folderCode = ref('')
 folderCode.value= route.params?.folderCode
 
+const copiedMsg=ref('')
+const copy = () =>
+  navigator.clipboard.write(import.meta.url)
+    .then((text) => { console.log(`copied ${text}`); copiedMsg.value='copied'; setTimeout(() => copiedMsg.value='', 2000) })
+
 
 const findFolder = async () =>
   await axios.get('/api/findFolder', {
@@ -69,9 +77,7 @@ onBeforeMount(async () => {
   notesContent.value&&title.value ? router.push(`${folderCode.value}/${title.value}`) : router.replace('/error')
 })
 watch(route.params?.dcoument, async (newValue) => {
-  
-  notesContent.value= await findFolder() 
-  
+  notesContent.value= await findFolder()   
   
  })
 
