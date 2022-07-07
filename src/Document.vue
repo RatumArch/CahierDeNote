@@ -10,7 +10,7 @@
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" />
   </div>
 
 </template>
@@ -34,6 +34,8 @@ const title= computed(() => route.params?.document)
 const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
 
+const isDataLoaded = ref(false)
+
 onMounted(() => {
   //title.value= <string>route.params?.document
   editableTitle.value = route.params?.document  
@@ -48,10 +50,13 @@ async function getContent()  {
   isLoading.value=false
   return data
   }
-onBeforeMount(async() => {
+onMounted(async() => {
   const data = await getContent()
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
+  if(content.value) {
+    isDataLoaded.value = true
+  }
 })
 
 function setMessageServer(msg: string) {
