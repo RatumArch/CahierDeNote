@@ -49,15 +49,16 @@ async function getContent(folderCode: string, title: string)  {
   return data
   }
 onMounted(async() => {
-  const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
-  
-  console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
-  if(content.value) {
-    isDataLoaded.value = true
+  if(route.params?.document) {
+    const data = await getContent(<string>folderCode.value, <string>route.params?.document)
+    content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+    
+    console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
+    if(content.value) {
+      isDataLoaded.value = true
+    }
+    editableTitle.value=route.params?.document
   }
-  editableTitle.value=route.params?.document
-  
 })
 
 function setMessageServer(msg: string) {
