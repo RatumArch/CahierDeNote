@@ -75,7 +75,7 @@ console.log(props.content);console.log("/Noteeditor");
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
 
-    onUpdated(async () => {
+/*     onUpdated(async () => {
       console.log("début updated  : "+props.autoSaveEnabled)
         props.savingTriggered && 
           await sendToMongo()
@@ -86,7 +86,7 @@ console.log(props.content);console.log("/Noteeditor");
         console.log(props.content)
         console.log("/Note editor.vue onUpdated")
         
-    }) 
+    })  */
     
 
 

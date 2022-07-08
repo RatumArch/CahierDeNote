@@ -10,7 +10,7 @@
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" :savingTriggered="savingTriggered" @contentSaved="logg" />
+    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" :savingTriggered="savingTriggered" @contentSaved="updateContent" />
   </div>
 
 </template>
