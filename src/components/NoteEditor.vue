@@ -88,7 +88,7 @@ console.log(props.content);console.log("/Noteeditor");
         
     })  */
     onUpdated(() => {
-      editor.value?.chain().insertContent(<Content>props.content)
+      editor.value?.commands. insertContent(<string>props.content)
     })
 
 
