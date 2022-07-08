@@ -57,6 +57,7 @@ console.log(props.content);console.log("/Noteeditor");
           defaultAlignment: 'left'
         })
       ],
+      content: props.content
     })
   
     const route = useRoute()
@@ -88,6 +89,7 @@ console.log(props.content);console.log("/Noteeditor");
         
     })  */
 
+
 const isTyping = ref(false)
 const TypingStatusArray = ref<number[]>([])
 const keyUpTimeStamp = ref(1234)
@@ -108,21 +110,19 @@ onBeforeUnmount(() => {
 
 const updateContentProp = () => {
   const html = editor.value?.getHTML(); const raw = editor.value?.getText();
-  emit('writed', html, raw)
+  emit('writed', html, raw); console.log('emitted');
+  
 }
-watch(props, (newProps, prevProps) => {
-  if(newProps.content !== prevProps.content) 
-      editor.value?.commands.insertContent(<string>newProps.content)
-}, { deep: true})
 
 const defineInterval = () => {
   return setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
-  //updateContentProp()
+  
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
       sendToMongo()
+      updateContentProp()
       clearInterval(interval.value)
       interval.value=null
     }
