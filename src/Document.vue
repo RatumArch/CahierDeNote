@@ -49,15 +49,8 @@ async function getContent(folderCode: string, title: string)  {
   return data
   }
 onMounted(async() => {
-  console.log(title.value);console.log("/title.value");
-  const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
   
-  console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
-  if(content.value) {
-    isDataLoaded.value = true
-  }
-  editableTitle.value=route.params?.document
+  
 })
 
 function setMessageServer(msg: string) {
@@ -104,6 +97,14 @@ onBeforeRouteUpdate(async (to, from) => {
   savingTriggered.value=true
   editableTitle.value=to.params?.document
   
+  const data = await getContent(<string>folderCode.value, <string>to.params?.document)
+  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  
+  console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
+  if(content.value) {
+    isDataLoaded.value = true
+  }
+
   savingTriggered.value = false
 })
 const updateContent = async () => {

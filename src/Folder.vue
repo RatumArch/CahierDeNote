@@ -36,9 +36,8 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
+import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
-import { computed } from '@vue/reactivity';
 
 
 const notesContent = ref(['rrien'])

@@ -25,7 +25,7 @@ import ImageNode from '../utils/imgNodeExtension.js'
 // load all highlight.js languages
 //import lowlight from 'lowlight'
 import axios from 'axios';
-//import LatexBlock from '../utils/latexExtension.ts'
+import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
 
@@ -51,12 +51,12 @@ console.log(props.content);console.log("/Noteeditor");
           codeBlock: false
         }),
         ImageNode,
+        LatexBlock,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
         })
       ],
-      content: props.content
     })
   
     const route = useRoute()
@@ -68,7 +68,7 @@ console.log(props.content);console.log("/Noteeditor");
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
     //@ts-ignore
-    //const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
+    const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
@@ -87,7 +87,9 @@ console.log(props.content);console.log("/Noteeditor");
         console.log("/Note editor.vue onUpdated")
         
     })  */
-    
+    onUpdated(() => {
+      editor.value?.chain().insertContent(<Content>props.content)
+    })
 
 
 const isTyping = ref(false)
