@@ -87,7 +87,7 @@ console.log(props.content);console.log("/Noteeditor");
         console.log("/Note editor.vue onUpdated")
         
     })  */
-    onUpdated(() => {
+    onMounted(() => {
       editor.value?.commands. insertContent(<string>props.content)
     })
 
