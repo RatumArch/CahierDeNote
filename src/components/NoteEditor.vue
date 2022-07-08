@@ -75,7 +75,10 @@ console.log(props.content);console.log("/Noteeditor");
 
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
-
+onMounted(() => {
+  editor.value?.commands.insertContent(<string>props.content);console.log("content inserted");
+  
+})
 /*     onUpdated(async () => {
       console.log("début updated  : "+props.autoSaveEnabled)
         props.savingTriggered && 

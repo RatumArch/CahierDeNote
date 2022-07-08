@@ -95,16 +95,12 @@ async function toggleAutoSave() {
   content.value = data?.html ?? "Auto save mal togglé"
 }
 onBeforeRouteUpdate(async (to, from) => {
-  savingTriggered.value=true
   editableTitle.value=to.params?.document
   
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
-  
+  savingTriggered.value=true
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
-  if(content.value) {
-    isDataLoaded.value = true
-  }
 
   savingTriggered.value = false
 })
@@ -113,7 +109,7 @@ const updateContent = async () => {
   content.value = data?.html ?? "updated after event received"
 }
 
-const updateContentRef = (html: string, raw?: string) => { content.value=html }
+const updateContentRef = (html: string, raw?: string) => { content.value=html; console.log("/updateContentRef - Documentv") }
 
 </script>
 
