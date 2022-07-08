@@ -87,10 +87,6 @@ console.log(props.content);console.log("/Noteeditor");
         console.log("/Note editor.vue onUpdated")
         
     })  */
-    onUpdated(() => {
-      editor.value?.commands. insertContent(<string>props.content)
-    })
-
 
 const isTyping = ref(false)
 const TypingStatusArray = ref<number[]>([])
@@ -109,15 +105,21 @@ onBeforeUnmount(() => {
     clearInterval(interval)
 })
 
+
 const updateContentProp = () => {
   const html = editor.value?.getHTML(); const raw = editor.value?.getText();
   emit('writed', html, raw)
 }
+watch(props, (newProps, prevProps) => {
+  if(newProps.content !== prevProps.content) 
+      editor.value?.commands.insertContent(<string>newProps.content)
+}, { deep: true})
+
 const defineInterval = () => {
   return setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
-  updateContentProp()
+  //updateContentProp()
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
       sendToMongo()
