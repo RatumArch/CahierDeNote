@@ -10,7 +10,13 @@
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
     </div>
   <div class="main">
-    <NoteEditor :content="content" :sendToMongo="sendToMongo" :autoSaveEnabled="autoSaveEnabled" v-if="isDataLoaded" :savingTriggered="savingTriggered" @contentSaved="updateContent" />
+    <NoteEditor :content="content"
+                :sendToMongo="sendToMongo"
+                :autoSaveEnabled="autoSaveEnabled"
+                v-if="isDataLoaded"
+                :savingTriggered="savingTriggered"
+                @contentSaved="updateContent"
+                @writed="updateContentRef" />
   </div>
 
 </template>
@@ -106,6 +112,8 @@ const updateContent = async () => {
   const data = await getContent(<string>folderCode.value, <string>route.params?.document)
   content.value = data?.html ?? "updated after event received"
 }
+
+const updateContentRef = (html: string, raw?: string) => { content.value=html }
 
 </script>
 

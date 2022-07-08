@@ -38,7 +38,7 @@ import { useRoute } from 'vue-router'
     toggleAutoSave: { type: Function, required: false},
     savingTriggered: { type: Boolean, required: true}
   })
-  const emit = defineEmits(['contentSaved'])
+  const emit = defineEmits(['contentSaved', 'writed'])
 
 const content = ref("rrrrrrrrrttt")
 console.log(props.content);console.log("/Noteeditor");
@@ -109,11 +109,15 @@ onBeforeUnmount(() => {
     clearInterval(interval)
 })
 
+const updateContentProp = () => {
+  const html = editor.value?.getHTML(); const raw = editor.value?.getText();
+  emit('writed', html, raw)
+}
 const defineInterval = () => {
   return setInterval(() => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
-  
+  updateContentProp()
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
       sendToMongo()
@@ -122,6 +126,7 @@ const defineInterval = () => {
     }
   }, 800)
 }
+
 
 
 watch(isTyping, (value) => {
