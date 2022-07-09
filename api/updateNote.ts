@@ -8,6 +8,7 @@ import { sanitizeText } from '../utils';
 
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
+const foldersCollection= process.env.MONGODB_DB_FOLDER_COLLECTION
 
 async function update(req:VercelRequest, res: VercelResponse) {
     const params = req.body

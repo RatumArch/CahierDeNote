@@ -4,6 +4,9 @@ import Home from '@/Home.vue'
 import Document from '@/Document'
 import Folder from '@/Folder.vue'
 import Error from "@/Error.vue";
+import Loader from '@/Loader.vue'
+
+import axios from "axios";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,7 +15,7 @@ const router = createRouter({
         component: Folder,
         name: 'folder',
         children: [{
-            path: ':document',
+            path: ':document?',
             component: Document,
             name: 'document'
         }
@@ -22,6 +25,9 @@ const router = createRouter({
     {
         path: '/error',
         component: Error
+    },
+    { 
+        path: '/:toutAutresRoutes*', component: Error,
     }
 ]
 })

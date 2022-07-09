@@ -64,8 +64,13 @@ export default {
 
         const logFiles = (event: any) => {
             let fileUploaded: File = event.target.files[0]
+            fileUploaded.arrayBuffer().then(res => {
+                const blob = new Blob([res], { type: 'image'})
+                
+                
+                blobUrl.value= window.URL.createObjectURL( blob)
+            })
             
-            blobUrl.value= window.URL.createObjectURL( fileUploaded)
             const cloudName = 'dzggewhvt'
             axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: fileUploaded,

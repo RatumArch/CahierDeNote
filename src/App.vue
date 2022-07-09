@@ -1,6 +1,7 @@
 <template>
   <main>
-  <RouterView/>
+  <RouterView  >
+  </RouterView>
   </main>
 </template>
 
@@ -12,7 +13,7 @@ import ReloadPWA from "./components/ReloadPWA.vue";
 import { RouterView, RouterLink } from "vue-router";
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "@/components/NoteEditor.vue";
-import axios from "axios";
+import Loader from './Loader.vue'
 export default defineComponent({
   name: "App",
   components: {
@@ -20,6 +21,7 @@ export default defineComponent({
     ReloadPWA,
     ImageInp,
     ImageInput,
+    Loader,
     RouterView,
     RouterLink
   },

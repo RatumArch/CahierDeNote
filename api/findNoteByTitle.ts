@@ -10,7 +10,7 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const title = <string>req.query?.title
 
 
-    const note = await prisma.notes.findFirst({
+    let notes = await prisma.notes.findMany({
         where: {
             folderCode,
             title
@@ -20,12 +20,16 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
         }
     })
 
-    if(note) {
-        note.html = sanitizeText( note?.html )
-    }
-
     prisma.$disconnect()
-    console.log(note);
+
+    if(notes) {
+        notes = notes.map((doc) => {doc.html = sanitizeText( doc?.html ); return doc })
+        console.log(notes);
     
-    res.status(200).send(note)
+        res.status(200).send(notes[0])
+    }
+    else {
+        res.status(495).send({status: 'error', message: "requête ratée"})
+    }
+    
 }

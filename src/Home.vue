@@ -1,50 +1,51 @@
 <template>
   <div class="home">
-    <ReloadPWA />
+    <ReloadPWA v-if="isDev" />
   <a class="link newdoc" @click="createFolder">
     New Document
   </a>
   <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>
-  <!-- <NoteEditor content="fjk" title="test"/> -->
+
+  <progress v-if="isLoading" />
   </div>
-  <font-awesome-icon icon="fa-solid fa-file-image" />
-  <NoteEditor content="<p>III</p>" />
+  <button class="link" @click="purge" >{{purged}}</button>
+  <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
-
-
-const cloudName = 'dzggewhvt'
-const onSubmit = (e: any) => {
-  const cloudName = 'dzggewhvt'
-  axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-    file: e.target.value,
-    upload_preset: 'ze5mrykg'
-      } ).then(res => { console.log(res.data);
-      })
-}
+import Loader from "./Loader.vue";
 
 const folderCode = ref('')
 const router = useRouter()
+const route = useRoute()
+const isLoading=ref(false)
 
 const createFolder = async () => {
+  isLoading.value=true
   const newFolder = 
     await axios.post('/api/createFolder')
       .then(res => res.data).catch(() => null)
-      
+  
   folderCode.value=newFolder?.folderCode ?? 'error'
-  //const documentTitle = newFolder?.notesContent[0]?.title ?? 'noDocument'
+  isLoading.value=false
   newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
 }
+
+
+
+const purged = ref('purge')
+const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
+const isDev = ref(import.meta.env.DEV)
 
 </script>
 

@@ -9,14 +9,14 @@
       <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
-  <div class="container-editor" @click="(e) => editor.chain().focus().run()" >
+  <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
   </div>
 </div>
 </template>
 
-<script lang="ts">
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+<script lang="ts" setup>
+import { useEditor, EditorContent, Content } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
@@ -29,17 +29,22 @@ import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
 
-export default {
-  name: 'NoteEditor',
-  components: {
-    EditorContent,
-  },
-  props: {
+
+  const props = defineProps({
     content: { type: String, required: false },
     title: { type: String, required: false },
-    sendToMongo: {required: false}
-  },
-  setup(props: any) {
+    sendToMongo: {required: false, type: Function, default: () => {} },
+    autoSaveEnabled: { type: Boolean, required: true, default: true },
+    toggleAutoSave: { type: Function, required: false},
+    savingTriggered: { type: Boolean, required: true}
+  })
+  const emit = defineEmits(['contentSaved', 'writed'])
+
+const content = ref("rrrrrrrrrttt")
+console.log(props.content);console.log("/Noteeditor");
+
+
+
     const editor = useEditor({
       extensions: [
         StarterKit.configure({
@@ -68,16 +73,28 @@ export default {
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
+    const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
-
-    onUpdated(() => {
-        editor.value?.chain().setContent(props.content).focus().run()        
-    })
-    onBeforeUnmount(() => {
-        editor.value?.destroy()
-    })
-
+/* onMounted(() => {
+  editor.value?.commands.insertContent(<string>props.content);console.log("content inserted");
+  
+}) */
+/*     onUpdated(async () => {
+      console.log("début updated  : "+props.autoSaveEnabled)
+        props.savingTriggered && 
+          await sendToMongo()
+            .then(() => { console.log("On a enregistrer car l'auto save été désactivé et qu'on voulait éviter de perdre le texte après la mise à jour de notEditor") } )
+            .then(() => { emit('contentSaved'); console.log('NoteEditorv - emit contentsave') } )
+        editor.value?.chain().setContent(<Content>props.content).focus().run()
+        console.log("Note editor.vue onUpdated")
+        console.log(props.content)
+        console.log("/Note editor.vue onUpdated")
+        
+    })  */
+onUpdated(() => {
+  console.log("NoteEditor updated")
+  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated"); }
+})
 
 const isTyping = ref(false)
 const TypingStatusArray = ref<number[]>([])
@@ -91,24 +108,37 @@ const isTypingStopped = (e: MouseEvent) => {
 
 const interval =ref<any>(null)
 
+onBeforeUnmount(() => {
+    editor.value?.destroy()
+    clearInterval(interval)
+})
+
+
+const updateContentProp = () => {
+  const html = editor.value?.getHTML(); const raw = editor.value?.getText();
+  emit('writed', html, raw); console.log('emitted');
+  
+}
+
 const defineInterval = () => {
-  return setInterval(() => {
+  return setInterval(async () => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
-  console.log(TypingStatusArray.value[length-1]);
   
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
-      sendToMongo()
+      await sendToMongo()
+      updateContentProp()
       clearInterval(interval.value)
       interval.value=null
     }
-  }, 1500)
+  }, 800)
 }
 
-interval.value= defineInterval()
+
+
 watch(isTyping, (value) => {
-  if(value && !interval.value) {
+  if(value && !interval.value && props.autoSaveEnabled) {
     interval.value= defineInterval()
   }
 })
@@ -117,9 +147,7 @@ onUnmounted(() => {
   clearInterval(interval.value)
 })
     
-    return { editor, isTyping, isTypingRunning, isTypingStopped, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, toggleLatex, addImage, toLeft, toCenter, }
-  },
-}
+
 </script>
 
 <style lang="scss">
@@ -134,6 +162,8 @@ onUnmounted(() => {
     padding: 5vw;
     overflow-y: scroll;
     cursor: text;
+    border-left-color: lightgray;
+    border-left-style: solid;
 
     pre {
       background: #0D0D0D;
