@@ -120,13 +120,13 @@ const updateContentProp = () => {
 }
 
 const defineInterval = () => {
-  return setInterval(() => {
+  return setInterval(async () => {
   TypingStatusArray.value.push(keyUpTimeStamp.value)
   const length= TypingStatusArray.value.length
   
   if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
     { 
-      sendToMongo()
+      await sendToMongo()
       updateContentProp()
       clearInterval(interval.value)
       interval.value=null
