@@ -94,12 +94,21 @@ async function toggleAutoSave() {
   console.log(data);console.log("/toggleAutoSave - Document.vue");
   content.value = data?.html ?? "Auto save mal togglé"
 }
+
+onBeforeMount(async () => {
+    editableTitle.value=route.params?.document
+    console.log(route.params);console.log(route.params?.document ?? "no param document")
+    const data = await getContent(<string>folderCode.value, <string>route.params?.document)
+    content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
+    isDataLoaded.value = true
+})
 onBeforeRouteUpdate(async (to, from) => {
   editableTitle.value=to.params?.document
   
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
-  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
   savingTriggered.value=true
+  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  
   savingTriggered.value=false
   
   isDataLoaded.value = true
