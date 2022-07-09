@@ -104,7 +104,7 @@ onBeforeMount(async () => {
 })
 onBeforeRouteUpdate(async (to, from) => {
   editableTitle.value=to.params?.document
-  
+  isDataLoaded.value=false
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   savingTriggered.value=true
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"

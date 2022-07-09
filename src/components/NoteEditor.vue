@@ -93,7 +93,7 @@ onMounted(() => {
     })  */
 onUpdated(() => {
   console.log("NoteEditor updated")
-  if(props.savingTriggered ) editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated");
+  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated"); }
 })
 
 const isTyping = ref(false)
