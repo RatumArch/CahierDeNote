@@ -13,7 +13,6 @@
     <NoteEditor :content="content"
                 :sendToMongo="sendToMongo"
                 :autoSaveEnabled="autoSaveEnabled"
-                v-if="isDataLoaded"
                 :savingTriggered="savingTriggered"
                 @contentSaved="updateContent"
                 @writed="updateContentRef" />
@@ -99,10 +98,9 @@ onBeforeRouteUpdate(async (to, from) => {
   
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
-  savingTriggered.value=true
+  
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
 
-  savingTriggered.value = false
 })
 const updateContent = async () => {
   const data = await getContent(<string>folderCode.value, <string>route.params?.document)

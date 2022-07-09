@@ -91,7 +91,9 @@ onMounted(() => {
         console.log("/Note editor.vue onUpdated")
         
     })  */
-
+onUpdated(() => {
+  console.log("NoteEditor updated")
+})
 
 const isTyping = ref(false)
 const TypingStatusArray = ref<number[]>([])
