@@ -95,7 +95,7 @@ async function toggleAutoSave() {
   content.value = data?.html ?? "Auto save mal togglé"
 }
 
-onBeforeMount(async () => {
+onMounted(async () => {
     
     console.log(route.params);console.log(route.params?.document ?? "no param document")
     const data = await getContent(<string>folderCode.value, <string>route.params?.document)
