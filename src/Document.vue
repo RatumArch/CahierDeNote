@@ -15,7 +15,8 @@
                 :autoSaveEnabled="autoSaveEnabled"
                 :savingTriggered="savingTriggered"
                 @contentSaved="updateContent"
-                @writed="updateContentRef" />
+                @writed="updateContentRef"
+                v-if="isDataLoaded" />
   </div>
 
 </template>
@@ -98,7 +99,10 @@ onBeforeRouteUpdate(async (to, from) => {
   
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  savingTriggered.value=true
+  savingTriggered.value=false
   
+  isDataLoaded.value = true
   console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
 
 })
