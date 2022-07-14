@@ -17,6 +17,7 @@
                 v-for="note of notesContent" :key="note?.title"
                 class="document-link"
                 :title="note?.title"
+                @titleChanged="handleTitleChange"
                 >
         {{note?.title}}
     </RouterLink>
@@ -73,6 +74,11 @@ const findNotesFromFolder = async () =>
     
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
+
+function handleTitleChange(newTitle) {
+  console.log("handle title change d")
+  console.log(newTitle)
+}
 
 onBeforeMount(async () => {
   isLoading.value=true

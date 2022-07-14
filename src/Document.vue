@@ -29,6 +29,8 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { saveDocument } from '../utils';
 import Loader from './Loader.vue';
 
+const emit = defineEmits(['titleChanged'])
+
 const route= useRoute()
 const router = useRouter()
 const messageFromServer= ref('')
@@ -77,7 +79,11 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
       setMessageServer(updated.statusText)
     }
     
-    if(updated.status<400 && newTitle.value) router.replace(newTitle.value);
+    if(updated.status<400 && newTitle.value)
+    {
+      emit('titleChanged', newTitle.value)
+      router.replace(newTitle.value);
+    } 
 
     isSaveLoading.value=false
     return updated.data
@@ -111,14 +117,14 @@ onMounted(async () => {
     
 })
 onBeforeRouteUpdate(async (to, from) => {
-  editableTitle.value=to.params?.document
+  
   isDataLoaded.value=false
   isLoading.value=true
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   isLoading.value=false
   savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
-  
+  editableTitle.value= data?.title ?? to.params?.document
   savingTriggered.value=false
   
   isDataLoaded.value = true
