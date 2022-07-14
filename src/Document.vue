@@ -2,7 +2,7 @@
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
       <div>
-        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
+        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading&&autoSaveEnabled}" >
           Auto save
         </button>
         <Loader v-if="isLoading" />
@@ -58,7 +58,7 @@ function setMessageServer(msg: string) {
   messageFromServer.value=msg
   const timeout = setTimeout(() => {messageFromServer.value=''; }, 5000)
 }
-const logg = () => { console.log("Documentv - event received")}
+
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
 const sendToMongo = async (html: string, raw: string, extra?: object) => { 
   isSaveLoading.value=true
@@ -96,12 +96,7 @@ async function toggleAutoSave() {
 }
 
 onMounted(async () => {
-    
-    /* console.log(route.params);console.log(route.params?.document ?? "no param document")
-    const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-    content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
-    editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
-    isDataLoaded.value = true */
+    isDataLoaded.value = true
 })
 onBeforeRouteUpdate(async (to, from) => {
   editableTitle.value=to.params?.document
@@ -154,19 +149,19 @@ const updateContentRef = (html: string, raw?: string) => { content.value=html; c
     background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 50%, lightblue);
   }
   50% {
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
     border-style: solid;
     border-color: blueviolet;
     background: linear-gradient(to right, darkgreen 10%, lightblue);
