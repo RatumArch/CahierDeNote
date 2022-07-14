@@ -4,7 +4,7 @@
     <input type="text" v-model="equation" 
                         class="expression input" 
                         :class="{empty}" 
-                        placeholder="Write \sum"
+                        placeholder="LaTex : \sum"
                         ref="input"
                         @click.stop=""
                         v-show="showInput"

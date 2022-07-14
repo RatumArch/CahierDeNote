@@ -29,6 +29,8 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { saveDocument } from '../utils';
 import Loader from './Loader.vue';
 
+const emit = defineEmits(['titleChanged'])
+
 const route= useRoute()
 const router = useRouter()
 const messageFromServer= ref('')
@@ -45,12 +47,12 @@ const isDataLoaded = ref(false)
 
 
 async function getContent(folderCode: string, title: string)  {
-  isLoading.value=true
+  
   const params = { folderCode, title }
   const request = await axios.get('/api/findNoteByTitle', {params})
   const data = request.data
   
-  isLoading.value=false
+
   return data
   }
 
@@ -77,7 +79,11 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
       setMessageServer(updated.statusText)
     }
     
-    if(updated.status<400 && newTitle.value) router.replace(newTitle.value);
+    if(updated.status<400 && newTitle.value)
+    {
+      emit('titleChanged', newTitle.value)
+      router.replace(newTitle.value);
+    } 
 
     isSaveLoading.value=false
     return updated.data
@@ -96,20 +102,29 @@ async function toggleAutoSave() {
 }
 
 onMounted(async () => {
+  console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
+    if(route.params?.document?.length>0) {
+      console.log("dans if - mounted")
+      console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
+
+      isLoading.value=true
+      const data = await getContent(<string>folderCode.value, <string>route.params?.document)
+      content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
+      editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - mounted");
+      isLoading.value=false
+      isDataLoaded.value = true 
+    }
     
-    console.log(route.params);console.log(route.params?.document ?? "no param document")
-    const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-    content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
-    editableTitle.value=route.params?.document
-    isDataLoaded.value = true
 })
 onBeforeRouteUpdate(async (to, from) => {
-  editableTitle.value=to.params?.document
-  isDataLoaded.value=false
-  const data = await getContent(<string>folderCode.value, <string>to.params?.document)
-  savingTriggered.value=true
-  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
   
+  isDataLoaded.value=false
+  isLoading.value=true
+  const data = await getContent(<string>folderCode.value, <string>to.params?.document)
+  isLoading.value=false
+  savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
+  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  editableTitle.value= data?.title ?? to.params?.document
   savingTriggered.value=false
   
   isDataLoaded.value = true
@@ -154,21 +169,21 @@ const updateContentRef = (html: string, raw?: string) => { content.value=html; c
     background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
-    border-bottom-width: 2px;
-    border-style: solid;
-    border-color: blueviolet;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: blueviolet;
     background: linear-gradient(to right, darkgreen 50%, lightblue);
   }
   50% {
-    border-bottom-width: 2px;
-    border-style: solid;
-    border-color: blueviolet;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: blueviolet;
     background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
-    border-bottom-width: 2px;
-    border-style: solid;
-    border-color: blueviolet;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: blueviolet;
     background: linear-gradient(to right, darkgreen 10%, lightblue);
   }
   from {

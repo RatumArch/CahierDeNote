@@ -17,6 +17,7 @@
                 v-for="note of notesContent" :key="note?.title"
                 class="document-link"
                 :title="note?.title"
+                @titleChanged="handleTitleChange"
                 >
         {{note?.title}}
     </RouterLink>
@@ -40,8 +41,8 @@ import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
 
 
-const notesContent = ref(['rrien'])
-const title= ref('error')
+const notesContent = ref(['init-value'])
+
 const route = useRoute()
 const router = useRouter()
 const isLoading = ref(false)
@@ -74,15 +75,22 @@ const findNotesFromFolder = async () =>
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
 
+async function handleTitleChange(newTitle) {
+  console.log("handle title change d")
+  console.log(newTitle)
+  notesContent.value= await findNotesFromFolder()
+}
+
 onBeforeMount(async () => {
   isLoading.value=true
   notesContent.value= await findNotesFromFolder()
   
   const document = notesContent.value[0]
   console.log(notesContent.value);
-  title.value= document?.title;
+  
+  const routeDocument = route.params?.document>0 ? route.params?.document : document?.title;
 
-  router.push(`/folder/${folderCode.value}/${title.value}`);  
+  router.push(`/folder/${folderCode.value}/${routeDocument}`);  
 })
 
 </script>

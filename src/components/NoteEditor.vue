@@ -1,12 +1,12 @@
 <template>
 <div class="container-noter">
   <div class="button-panel" >
-      <button @click="toggleBold" >B</button>
-      <button @click="toggleCodeBlock" >Python</button>
-      <button @click="addImage" >image</button>
+      <button @click="toggleBold" title="bold" ><strong>Bold</strong> </button>
+      <button @click="toggleCodeBlock" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
+      <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
-      <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
+      <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
@@ -21,9 +21,9 @@ import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
-//import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
-//import lowlight from 'lowlight'
+import lowlight from 'lowlight'
 import axios from 'axios';
 import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
@@ -50,6 +50,10 @@ console.log(props.content);console.log("/Noteeditor");
         StarterKit.configure({
           codeBlock: false
         }),
+        CodeBlockLowlight.configure({
+          defaultLanguage: 'python',
+          lowlight
+        }),
         ImageNode,
         LatexBlock,
         TextAlign.configure({
@@ -63,7 +67,7 @@ console.log(props.content);console.log("/Noteeditor");
     const route = useRoute()
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
-    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
+    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().enter().run()
     //@ts-ignore
     const addImage = () => editor.value?.chain().focus().addImage() .focus().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
@@ -75,22 +79,7 @@ console.log(props.content);console.log("/Noteeditor");
 
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
-/* onMounted(() => {
-  editor.value?.commands.insertContent(<string>props.content);console.log("content inserted");
-  
-}) */
-/*     onUpdated(async () => {
-      console.log("début updated  : "+props.autoSaveEnabled)
-        props.savingTriggered && 
-          await sendToMongo()
-            .then(() => { console.log("On a enregistrer car l'auto save été désactivé et qu'on voulait éviter de perdre le texte après la mise à jour de notEditor") } )
-            .then(() => { emit('contentSaved'); console.log('NoteEditorv - emit contentsave') } )
-        editor.value?.chain().setContent(<Content>props.content).focus().run()
-        console.log("Note editor.vue onUpdated")
-        console.log(props.content)
-        console.log("/Note editor.vue onUpdated")
-        
-    })  */
+
 onUpdated(() => {
   console.log("NoteEditor updated")
   if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated"); }
@@ -188,6 +177,7 @@ onUnmounted(() => {
 
     button {
       margin-left: 10px;
+      background-color: white;
     }
     button.send {
       padding: 5px;
