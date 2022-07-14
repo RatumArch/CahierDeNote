@@ -1,8 +1,8 @@
 <template>
 <div class="container-noter">
   <div class="button-panel" >
-      <button @click="toggleBold" title="bold" ><strong>B</strong> </button>
-      <button @click="toggleCodeBlock" >Python</button>
+      <button @click="toggleBold" title="bold" ><strong>Bold</strong> </button>
+      <button @click="toggleCodeBlock" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
       <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
@@ -50,7 +50,10 @@ console.log(props.content);console.log("/Noteeditor");
         StarterKit.configure({
           codeBlock: false
         }),
-        CodeBlockLowlight,
+        CodeBlockLowlight.configure({
+          defaultLanguage: 'python',
+          lowlight
+        }),
         ImageNode,
         LatexBlock,
         TextAlign.configure({
@@ -64,7 +67,7 @@ console.log(props.content);console.log("/Noteeditor");
     const route = useRoute()
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
-    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
+    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().enter().run()
     //@ts-ignore
     const addImage = () => editor.value?.chain().focus().addImage() .focus().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()

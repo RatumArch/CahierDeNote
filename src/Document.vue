@@ -113,7 +113,9 @@ onMounted(async () => {
 onBeforeRouteUpdate(async (to, from) => {
   editableTitle.value=to.params?.document
   isDataLoaded.value=false
+  isLoading.value=true
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
+  isLoading.value=false
   savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
   content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
   
