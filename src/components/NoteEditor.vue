@@ -1,12 +1,12 @@
 <template>
 <div class="container-noter">
   <div class="button-panel" >
-      <button @click="toggleBold" >B</button>
+      <button @click="toggleBold" title="bold" ><strong>B</strong> </button>
       <button @click="toggleCodeBlock" >Python</button>
-      <button @click="addImage" >image</button>
+      <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
-      <button @click="toggleLatex" title="Add LaTex expression" >LaTex</button>
+      <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="sendToMongo" class="send">Save</button>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
@@ -188,6 +188,7 @@ onUnmounted(() => {
 
     button {
       margin-left: 10px;
+      background-color: white;
     }
     button.send {
       padding: 5px;
