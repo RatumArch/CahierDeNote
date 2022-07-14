@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <ReloadPWA v-if="isDev" />
-  <a class="link newdoc" @click="createFolder">
+  <div tabindex="" class="link newdoc" @click="createFolder">
     New Document
-  </a>
+  </div>
   <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
     Load document from folder code
   </RouterLink><input type="text" v-model="folderCode"/>

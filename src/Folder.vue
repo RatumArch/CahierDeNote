@@ -75,9 +75,10 @@ const findNotesFromFolder = async () =>
     newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
   }
 
-function handleTitleChange(newTitle) {
+async function handleTitleChange(newTitle) {
   console.log("handle title change d")
   console.log(newTitle)
+  notesContent.value= await findNotesFromFolder()
 }
 
 onBeforeMount(async () => {
