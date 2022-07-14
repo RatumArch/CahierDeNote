@@ -40,8 +40,8 @@ import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
 
 
-const notesContent = ref(['rrien'])
-const title= ref('error')
+const notesContent = ref(['init-value'])
+
 const route = useRoute()
 const router = useRouter()
 const isLoading = ref(false)
@@ -80,9 +80,10 @@ onBeforeMount(async () => {
   
   const document = notesContent.value[0]
   console.log(notesContent.value);
-  title.value= document?.title;
+  
+  const routeDocument = route.params?.document>0 ? route.params?.document : document?.title;
 
-  router.push(`/folder/${folderCode.value}/${title.value}`);  
+  router.push(`/folder/${folderCode.value}/${routeDocument}`);  
 })
 
 </script>

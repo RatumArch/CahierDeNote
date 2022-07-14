@@ -21,9 +21,9 @@ import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
-//import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
-//import lowlight from 'lowlight'
+import lowlight from 'lowlight'
 import axios from 'axios';
 import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
@@ -50,6 +50,7 @@ console.log(props.content);console.log("/Noteeditor");
         StarterKit.configure({
           codeBlock: false
         }),
+        CodeBlockLowlight,
         ImageNode,
         LatexBlock,
         TextAlign.configure({
@@ -75,22 +76,7 @@ console.log(props.content);console.log("/Noteeditor");
 
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
-/* onMounted(() => {
-  editor.value?.commands.insertContent(<string>props.content);console.log("content inserted");
-  
-}) */
-/*     onUpdated(async () => {
-      console.log("début updated  : "+props.autoSaveEnabled)
-        props.savingTriggered && 
-          await sendToMongo()
-            .then(() => { console.log("On a enregistrer car l'auto save été désactivé et qu'on voulait éviter de perdre le texte après la mise à jour de notEditor") } )
-            .then(() => { emit('contentSaved'); console.log('NoteEditorv - emit contentsave') } )
-        editor.value?.chain().setContent(<Content>props.content).focus().run()
-        console.log("Note editor.vue onUpdated")
-        console.log(props.content)
-        console.log("/Note editor.vue onUpdated")
-        
-    })  */
+
 onUpdated(() => {
   console.log("NoteEditor updated")
   if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated"); }

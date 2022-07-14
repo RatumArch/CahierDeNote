@@ -45,12 +45,12 @@ const isDataLoaded = ref(false)
 
 
 async function getContent(folderCode: string, title: string)  {
-  isLoading.value=true
+  
   const params = { folderCode, title }
   const request = await axios.get('/api/findNoteByTitle', {params})
   const data = request.data
   
-  isLoading.value=false
+
   return data
   }
 
@@ -101,9 +101,11 @@ onMounted(async () => {
       console.log("dans if - mounted")
       console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
 
+      isLoading.value=true
       const data = await getContent(<string>folderCode.value, <string>route.params?.document)
       content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
       editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - mounted");
+      isLoading.value=false
       isDataLoaded.value = true 
     }
     
