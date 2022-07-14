@@ -96,12 +96,12 @@ async function toggleAutoSave() {
 }
 
 onMounted(async () => {
-    if(!isDataLoaded.value)
+    if(isDataLoaded.value)
     {
       console.log(route.params);console.log(route.params?.document ?? "no param document")
       const data = await getContent(<string>folderCode.value, <string>route.params?.document)
       content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
-      editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
+      editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - mounted");
       isDataLoaded.value = true 
     }
     
