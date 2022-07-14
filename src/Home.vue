@@ -1,12 +1,30 @@
 <template>
   <div class="home">
     <ReloadPWA v-if="isDev" />
-  <div tabindex="" class="link newdoc" @click="createFolder">
+    <Teleport to="header.description">
+  <div class="description">
+    <div class="title">
+      <h1>Cahier de Note</h1>
+      <p>Create and edit a document online</p>
+    </div>
+    <h2>Features</h2>
+    <ul>
+      <li>Images</li>
+      <li>LaTex expression</li>
+      <li>Periodic and Automatic save</li>
+      <li>Installable</li>
+    </ul>
+  </div>
+  </Teleport>
+  <div tabindex="0" class="link newdoc" @click="createFolder">
     New Document
   </div>
-  <RouterLink :to="`/folder/${folderCode}`" class="link load-doc">
-    Load document from folder code
-  </RouterLink><input type="text" v-model="folderCode"/>
+  <div class="load-doc" >
+    <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
+      Load from folder code
+    </RouterLink>
+    <input type="text" v-model="folderCode"/>
+  </div>
 
   <progress v-if="isLoading" />
   </div>
@@ -56,6 +74,20 @@ const isDev = ref(import.meta.env.DEV)
   flex-direction: column;
   text-align: center;
 }
+.description {
+  background-color: darkgreen;
+  padding-top: 5px;  
+  color: white;
+  font-size: 3vh;
+  padding: 13px;
+
+  .title {
+    text-align: center;
+  }
+  ul {
+    line-height: 1.5em;
+  }
+}
 .link {
   text-decoration: double;
   color: black;
@@ -83,11 +115,17 @@ const isDev = ref(import.meta.env.DEV)
     text-align: center;
   }
 }
-input {
+.load-doc {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  input {
       display: inline;
       font-size: 4vw;
       padding: 2vw;
-      width: 20ex;
+      width: 10ex;
       height: 30px;
 }
+}
+
 </style>
