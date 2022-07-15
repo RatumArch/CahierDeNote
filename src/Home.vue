@@ -29,7 +29,7 @@
   <progress v-if="isLoading" />
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
-  <NoteEditor content="<pre>au pré  du </pre>" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  <NoteEditor content="===" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
   
 </template>
 
