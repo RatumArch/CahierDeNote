@@ -140,6 +140,8 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
 .container-noter {
   display: flex;
   flex-direction: column;
@@ -154,19 +156,31 @@ onUnmounted(() => {
     border-left-color: lightgray;
     border-left-style: solid;
 
+    .ProseMirror {
+      padding: 10px;
+      font-variant-ligatures: contextual;
+      font-family: 'Fira Code', monospace;
+      line-height: 8px;
+    }
+
     pre {
       background: #0D0D0D;
       color: #FFF;
-      font-family: 'JetBrainsMono', monospace;
+      font-variant-ligatures: contextual;
+      font-family: 'Fira Code', monospace;
       padding: 0.75rem 1rem;
       border-radius: 0.5rem;
     }
-    code {
-      color: inherit;
+    @supports (font-variation-settings: normal) {
+      code { 
+        font-family: 'Fira Code', monospace;
+        color: inherit;
         padding: 0;
         background: none;
         font-size: 0.8rem;
+      }      
     }
+
   }
   .button-panel {
     display: inline;
