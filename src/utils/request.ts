@@ -33,6 +33,9 @@ export async function getContent(folderCode: string, title: string)  {
   const request = await axios.get(API.FIND_NOTE, {params})
   const data = request.data
   
-
   return data
+}
+
+export async function createFolder() {
+  return await axios.post('/api/createFolder').then(res => res.data)
 }

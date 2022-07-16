@@ -16,7 +16,7 @@
     </ul>
   </div>
   </Teleport>
-  <div tabindex="0" class="link newdoc" @click="createFolder">
+  <div tabindex="0" class="link newdoc" @click="newFolder">
     {{HOME_L.NEW_DOC}}
   </div>
   <div class="load-doc" >
@@ -43,6 +43,7 @@ import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
 import { HOME } from "@/constants";
+import { createFolder } from "./utils/request.ts";
 
 const folderCode = ref('')
 const router = useRouter()
@@ -53,11 +54,9 @@ const lang=ref<indexLang>('fr')
 // @ts-ignore
 const HOME_L = computed(() => HOME[lang.value])
 
-const createFolder = async () => {
+const newFolder = async () => {
   isLoading.value=true
-  const newFolder = 
-    await axios.post('/api/createFolder')
-      .then(res => res.data).catch(() => null)
+  const newFolder = await createFolder().catch(() => null)
   
   folderCode.value=newFolder?.folderCode ?? 'error'
   isLoading.value=false
