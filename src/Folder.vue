@@ -106,7 +106,7 @@ onBeforeMount(async () => {
 }
 .main {
   padding-right: 5vh;
-  width: 85%;
+  width: 80%;
   
   .documents-enter-active {
     transition: all 0.3s ease-out;

@@ -59,7 +59,8 @@ const newTitle = computed(() => editableTitle.value!==title.value ? <string> edi
 const sendToMongo = async (html: string, raw: string, extra?: object) => { 
   isSaveLoading.value=true
 
-  const updated = await saveDocument(<string>route.params.document, <string> folderCode.value, html, raw, newTitle.value, extra)
+  // @ts-ignore
+  const updated = await saveDocument(route.params.document, folderCode.value, html, raw, newTitle.value, extra)
     if(!updated.data || updated.status>=400) {
       isSaveLoading.value=false
       setMessageServer(updated.statusText)
