@@ -5,6 +5,7 @@
         <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
           Auto save
         </button>
+        <input type="checkbox" id="checkbox-off" /><label for="checkbox-off">Offline</label>
         <Loader v-if="isLoading" />
       </div>
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
@@ -26,7 +27,7 @@ import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-import { getContent, saveDocument } from '@/utils/request';
+import { getContent, saveDocument } from '@/utils/request.js';
 import Loader from './Loader.vue';
 
 const emit = defineEmits(['titleChanged'])
