@@ -42,8 +42,7 @@ import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
-import { HOME } from "@/constants/index.ts";
-import type { indexLang, textLang } from "@/constants/types.ts"
+import { HOME } from "@/constants";
 
 const folderCode = ref('')
 const router = useRouter()
@@ -52,7 +51,6 @@ const isLoading=ref(false)
 // @ts-ignore
 const lang=ref<indexLang>('fr')
 // @ts-ignore
-let tem
 const HOME_L = computed(() => HOME[lang.value])
 
 const createFolder = async () => {
