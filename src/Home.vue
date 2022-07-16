@@ -42,7 +42,7 @@ import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
-import { HOME } from "./constants";
+import { HOME } from "./constants/index.ts";
 import type { indexLang, textLang } from "./constants/types"
 
 const folderCode = ref('')
