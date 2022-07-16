@@ -4,24 +4,24 @@
     <Teleport to="header.description">
   <div class="description">
     <div class="title">
-      <h1>Cahier de Note</h1>
-      <p>Create and edit a document online</p>
+      <h1>{{HOME_L.TITLE }}</h1>
+      <p>{{HOME_L.DESCRIPTION}}</p>
     </div>
     <h2>Features</h2>
     <ul>
       <li>Images</li>
       <li>LaTex expression</li>
-      <li>Periodic and Automatic save</li>
+      <li>{{HOME_L.AUTO_SAVE}}</li>
       <li>Installable</li>
     </ul>
   </div>
   </Teleport>
   <div tabindex="0" class="link newdoc" @click="createFolder">
-    New Document
+    {{HOME_L.NEW_DOC}}
   </div>
   <div class="load-doc" >
     <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
-      Load from folder code
+      {{HOME_L.LOAD_FOLDER}}
     </RouterLink>
     <input type="text" v-model="folderCode"/>
   </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
@@ -42,11 +42,18 @@ import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
+import { HOME } from "./constants";
+import type { indexLang, textLang } from "./constants/types"
 
 const folderCode = ref('')
 const router = useRouter()
 const route = useRoute()
 const isLoading=ref(false)
+// @ts-ignore
+const lang=ref<indexLang>('fr')
+// @ts-ignore
+let tem
+const HOME_L = computed(() => HOME[lang.value])
 
 const createFolder = async () => {
   isLoading.value=true

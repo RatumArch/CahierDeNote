@@ -62,26 +62,27 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
 
   // @ts-ignore
   const updated = await saveDocument(route.params.document, folderCode.value, html, raw, newTitle.value, extra)
-    if(!updated.data || updated.status>=400) {
-      isSaveLoading.value=false
-      setMessageServer(updated.statusText)
-    }
-    
-    if(updated.status<400 && newTitle.value)
-    {
-      emit('titleChanged', newTitle.value)
-      router.replace(newTitle.value);
-    } 
+
+  if(!updated.data || updated.status>=400) {
+    isSaveLoading.value=false
+    setMessageServer(updated.statusText)
+  }
+  
+  if(updated.status<400 && newTitle.value)
+  {
+    emit('titleChanged', newTitle.value)
+    router.replace(newTitle.value);
+  } 
 
     isSaveLoading.value=false
     return updated.data
-  }
+}
 
 
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave() {
   autoSaveEnabled.value = !autoSaveEnabled.value
-  console.log(title.value);console.log("/toggler title.value");
+  
   // @ts-ignore
   const data = await getContent(folderCode.value, title.value)
   
@@ -93,7 +94,7 @@ onMounted(async () => {
       isLoading.value=true
       const data = await getContent(<string>folderCode.value, <string>route.params?.document)
       content.value = data?.html ?? data?.raw ?? MSG.ERROR.NO_CONTENT_EDITOR
-      editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - mounted");
+      editableTitle.value=route.params?.document;
       isLoading.value=false
       isDataLoaded.value = true 
     }
