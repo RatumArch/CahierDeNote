@@ -160,6 +160,7 @@ onUnmounted(() => {
       padding: 10px;
       font-variant-ligatures: contextual;
       font-family: 'Fira Code', monospace;
+      line-height: 8px;
     }
 
     pre {
