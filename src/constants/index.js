@@ -1,5 +1,3 @@
-import type { frText, textLang } from "./types"
-
 export const API = {
     CREATE_DOCUMENT: '/api/createDocument',
     FIND_NOTE: '/api/findNoteByTitle',
