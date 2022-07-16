@@ -43,7 +43,7 @@ import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
 import { HOME } from "@/constants/index.ts";
-import type { indexLang, textLang } from "./constants/types"
+import type { indexLang, textLang } from "@/constants/types.ts"
 
 const folderCode = ref('')
 const router = useRouter()
