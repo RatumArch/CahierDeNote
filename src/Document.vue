@@ -1,7 +1,7 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
-      <div>
+      <div >
         <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
           Auto save
         </button>
