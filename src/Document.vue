@@ -26,7 +26,7 @@ import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-import { saveDocument } from '../utils';
+import { getContent, saveDocument } from '@/utils';
 import Loader from './Loader.vue';
 
 const emit = defineEmits(['titleChanged'])
@@ -46,34 +46,16 @@ const folderCode=computed(() => route.params?.folderCode)
 const isDataLoaded = ref(false)
 
 
-async function getContent(folderCode: string, title: string)  {
-  
-  const params = { folderCode, title }
-  const request = await axios.get('/api/findNoteByTitle', {params})
-  const data = request.data
-  
-
-  return data
-  }
-
 function setMessageServer(msg: string) {
   messageFromServer.value=msg
   const timeout = setTimeout(() => {messageFromServer.value=''; }, 5000)
 }
-const logg = () => { console.log("Documentv - event received")}
+
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
 const sendToMongo = async (html: string, raw: string, extra?: object) => { 
   isSaveLoading.value=true
-  const updated = 
-    await axios.put('/api/updateNote', {
-          title: title.value,
-          folderCode: folderCode.value,
-          newTitle: newTitle.value,
-          html,
-          raw,
-          extra
-        })
 
+  const updated = await saveDocument(<string>route.params.document, <string> folderCode.value, html, raw, newTitle.value, extra)
     if(!updated.data || updated.status>=400) {
       isSaveLoading.value=false
       setMessageServer(updated.statusText)

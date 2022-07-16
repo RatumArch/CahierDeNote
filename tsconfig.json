@@ -14,8 +14,8 @@
     "paths": {
       "@/*": ["src/*", "src/components/*"],
       "@/assets": ["src/assets/*", "assets/*"],
-      "@/constants": ["src/constants/*", "constants"],
-      "@/utils/*": [ "utils/*"],
+      "@/constants": ["src/constants"],
+      "@/utils": [ "src/utils"],
     },
     "lib": ["ESNext", "DOM", "WebWorker"]
   },
