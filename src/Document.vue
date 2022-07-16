@@ -28,7 +28,7 @@ import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-import { getContent, saveDocument } from '@/utils';
+import { getContent, saveDocument } from '@/utils/request';
 import Loader from './Loader.vue';
 
 const emit = defineEmits(['titleChanged'])
