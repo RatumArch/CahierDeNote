@@ -29,6 +29,7 @@ import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { getContent, saveDocument } from '@/utils/request.ts';
+import { MSG } from './constants';
 import Loader from './Loader.vue';
 
 const emit = defineEmits(['titleChanged'])
@@ -84,39 +85,31 @@ async function toggleAutoSave() {
   // @ts-ignore
   const data = await getContent(folderCode.value, title.value)
   
-  console.log(data);console.log("/toggleAutoSave - Document.vue");
-  content.value = data?.html ?? "Auto save mal togglé"
+  content.value = data?.html ?? MSG.ERROR.AUTO_SAVE
 }
 
 onMounted(async () => {
-  console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
     if(route.params?.document?.length>0) {
-      console.log("dans if - mounted")
-      console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
-
       isLoading.value=true
       const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-      content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
+      content.value = data?.html ?? data?.raw ?? MSG.ERROR.NO_CONTENT_EDITOR
       editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - mounted");
       isLoading.value=false
       isDataLoaded.value = true 
     }
     
 })
-onBeforeRouteUpdate(async (to, from) => {
-  
+onBeforeRouteUpdate(async (to, from) => {  
   isDataLoaded.value=false
   isLoading.value=true
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   isLoading.value=false
   savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
-  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  content.value = data?.html ?? data?.raw ?? MSG.ERROR.NO_CONTENT_EDITOR
   editableTitle.value= data?.title ?? to.params?.document
   savingTriggered.value=false
   
   isDataLoaded.value = true
-  console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
-
 })
 const updateContent = async () => {
   const data = await getContent(<string>folderCode.value, <string>route.params?.document)

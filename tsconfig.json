@@ -15,7 +15,7 @@
       "@/*": ["src/*", "src/components/*"],
       "@/assets": ["src/assets/*", "assets/*"],
       "@/constants": ["src/constants"],
-      "@/utils/*": [ "src/utils"],
+      "@/utils*": [ "src/utils"],
     },
     "lib": ["ESNext", "DOM", "WebWorker"]
   },
