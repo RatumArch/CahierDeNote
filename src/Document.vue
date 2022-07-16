@@ -5,7 +5,7 @@
         <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
           Auto save
         </button>
-        <input type="checkbox" id="checkbox-off" /><label for="checkbox-off">Offline</label>
+        <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
         <input type="checkbox" id="checkbox-sync" /><label for="checkbox-sync">Sync</label>
         <Loader v-if="isLoading" />
       </div>
@@ -46,6 +46,8 @@ const editableTitle = ref(route.params?.document);
 const folderCode=computed(() => route.params?.folderCode)
 
 const isDataLoaded = ref(false)
+
+const isOfflineEnabled=ref(false)
 
 
 function setMessageServer(msg: string) {
