@@ -10,7 +10,7 @@ import { API } from '@/constants'
  * @param newTitle Optionnel. Nouveau titre à donner au document
  * @param extra Données additionnelles
  */
-export async function saveDocument(title, folderCode, htmlContent, rawText, newTitle=null  extra=null) {
+export async function saveDocument(title, folderCode, htmlContent, rawText, newTitle=null,  extra=null) {
     return await axios.put(API.UPDATE_NOTE, {
           title,
           folderCode,

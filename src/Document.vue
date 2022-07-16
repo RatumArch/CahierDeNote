@@ -6,6 +6,7 @@
           Auto save
         </button>
         <input type="checkbox" id="checkbox-off" /><label for="checkbox-off">Offline</label>
+        <input type="checkbox" id="checkbox-sync" /><label for="checkbox-sync">Sync</label>
         <Loader v-if="isLoading" />
       </div>
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
