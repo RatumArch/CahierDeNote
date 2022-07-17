@@ -12,7 +12,7 @@
 
 <style scoped>
 h1 {
-    color: blueviolet;
+    color: darkgreen;
     text-shadow: 1px 1px 2px blue;
     letter-spacing: 1ex;
     -webkit-text-stroke-width: 1px;

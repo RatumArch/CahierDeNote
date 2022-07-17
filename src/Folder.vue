@@ -2,7 +2,7 @@
 <div class="container">
   
   <div class="sidebar">
-    <RouterLink to="/" class="accueil" >{{ SIDEBAR.ACCUEIL[lang]}}</RouterLink>
+    <RouterLink to="/" class="accueil" >{{ SIDEBAR.ACCUEIL[lang]}} </RouterLink>
     <div title="Copy this link to retrieve your folder later" class="copy" @click="copy" >
       <font-awesome-icon icon="fa-solid fa-clipboard" />
       {{folderCode}}
@@ -132,6 +132,11 @@ onBeforeMount(async () => {
     color: white;
     font-size: 3vh;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    img {
+      width: 100%;
+    }
   }
   button {
     margin-bottom: 10px;

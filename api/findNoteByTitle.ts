@@ -1,6 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PrismaClient } from '@prisma/client'
-import sanitizeHtml from 'sanitize-html';
 // @ts-ignore
 import { sanitizeText, clientPromise } from '../utils';
 import { Collection } from 'mongodb';

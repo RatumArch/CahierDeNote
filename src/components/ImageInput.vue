@@ -19,7 +19,7 @@
         </span>
         </span>
         <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " @mouseover="openLabel" />
-        <i class="fa-solid fa-image" v-if="isPreviewEmpty" ></i>
+        
         <input type="file" :id="`image-input-file-${node.attrs.nodeId}`" class="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles" />
         
     </div>
@@ -31,6 +31,7 @@
 import { onMounted, ref } from 'vue'
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-3'
 import axios from 'axios'
+import { blob } from 'stream/consumers'
 
 export default {
     name: 'ImageInp',
@@ -49,11 +50,15 @@ export default {
         NodeViewContent,
     },
     setup(props: any) {
+        onMounted(() => {
+            console.log(props.node.attrs.src);
+            
+        })
         const formatProps = props.format;
 
         const width = ref({ little: '50px', medium: '200px', large: '600px' })
         
-        const blobUrl = ref<string>('')
+        const blobUrl = ref<string|null>(null)
         
 
         const input= ref<any>(null)
@@ -67,7 +72,7 @@ export default {
             fileUploaded.arrayBuffer().then(res => {
                 const blob = new Blob([res], { type: 'image'})
                 
-                
+
                 blobUrl.value= window.URL.createObjectURL( blob)
             })
             
@@ -91,7 +96,7 @@ export default {
         const showFormLink = ref(false)
         const openLabel = () => { showLabel.value= true }
         const hideLabel = () => { 
-            if(blobUrl.value?.length >0 || props.node.attrs.src?.length>0)
+            if(blobUrl.value && blobUrl.value?.length >0 || props.node.attrs.src?.length>0)
                 showLabel.value= false
         }
         const openFormLink = () => { showFormLink.value= true }
