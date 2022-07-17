@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import type { textLang } from '../constants/types'
+import type { textLang } from '@/constants/types'
 
 export type indexLang = 'fr'|'en'
 export const useLang= () => computed<indexLang>(() => {
@@ -12,5 +12,5 @@ export const useLang= () => computed<indexLang>(() => {
 
 export const useLocalConstant = (constant: textLang) => {
     const lang = useLang()
-    return computed(() => constant[lang.value])    
+    return computed(() => constant?.[lang.value] ?? "Error translate")    
 }

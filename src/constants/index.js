@@ -1,3 +1,5 @@
+export * from './types'
+
 export const API = {
     CREATE_DOCUMENT: '/api/createDocument',
     CREATE_FOLDER: '/api/createFolder',
