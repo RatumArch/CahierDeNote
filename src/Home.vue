@@ -1,4 +1,5 @@
 <template>
+<head><meta name="description" content="Éditeur de texte riche en ligne. Gratuit et sans inscription." /></head>
   <div class="home">
     <ReloadPWA v-if="isDev" />
     <Teleport to="header.description">
@@ -28,8 +29,7 @@
   </div>
 
   </div>
-  <button class="link" @click="purge" >{{purged}}</button>
-  <NoteEditor content="===" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  <NoteEditor content="<image-input src='http://res.cloudinary.com/dzggewhvt/image/upload/v1658085286/rkkeh5cwwzl7n9hwfw2g.png' nodeid='1658085265904' width='84px'></image-input>" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
   
 </template>
 

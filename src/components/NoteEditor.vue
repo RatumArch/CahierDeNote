@@ -40,9 +40,6 @@ import { useRoute } from 'vue-router'
   const emit = defineEmits(['contentSavedManually', 'writed'])
 
 const content = ref("")
-console.log(props.content);console.log("/Noteeditor");
-
-
 
     const editor = useEditor({
       extensions: [
@@ -85,7 +82,6 @@ console.log(props.content);console.log("/Noteeditor");
 
 
 onUpdated(() => {
-  console.log("NoteEditor updated")
   if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated"); }
 })
 
