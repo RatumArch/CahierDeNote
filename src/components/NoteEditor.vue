@@ -7,7 +7,7 @@
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
-      <button @click="clickToSave" class="send">Save</button>
+      <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -26,8 +26,8 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import lowlight from 'lowlight'
 import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
-
-
+import { BUTTON } from '@/constants/index.js'
+import { useLang } from '@/utils/lang.ts'
 
   const props = defineProps({
     content: { type: String, required: false },
@@ -61,6 +61,7 @@ const content = ref("")
     })
   
     const route = useRoute()
+    const lang = useLang()
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().enter().run()
@@ -151,7 +152,7 @@ onUnmounted(() => {
     min-height: 50vh;
     max-height: 57vh;
     padding: 5vw;
-    overflow-y: scroll;
+    overflow-y: auto;
     cursor: text;
     border-left-color: lightgray;
     border-left-style: solid;
@@ -182,7 +183,9 @@ onUnmounted(() => {
 
   }
   .button-panel {
-    display: inline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     top: 50px;
     background-color:#4169e1;
     border-bottom-style: solid;
@@ -191,6 +194,15 @@ onUnmounted(() => {
     button {
       margin-left: 10px;
       background-color: white;
+      padding: 4px;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      border-style: solid;
+      border-width: 1px;
+
+      &:hover, &:focus {
+        border-radius: 0;
+      }
     }
     button.send {
       padding: 5px;
@@ -201,6 +213,10 @@ onUnmounted(() => {
       font-weight: bold;
       border-radius: 2px;
       letter-spacing: 1px;
+
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
     }
   }
 }
