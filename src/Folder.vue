@@ -8,7 +8,7 @@
       {{folderCode}}
       <pre>{{copiedMsg}}</pre>
     </div>
-    <button @click="createDocument">
+    <button @click="newDocument">
       <font-awesome-icon icon="fa-solid fa-add" /> New note
     </button>
 
@@ -17,15 +17,15 @@
                 v-for="note of notesContent" :key="note?.title"
                 class="document-link"
                 :title="note?.title"
-                @titleChanged="handleTitleChange"
                 >
         {{note?.title}}
     </RouterLink>
 
+    <span class="document-link" v-if="isNewNoteLoading">New Note incomming...</span>
   </div>
 
   <div class="main">
-    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}">
+    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}" @titleChanged="handleTitleChange">
     <Transition name="documents">
       <component :is="Component"/>
     </Transition>
@@ -36,16 +36,16 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
+import { createDocument, findNotes } from './utils';
 
 
 const notesContent = ref(['init-value'])
 
 const route = useRoute()
 const router = useRouter()
-const isLoading = ref(false)
+const isNewNoteLoading = ref(false)
 
 const folderCode = computed(() => route.params?.folderCode)
 
@@ -57,38 +57,29 @@ const copy = () =>
     .catch((err) => { copiedMsg.value='fail to copy' })
 
 
-const findNotesFromFolder = async () =>
-  await axios.get('/api/findNotesFromFolder', {
-      params: {
-        folderCode: folderCode.value ?? "no-folder-code"
-      }
-    })
-      .then(res => res.data)
-      .catch(() => null)
+const findNotesFromFolder = async () => await findNotes(folderCode.value)
 
-  async function createDocument() {
+async function newDocument() {
+  isNewNoteLoading.value=true
+  const newDoc = await createDocument(folderCode.value)
 
-    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value }).then(doc => doc.data)
-    
-    notesContent.value= await findNotesFromFolder()
-    
-    newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
-  }
+  notesContent.value= await findNotesFromFolder()
+  isNewNoteLoading.value=false
+  
+  newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
+}
 
 async function handleTitleChange(newTitle) {
-  console.log("handle title change d")
-  console.log(newTitle)
   notesContent.value= await findNotesFromFolder()
 }
 
 onBeforeMount(async () => {
-  isLoading.value=true
+  isNewNoteLoading.value=true
   notesContent.value= await findNotesFromFolder()
-  
+  isNewNoteLoading.value=false
   const document = notesContent.value[0]
-  console.log(notesContent.value);
   
-  const routeDocument = route.params?.document>0 ? route.params?.document : document?.title;
+  const routeDocument = route.params?.document?.length>0 ? route.params?.document : document?.title;
 
   router.push(`/folder/${folderCode.value}/${routeDocument}`);  
 })
@@ -106,7 +97,7 @@ onBeforeMount(async () => {
 }
 .main {
   padding-right: 5vh;
-  width: 85%;
+  width: 80%;
   
   .documents-enter-active {
     transition: all 0.3s ease-out;

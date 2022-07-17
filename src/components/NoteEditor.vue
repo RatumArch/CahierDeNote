@@ -7,7 +7,7 @@
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
-      <button @click="sendToMongo" class="send">Save</button>
+      <button @click="clickToSave" class="send">Save</button>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -24,7 +24,6 @@ import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
-import axios from 'axios';
 import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
@@ -38,9 +37,9 @@ import { useRoute } from 'vue-router'
     toggleAutoSave: { type: Function, required: false},
     savingTriggered: { type: Boolean, required: true}
   })
-  const emit = defineEmits(['contentSaved', 'writed'])
+  const emit = defineEmits(['contentSavedManually', 'writed'])
 
-const content = ref("rrrrrrrrrttt")
+const content = ref("")
 console.log(props.content);console.log("/Noteeditor");
 
 
@@ -79,6 +78,11 @@ console.log(props.content);console.log("/Noteeditor");
 
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
+    async function clickToSave() {
+      await sendToMongo()
+      emit('contentSavedManually')
+    }
+
 
 onUpdated(() => {
   console.log("NoteEditor updated")
@@ -105,7 +109,7 @@ onBeforeUnmount(() => {
 
 const updateContentProp = () => {
   const html = editor.value?.getHTML(); const raw = editor.value?.getText();
-  emit('writed', html, raw); console.log('emitted');
+  emit('writed', html, raw);
   
 }
 
@@ -141,7 +145,7 @@ onUnmounted(() => {
 
 <style lang="scss">
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+
 .container-noter {
   display: flex;
   flex-direction: column;
@@ -149,7 +153,7 @@ onUnmounted(() => {
 
   .container-editor {
     min-height: 50vh;
-    max-height: 65vh;
+    max-height: 57vh;
     padding: 5vw;
     overflow-y: scroll;
     cursor: text;
@@ -160,7 +164,6 @@ onUnmounted(() => {
       padding: 10px;
       font-variant-ligatures: contextual;
       font-family: 'Fira Code', monospace;
-      line-height: 8px;
     }
 
     pre {

@@ -1,39 +1,46 @@
 <template>
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
-      <div>
-        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
-          Auto save
+      <div >
+        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }" >
+          {{BUTTON.AUTO_SAVE[lang]}}
         </button>
+        <div>
+          <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
+        </div>
+        <div v-if="isStandAlone" >
+          <input type="checkbox" id="checkbox-sync" /><label for="checkbox-sync">Sync</label>
+        </div>
         <Loader v-if="isLoading" />
       </div>
-      <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
+      <div class="message-server"><h2> {{messageAfterRequest}} </h2> </div>
     </div>
   <div class="main">
     <NoteEditor :content="content"
                 :sendToMongo="sendToMongo"
                 :autoSaveEnabled="autoSaveEnabled"
                 :savingTriggered="savingTriggered"
-                @contentSaved="updateContent"
+                @contentSavedManually="updateContent"
                 @writed="updateContentRef"
                 v-if="isDataLoaded" />
   </div>
 
 </template>
 
-<script setup lang="ts">
+<script setup>
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-import { saveDocument } from '../utils';
+import { getContent, saveDocument } from '@/utils/request.ts';
+import { BUTTON, MSG } from './constants';
 import Loader from './Loader.vue';
 
 const emit = defineEmits(['titleChanged'])
 
 const route= useRoute()
 const router = useRouter()
-const messageFromServer= ref('')
+const messageAfterRequest= ref('')
 const isLoading=ref(false)
 const isSaveLoading=ref(false)
 const savingTriggered= ref(false)
@@ -45,98 +52,79 @@ const folderCode=computed(() => route.params?.folderCode)
 
 const isDataLoaded = ref(false)
 
+const isOfflineEnabled=ref(false)
+const lang=computed(() => navigator.language)
+// @ts-ignore
+const LOCAL_MSG = computed(() => MSG[lang.value]);
 
-async function getContent(folderCode: string, title: string)  {
-  
-  const params = { folderCode, title }
-  const request = await axios.get('/api/findNoteByTitle', {params})
-  const data = request.data
-  
+// Si l'appli est lancé depuis le bureau
+const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )
 
-  return data
-  }
 
-function setMessageServer(msg: string) {
-  messageFromServer.value=msg
-  const timeout = setTimeout(() => {messageFromServer.value=''; }, 5000)
-}
-const logg = () => { console.log("Documentv - event received")}
-const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
-const sendToMongo = async (html: string, raw: string, extra?: object) => { 
+const newTitle = computed(() => editableTitle.value!==title.value ? editableTitle.value : null )
+const sendToMongo = async (html, raw, extra=null) => { 
   isSaveLoading.value=true
-  const updated = 
-    await axios.put('/api/updateNote', {
-          title: title.value,
-          folderCode: folderCode.value,
-          newTitle: newTitle.value,
-          html,
-          raw,
-          extra
-        })
 
-    if(!updated.data || updated.status>=400) {
-      isSaveLoading.value=false
-      setMessageServer(updated.statusText)
-    }
-    
-    if(updated.status<400 && newTitle.value)
-    {
-      emit('titleChanged', newTitle.value)
-      router.replace(newTitle.value);
-    } 
+  // @ts-ignore
+  const updated = await saveDocument(route.params.document, folderCode.value, html, raw, newTitle.value, extra)
+
+  if(!updated.data || updated.status>=400) {
+    isSaveLoading.value=false
+  }
+  
+  if(updated.status<400 && newTitle.value)
+  {
+    emit('titleChanged', newTitle.value)
+    router.replace(newTitle.value);
+  } 
 
     isSaveLoading.value=false
     return updated.data
-  }
+}
 
 
 const autoSaveEnabled = ref(true)
 async function toggleAutoSave() {
   autoSaveEnabled.value = !autoSaveEnabled.value
-  console.log(title.value);console.log("/toggler title.value");
+  
   // @ts-ignore
   const data = await getContent(folderCode.value, title.value)
   
-  console.log(data);console.log("/toggleAutoSave - Document.vue");
-  content.value = data?.html ?? "Auto save mal togglé"
+  content.value = data?.html ?? LOCAL_MSG.value.ERROR.AUTO_SAVE
 }
 
 onMounted(async () => {
-  console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
     if(route.params?.document?.length>0) {
-      console.log("dans if - mounted")
-      console.log(route.params);console.log(route.params?.document ?? "no param document - mounted")
-
       isLoading.value=true
-      const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-      content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found on Mounted"
-      editableTitle.value=route.params?.document; console.log(data);console.log("/ getcontent loaded - mounted");
+      const data = await getContent(folderCode.value, route.params?.document)
+      content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
+      editableTitle.value=route.params?.document;
       isLoading.value=false
       isDataLoaded.value = true 
     }
     
 })
-onBeforeRouteUpdate(async (to, from) => {
-  
+onBeforeRouteUpdate(async (to, from) => {  
   isDataLoaded.value=false
   isLoading.value=true
-  const data = await getContent(<string>folderCode.value, <string>to.params?.document)
+  const data = await getContent(folderCode.value, to.params?.document)
   isLoading.value=false
   savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
-  content.value = data?.html ?? data?.raw ?? "<h2>Error</h2>No content found"
+  content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
   editableTitle.value= data?.title ?? to.params?.document
   savingTriggered.value=false
   
   isDataLoaded.value = true
-  console.log("document.vue getcontent");console.log(data);console.log(content.value);console.log("/document.vue getcontent")
-
 })
 const updateContent = async () => {
-  const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-  content.value = data?.html ?? "updated after event received"
+  const data = await getContent(folderCode.value, route.params?.document)
+  content.value = data?.html ?? "UpdateContent failed"
+  messageAfterRequest.value='Saved'; setTimeout(() => messageAfterRequest.value='', 5000)
 }
 
-const updateContentRef = (html: string, raw?: string) => { content.value=html; console.log("/updateContentRef - Documentv") }
+const updateContentRef = (html, raw=null) => { 
+  content.value=html;
+}
 
 </script>
 
