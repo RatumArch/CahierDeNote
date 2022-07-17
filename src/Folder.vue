@@ -8,7 +8,7 @@
       {{folderCode}}
       <pre>{{copiedMsg}}</pre>
     </div>
-    <button @click="createDocument">
+    <button @click="newDocument">
       <font-awesome-icon icon="fa-solid fa-add" /> New note
     </button>
 
@@ -38,6 +38,7 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
+import { createDocument } from './utils';
 
 
 const notesContent = ref(['init-value'])
@@ -65,9 +66,9 @@ const findNotesFromFolder = async () =>
       .then(res => res.data)
       .catch(() => null)
 
-  async function createDocument() {
+  async function newDocument() {
 
-    const newDoc = await axios.post('/api/createDocument', { folderCode: folderCode.value }).then(doc => doc.data)
+    const newDoc = await createDocument(folderCode.value)
     
     notesContent.value= await findNotesFromFolder()
     
@@ -75,8 +76,6 @@ const findNotesFromFolder = async () =>
   }
 
 async function handleTitleChange(newTitle) {
-  console.log("handle title change d")
-  console.log(newTitle)
   notesContent.value= await findNotesFromFolder()
 }
 
@@ -85,9 +84,8 @@ onBeforeMount(async () => {
   notesContent.value= await findNotesFromFolder()
   
   const document = notesContent.value[0]
-  console.log(notesContent.value);
   
-  const routeDocument = route.params?.document>0 ? route.params?.document : document?.title;
+  const routeDocument = route.params?.document?.length>0 ? route.params?.document : document?.title;
 
   router.push(`/folder/${folderCode.value}/${routeDocument}`);  
 })

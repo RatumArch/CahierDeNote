@@ -39,3 +39,5 @@ export async function getContent(folderCode: string, title: string)  {
 export async function createFolder() {
   return await axios.post('/api/createFolder').then(res => res.data)
 }
+
+export const createDocument = async (folderCode: string) => await axios.post(API.CREATE_DOCUMENT, { folderCode }).then(doc => doc.data)
