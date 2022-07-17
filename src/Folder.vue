@@ -2,7 +2,7 @@
 <div class="container">
   
   <div class="sidebar">
-    <RouterLink to="/" class="accueil" >{{ SIDEBAR.ACCUEIL[lang]}}</RouterLink>
+    <RouterLink to="/" class="accueil" >{{ SIDEBAR.ACCUEIL[lang]}} <img src="/icon-240.png" /> </RouterLink>
     <div title="Copy this link to retrieve your folder later" class="copy" @click="copy" >
       <font-awesome-icon icon="fa-solid fa-clipboard" />
       {{folderCode}}

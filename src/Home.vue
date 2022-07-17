@@ -13,7 +13,6 @@
       <li>Images</li>
       <li>LaTex expression</li>
       <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
-      <li>Installable</li>
     </ul>
   </div>
   </Teleport>
@@ -22,14 +21,18 @@
   </div>
   <progress v-if="isLoading" />
   <div class="load-doc" >
+    <input type="text" v-model="folderCode"/>
     <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
       {{HOME_TYPED.LOAD_FOLDER[lang] }}
     </RouterLink>
-    <input type="text" v-model="folderCode"/>
   </div>
 
+  <div class="exemples" >
+    <h2>Exemples</h2>
+    <img src="https://res.cloudinary.com/dzggewhvt/image/upload/q_40/v1658086359/jfetkj9knqw2mybtcpyq.png" /> 
   </div>
-  <NoteEditor content="<image-input src='http://res.cloudinary.com/dzggewhvt/image/upload/v1658085286/rkkeh5cwwzl7n9hwfw2g.png' nodeid='1658085265904' width='84px'></image-input>" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  </div>
+  <NoteEditor content="content" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
   
 </template>
 
@@ -123,8 +126,9 @@ const isDev = ref(import.meta.env.DEV)
 }
 .load-doc {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
+  margin-bottom: 3vh;
   input {
       display: inline;
       font-size: 4vw;
@@ -133,5 +137,14 @@ const isDev = ref(import.meta.env.DEV)
       height: 30px;
 }
 }
+.exemples {
+    width: 60vw;
+    font-size: 5vh;
+    border-top-style: solid;
+    
+    img {
+      width: 100%;
+    }
+  }
 
 </style>
