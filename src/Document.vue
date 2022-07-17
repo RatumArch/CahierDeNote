@@ -5,8 +5,12 @@
         <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
           Auto save
         </button>
-        <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
-        <input type="checkbox" id="checkbox-sync" v-if="isStandAlone" /><label for="checkbox-sync">Sync</label>
+        <div>
+          <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
+        </div>
+        <div v-if="isStandAlone" >
+          <input type="checkbox" id="checkbox-sync" /><label for="checkbox-sync">Sync</label>
+        </div>
         <Loader v-if="isLoading" />
       </div>
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
@@ -149,21 +153,21 @@ const updateContentRef = (html: string, raw?: string) => { content.value=html; c
     background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: blueviolet;
+    outline-width: 1px;
+    outline-style: solid;
+    outline-color: blueviolet;
     background: linear-gradient(to right, darkgreen 50%, lightblue);
   }
   50% {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: blueviolet;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: blueviolet;
     background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: blueviolet;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: blueviolet;
     background: linear-gradient(to right, darkgreen 10%, lightblue);
   }
   from {

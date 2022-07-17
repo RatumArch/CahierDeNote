@@ -21,7 +21,7 @@
         {{note?.title}}
     </RouterLink>
 
-    <span class="document-link" v-if="isLoading">New Note incomming...</span>
+    <span class="document-link" v-if="isNewNoteLoading">New Note incomming...</span>
   </div>
 
   <div class="main">
@@ -45,7 +45,7 @@ const notesContent = ref(['init-value'])
 
 const route = useRoute()
 const router = useRouter()
-const isLoading = ref(false)
+const isNewNoteLoading = ref(false)
 
 const folderCode = computed(() => route.params?.folderCode)
 
@@ -60,11 +60,11 @@ const copy = () =>
 const findNotesFromFolder = async () => await findNotes(folderCode.value)
 
 async function newDocument() {
-  isLoading.value=true
+  isNewNoteLoading.value=true
   const newDoc = await createDocument(folderCode.value)
 
   notesContent.value= await findNotesFromFolder()
-  isLoading.value=false
+  isNewNoteLoading.value=false
   
   newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
 }
@@ -74,9 +74,9 @@ async function handleTitleChange(newTitle) {
 }
 
 onBeforeMount(async () => {
-  isLoading.value=true
+  isNewNoteLoading.value=true
   notesContent.value= await findNotesFromFolder()
-  
+  isNewNoteLoading.value=false
   const document = notesContent.value[0]
   
   const routeDocument = route.params?.document?.length>0 ? route.params?.document : document?.title;

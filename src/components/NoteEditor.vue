@@ -24,7 +24,6 @@ import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
-import axios from 'axios';
 import LatexBlock from '../utils/latexExtension.ts'
 import { useRoute } from 'vue-router'
 
