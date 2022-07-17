@@ -21,6 +21,7 @@
         {{note?.title}}
     </RouterLink>
 
+    <span class="document-link" v-if="isLoading">New Note incomming...</span>
   </div>
 
   <div class="main">
@@ -35,10 +36,9 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
-import { createDocument } from './utils';
+import { createDocument, findNotes } from './utils';
 
 
 const notesContent = ref(['init-value'])
@@ -57,23 +57,17 @@ const copy = () =>
     .catch((err) => { copiedMsg.value='fail to copy' })
 
 
-const findNotesFromFolder = async () =>
-  await axios.get('/api/findNotesFromFolder', {
-      params: {
-        folderCode: folderCode.value ?? "no-folder-code"
-      }
-    })
-      .then(res => res.data)
-      .catch(() => null)
+const findNotesFromFolder = async () => await findNotes(folderCode.value)
 
-  async function newDocument() {
+async function newDocument() {
+  isLoading.value=true
+  const newDoc = await createDocument(folderCode.value)
 
-    const newDoc = await createDocument(folderCode.value)
-    
-    notesContent.value= await findNotesFromFolder()
-    
-    newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
-  }
+  notesContent.value= await findNotesFromFolder()
+  isLoading.value=false
+  
+  newDoc?.title ? router.push(`${newDoc.title}`) : router.replace('/error')
+}
 
 async function handleTitleChange(newTitle) {
   notesContent.value= await findNotesFromFolder()

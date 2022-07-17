@@ -141,7 +141,7 @@ onUnmounted(() => {
 
 <style lang="scss">
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+
 .container-noter {
   display: flex;
   flex-direction: column;
@@ -149,7 +149,7 @@ onUnmounted(() => {
 
   .container-editor {
     min-height: 50vh;
-    max-height: 65vh;
+    max-height: 57vh;
     padding: 5vw;
     overflow-y: scroll;
     cursor: text;

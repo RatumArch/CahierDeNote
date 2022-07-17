@@ -41,3 +41,13 @@ export async function createFolder() {
 }
 
 export const createDocument = async (folderCode: string) => await axios.post(API.CREATE_DOCUMENT, { folderCode }).then(doc => doc.data)
+
+export async function findNotes(folderCode: string) {
+  return await axios.get('/api/findNotesFromFolder', {
+    params: {
+      folderCode
+    }
+  })
+    .then(res => res.data)
+    .catch(() => null)
+}

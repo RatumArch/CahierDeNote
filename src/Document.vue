@@ -6,7 +6,7 @@
           Auto save
         </button>
         <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
-        <input type="checkbox" id="checkbox-sync" /><label for="checkbox-sync">Sync</label>
+        <input type="checkbox" id="checkbox-sync" v-if="isStandAlone" /><label for="checkbox-sync">Sync</label>
         <Loader v-if="isLoading" />
       </div>
       <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
@@ -53,10 +53,8 @@ const lang=ref('fr')
 // @ts-ignore
 const LOCAL_MSG = computed(() => MSG[lang.value])
 
-function setMessageServer(msg: string) {
-  messageFromServer.value=msg
-  const timeout = setTimeout(() => {messageFromServer.value=''; }, 5000)
-}
+const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )
+
 
 const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
 const sendToMongo = async (html: string, raw: string, extra?: object) => { 
@@ -67,7 +65,6 @@ const sendToMongo = async (html: string, raw: string, extra?: object) => {
 
   if(!updated.data || updated.status>=400) {
     isSaveLoading.value=false
-    setMessageServer(updated.statusText)
   }
   
   if(updated.status<400 && newTitle.value)
