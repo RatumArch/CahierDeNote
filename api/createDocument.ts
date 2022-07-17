@@ -30,7 +30,7 @@ async function newDocument(req: any, res: VercelResponse) {
     const generatedTitle = async () => {
         console.log("We generate");
         
-        const countDocs = await collection.countDocuments({ $where: { folderCode} })
+        const countDocs = await collection.countDocuments({ folderCode })
         console.log(countDocs);
         
         const standartTitle= 'New Note '
