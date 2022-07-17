@@ -46,13 +46,14 @@ import Loader from "./Loader.vue";
 import { HOME, ROUTE } from "@/constants";
 import { createFolder } from "./utils/request.ts";
 import type { textLang } from "./constants/types";
+import { useLang } from '@/utils/lang'
 
 const folderCode = ref('')
 const router = useRouter()
 const route = useRoute()
 const isLoading=ref(false)
 // @ts-ignore
-const lang=ref<'fr'|'en'>('fr')
+const lang=useLang()
 const HOME_TYPED=ref<textLang>(HOME)
 const HOME_TYPED2=computed<textLang>(() => HOME)
 
@@ -64,7 +65,6 @@ const newFolder = async () => {
   isLoading.value=false
   newFolder ? router.push(`/${ROUTE.FOLDER}/${folderCode.value}`) : router.push(ROUTE.ERROR)
 }
-
 
 
 const purged = ref('purge')

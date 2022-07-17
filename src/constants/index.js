@@ -1,3 +1,5 @@
+export * from './types'
+
 export const API = {
     CREATE_DOCUMENT: '/api/createDocument',
     CREATE_FOLDER: '/api/createFolder',
@@ -32,7 +34,7 @@ export const ROUTE = {
 }
 
 export const HOME = {
-    TITLE:  {fr: "Cahier de Note",},
+    TITLE:  {fr: "Cahier de Note", en: "Cahier de Note"},
     DESCRIPTION: { fr: "Créer des documents en ligne" },
     AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" },
     NEW_DOC: { fr: "Nouveau document", en: "New Document" },
@@ -42,5 +44,6 @@ export const SIDEBAR = {
     ACCUEIL: { fr: 'Accueil', en: 'Home Page'}
 }
 export const BUTTON = {
-    AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" }
+    AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" },
+    SAVE: { fr: "Enregistrer", en: "Save"}
 }

@@ -33,6 +33,7 @@ import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { getContent, saveDocument } from '@/utils/request.ts';
+import { useLang } from '@/utils/lang.ts'
 import { BUTTON, MSG } from './constants';
 import Loader from './Loader.vue';
 
@@ -53,9 +54,15 @@ const folderCode=computed(() => route.params?.folderCode)
 const isDataLoaded = ref(false)
 
 const isOfflineEnabled=ref(false)
-const lang=computed(() => navigator.language)
+const lang=computed(() => {
+  if(navigator.language.includes('en'))
+    return 'en'
+  if(navigator.language.includes('fr'))
+    return 'fr'
+} )
 // @ts-ignore
 const LOCAL_MSG = computed(() => MSG[lang.value]);
+console.log(lang.value);console.log(BUTTON);console.log("/nbutton - documentvue");
 
 // Si l'appli est lancé depuis le bureau
 const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )
@@ -109,7 +116,7 @@ onBeforeRouteUpdate(async (to, from) => {
   isLoading.value=true
   const data = await getContent(folderCode.value, to.params?.document)
   isLoading.value=false
-  savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
+  savingTriggered.value=true;
   content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
   editableTitle.value= data?.title ?? to.params?.document
   savingTriggered.value=false
@@ -117,9 +124,10 @@ onBeforeRouteUpdate(async (to, from) => {
   isDataLoaded.value = true
 })
 const updateContent = async () => {
+  messageAfterRequest.value='Saving...'
   const data = await getContent(folderCode.value, route.params?.document)
   content.value = data?.html ?? "UpdateContent failed"
-  messageAfterRequest.value='Saved'; setTimeout(() => messageAfterRequest.value='', 5000)
+  messageAfterRequest.value='Saved !'; setTimeout(() => messageAfterRequest.value='', 5000)
 }
 
 const updateContentRef = (html, raw=null) => { 

@@ -2,7 +2,7 @@
 <div class="container">
   
   <div class="sidebar">
-    <RouterLink to="/" class="accueil" >Accueil</RouterLink>
+    <RouterLink to="/" class="accueil" >{{ SIDEBAR.ACCUEIL[lang]}}</RouterLink>
     <div title="Copy this link to retrieve your folder later" class="copy" @click="copy" >
       <font-awesome-icon icon="fa-solid fa-clipboard" />
       {{folderCode}}
@@ -21,7 +21,7 @@
         {{note?.title}}
     </RouterLink>
 
-    <span class="document-link" v-if="isNewNoteLoading">New Note incomming...</span>
+    <span class="document-link" v-if="isNewNoteLoading">New Note incomming... <progress /> </span>
   </div>
 
   <div class="main">
@@ -38,7 +38,8 @@
 import { useRoute, useRouter } from 'vue-router';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
-import { createDocument, findNotes } from './utils';
+import { createDocument, findNotes, useLang } from './utils';
+import { SIDEBAR } from './constants';
 
 
 const notesContent = ref(['init-value'])
@@ -49,6 +50,7 @@ const isNewNoteLoading = ref(false)
 
 const folderCode = computed(() => route.params?.folderCode)
 
+const lang=useLang()
 
 const copiedMsg=ref('')
 const copy = () =>
@@ -120,9 +122,10 @@ onBeforeMount(async () => {
   height: inherit;
   padding: 10px;
   color: white;
+  overflow-y: auto;
 
   letter-spacing: 2px;
-  overflow: hidden;
+  overflow-x: hidden;
 
   .accueil {
     font-weight: bold;

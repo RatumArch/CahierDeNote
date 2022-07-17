@@ -1,17 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { notes, PrismaClient } from '@prisma/client'
+
 // @ts-ignore
 import { _get, clientPromise, sanitizeText, mapSerializeDocs } from '../utils/index.js'
 import { Collection } from 'mongodb';
 
-const prisma = new PrismaClient()
 const db = process.env.MONGODB_DB
 const notesCollec = process.env.MONGODB_DB_COLLECTION
 const foldersCollection= process.env.MONGODB_DB_FOLDER_COLLECTION
 
 async function findFolder(req: VercelRequest, res: VercelResponse) {
-    const prisma = new PrismaClient()
-
     //@ts-ignore
     const client = await clientPromise.then((client: any) => client)
     const datab = client.db(db)
@@ -30,7 +27,6 @@ async function findFolder(req: VercelRequest, res: VercelResponse) {
         return null
      })
      
-    prisma.$disconnect()
     res.status(200).send(notes)
 }
 
