@@ -54,12 +54,7 @@ const folderCode=computed(() => route.params?.folderCode)
 const isDataLoaded = ref(false)
 
 const isOfflineEnabled=ref(false)
-const lang=computed(() => {
-  if(navigator.language.includes('en'))
-    return 'en'
-  if(navigator.language.includes('fr'))
-    return 'fr'
-} )
+const lang=useLang()
 // @ts-ignore
 const LOCAL_MSG = computed(() => MSG[lang.value]);
 console.log(lang.value);console.log(BUTTON);console.log("/nbutton - documentvue");
