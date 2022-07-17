@@ -2,8 +2,8 @@
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
       <div >
-        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading}" >
-          Auto save
+        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }" >
+          {{LOCAL_BUTTON.AUTO_SAVE}}
         </button>
         <div>
           <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
@@ -13,14 +13,14 @@
         </div>
         <Loader v-if="isLoading" />
       </div>
-      <div class="message-server"><pre><strong>Serv : {{messageFromServer}}</strong> </pre> </div>
+      <div class="message-server"><h2> {{messageAfterRequest}} </h2> </div>
     </div>
   <div class="main">
     <NoteEditor :content="content"
                 :sendToMongo="sendToMongo"
                 :autoSaveEnabled="autoSaveEnabled"
                 :savingTriggered="savingTriggered"
-                @contentSaved="updateContent"
+                @contentSavedManually="updateContent"
                 @writed="updateContentRef"
                 v-if="isDataLoaded" />
   </div>
@@ -33,14 +33,14 @@ import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { getContent, saveDocument } from '@/utils/request.ts';
-import { MSG } from './constants';
+import { BUTTON, MSG } from './constants';
 import Loader from './Loader.vue';
 
 const emit = defineEmits(['titleChanged'])
 
 const route= useRoute()
 const router = useRouter()
-const messageFromServer= ref('')
+const messageAfterRequest= ref('')
 const isLoading=ref(false)
 const isSaveLoading=ref(false)
 const savingTriggered= ref(false)
@@ -55,7 +55,7 @@ const isDataLoaded = ref(false)
 const isOfflineEnabled=ref(false)
 const lang=ref('fr')
 // @ts-ignore
-const LOCAL_MSG = computed(() => MSG[lang.value])
+const LOCAL_MSG = computed(() => MSG[lang.value]); const LOCAL_BUTTON = computed(() => BUTTON[lang.value])
 
 const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )
 
@@ -120,7 +120,10 @@ const updateContent = async () => {
   content.value = data?.html ?? "updated after event received"
 }
 
-const updateContentRef = (html: string, raw?: string) => { content.value=html; console.log("/updateContentRef - Documentv") }
+const updateContentRef = (html: string, raw?: string) => { 
+  content.value=html;
+  messageAfterRequest.value='Saved'; setTimeout(() => messageAfterRequest.value='', 5000)
+}
 
 </script>
 
@@ -153,21 +156,21 @@ const updateContentRef = (html: string, raw?: string) => { content.value=html; c
     background: linear-gradient(to right, darkgreen 75%, lightblue);
   }
   25% {
-    outline-width: 1px;
-    outline-style: solid;
-    outline-color: blueviolet;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: blueviolet;
     background: linear-gradient(to right, darkgreen 50%, lightblue);
   }
   50% {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: blueviolet;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: blueviolet;
     background: linear-gradient(to right, darkgreen 25%, lightblue);
   }
   75% {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: blueviolet;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: blueviolet;
     background: linear-gradient(to right, darkgreen 10%, lightblue);
   }
   from {

@@ -37,9 +37,9 @@ import { useRoute } from 'vue-router'
     toggleAutoSave: { type: Function, required: false},
     savingTriggered: { type: Boolean, required: true}
   })
-  const emit = defineEmits(['contentSaved', 'writed'])
+  const emit = defineEmits(['contentSavedManually', 'writed'])
 
-const content = ref("rrrrrrrrrttt")
+const content = ref("")
 console.log(props.content);console.log("/Noteeditor");
 
 
@@ -78,6 +78,11 @@ console.log(props.content);console.log("/Noteeditor");
 
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
+    async function clickToSave() {
+      await sendToMongo()
+      emit('contentSavedManually')
+    }
+
 
 onUpdated(() => {
   console.log("NoteEditor updated")
@@ -104,7 +109,7 @@ onBeforeUnmount(() => {
 
 const updateContentProp = () => {
   const html = editor.value?.getHTML(); const raw = editor.value?.getText();
-  emit('writed', html, raw); console.log('emitted');
+  emit('writed', html, raw);
   
 }
 

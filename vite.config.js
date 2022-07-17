@@ -17,7 +17,7 @@ export default defineConfig({
       includeAssets: ["/favicon.png"],
       strategies: "injectManifest",
       manifest: {
-        name: "Test Project",
+        name: "Cahier de Notes",
         short_name: "Test",
         theme_color: "#ffffff",
         start_url: "/",

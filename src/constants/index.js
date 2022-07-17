@@ -41,3 +41,11 @@ export const HOME = {
     },
     en: {}
 }
+export const BUTTON = {
+    fr: {
+        AUTO_SAVE: "Enregistrement auto"
+    },
+    en: {
+        AUTO_SAVE: "Auto save"
+    }
+}
