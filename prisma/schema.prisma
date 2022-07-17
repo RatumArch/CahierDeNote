@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model folders {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  folderCode   String   @unique()
+  notesContent notes[]
+  extra        Json?
+}
+
+model notes {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  html         String
+  raw          String
+  title        String?
+  extra        Json?
+  creationDate DateTime @default(now())
+  modifiedDate DateTime @updatedAt
+  folder       folders? @relation(fields: [folderId], references: [id])
+  folderId     String  @db.ObjectId
+  folderCode   String?
+}
+
+model trashcollec {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  aijinsere String
+}

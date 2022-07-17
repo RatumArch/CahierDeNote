@@ -1,11 +1,12 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { VitePWA } from "vite-plugin-pwa";
-const path = require('path')
+import path from 'path'
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envDir: '.',
   plugins: [
     vue(),
     VitePWA({
@@ -16,7 +17,7 @@ export default defineConfig({
       includeAssets: ["/favicon.png"],
       strategies: "injectManifest",
       manifest: {
-        name: "Test Project",
+        name: "Cahier de Notes",
         short_name: "Test",
         theme_color: "#ffffff",
         start_url: "/",
@@ -51,11 +52,11 @@ export default defineConfig({
   ],
   resolve: {
     alias: [
-      { find: /^@\/components\/(.*)/, replacement:  path.resolve("src/components/$1") },
+      { find: /^@\/(.*)/, replacement: path.resolve("src/$1") },
+      { find: /^@\/components\/(.*)/, replacement: path.resolve("src/components/$1") },
       { find: /^@\/assets\/(.*)/, replacement:  path.resolve("src/assets/$1", "assets/$1") },
-      { find: /^@\/constants\/(.*)/, replacement:  path.resolve("src/constants") },
-      { find: "^utils\/(.*)", replacement: path.resolve("utils/$1")  },
-      { find: "^@\/utils\/(.*)", replacement: path.resolve("utils/$1")  }
+      { find: /^@\/constants\/(.*)/, replacement:  path.resolve(__dirname, "src/constants/$1") },
+      { find: /^@\/utils\/(.*)/, replacement: path.resolve(__dirname, "src/utils/$1")  }
     ],
     extensions: [ '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
   }

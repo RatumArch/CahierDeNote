@@ -1,24 +1,49 @@
 <template>
-<node-view-wrapper>
-    <div class="image-input" :style="{width: width[format]}">
-        <label for="image-input-opaq" class="preview-label">
-            <span class="placeholder">Insérer image ici</span>
-            <a :href="cdnUrl"> {{cdnUrl}}</a>
-            <img v-bind:src="cdnUrl?.length>0 ? cdnUrl : blobUrl" class="preview"/>
+<node-view-wrapper ref="wrapper">
+    <div class="image-input" ref="divima" :style="{width: '84px', height: '84px'}" @mouseleave="hideLabel" >
+    <span class="preview-label-container" v-if="showLabel">
+        <label :for="`image-input-file-${node.attrs.nodeId}`" class="preview-label" v-if="showLabel" >
+            <span class="placeholder content" >
+                <font-awesome-icon icon="fa-solid fa-file-image" />
+            </span>
         </label>
-        <input type="file" id="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles"/>
+        <span class="preview-label" v-if="showLabel" title="Feature à implémenter" @click="openFormLink" >
+            <font-awesome-icon icon="fa-solid fa-link" />
+        </span>
+        <form v-if="showFormLink" @submit.prevent="" >
+            <button @click.stop="hideFormLink" >X</button>
+            <input type="text" placeholder="Feature à implémenter" class="input-link" @click.stop="" />
+        </form>
+        <span class="preview-label dragging" v-if="showLabel" draggable="true" data-drag-handle >
+            <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
+        </span>
+        </span>
+        <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " @mouseover="openLabel" />
+        <i class="fa-solid fa-image" v-if="isPreviewEmpty" ></i>
+        <input type="file" :id="`image-input-file-${node.attrs.nodeId}`" class="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles" />
+        
     </div>
+    
 </node-view-wrapper>
 </template>
 
 <script lang="ts" >
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-3'
 import axios from 'axios'
 
 export default {
     name: 'ImageInp',
-    props: { format: { type: String, default: 'large', required: false}, key: Number },
+    props: {
+        format: { type: String, default: 'large', required: false},
+        updateAttributes: {
+            type: Function,
+            required: true,
+        },
+        inputId: { type: String, required: false, default: ''},
+        node: { type: Object },
+
+     },
     components: {
         NodeViewWrapper,
         NodeViewContent,
@@ -28,46 +53,104 @@ export default {
 
         const width = ref({ little: '50px', medium: '200px', large: '600px' })
         
-        const blobUrl = ref<string|null>(null)
+        const blobUrl = ref<string>('')
+        
 
         const input= ref<any>(null)
 
         const files = input.value?.files
-        const cdnUrl = ref<string>("No file uploaded")
+        const cdnUrl = ref<string>("")
+        onMounted(() => props.updateAttributes({ nodeId: Date.now()}))
 
         const logFiles = (event: any) => {
             let fileUploaded: File = event.target.files[0]
-            console.log(fileUploaded);console.log(event.target.files.length);
+            fileUploaded.arrayBuffer().then(res => {
+                const blob = new Blob([res], { type: 'image'})
+                
+                
+                blobUrl.value= window.URL.createObjectURL( blob)
+            })
             
-            blobUrl.value= window.URL.createObjectURL( fileUploaded)
-const cloudName = 'dzggewhvt'
+            const cloudName = 'dzggewhvt'
             axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        file: fileUploaded,
-        upload_preset: 'ze5mrykg'
-         }  ).then(res => {console.log(res.data); cdnUrl.value = res.data.url;
-         })
+                    file: fileUploaded,
+                    upload_preset: 'ze5mrykg'
+                    }  )
+                    .then(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
         }
-        return { width, blobUrl, files, logFiles, cdnUrl }
+
+        const testpaste = (event: any) => { 
+            cdnUrl.value= event.clipboardData.getData('text');
+            blobUrl.value = cdnUrl.value
+            props.updateAttributes({ src: cdnUrl.value })
+        }
+        
+        
+        
+        const showLabel= ref(props.node.attrs.src?.length===0 && blobUrl.value?.length===0)   
+        const showFormLink = ref(false)
+        const openLabel = () => { showLabel.value= true }
+        const hideLabel = () => { 
+            if(blobUrl.value?.length >0 || props.node.attrs.src?.length>0)
+                showLabel.value= false
+        }
+        const openFormLink = () => { showFormLink.value= true }
+        const hideFormLink = () => { showFormLink.value= false }
+    
+
+        return { width, blobUrl, files, hideFormLink, hideLabel, logFiles, cdnUrl, openFormLink, openLabel, showFormLink, showLabel, testpaste }
     }
 }
 </script>
 
-<style scoped>
+<style scoped >
 .image-input {
     overflow: hidden;
-    resize: vertical;
+    resize: both;
     border-style: solid;
-    width: 5vw;
+    min-width: 20vw;
+    min-height: 20vh;
 }
-#image-input-opaq {
+.image-input-opaq {
     opacity: 0;
+    width: 0;
+    height: 0;
+}
+.input-link {
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.75);
+    border-color: black;
+}
+.preview-label-container {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
 }
 .preview-label {
     overflow: hidden;
-    resize: both;
+    font-size: 15px;
+    padding: 5px;
+    text-align: center;
+    box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.75);
+    background-color: white;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 5px;   
 }
+.preview-label:hover {
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+}
+.dragging {
+        cursor: all-scroll;
+    }
 .preview {
     width: 100%;
-    height: 100%;    
+    height: 100%;
 }
+
 </style>

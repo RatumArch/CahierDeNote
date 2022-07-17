@@ -1,127 +1,210 @@
 <template>
-<div class="container-noter" @click="editor.chain().focus().run()">
+<div class="container-noter">
   <div class="button-panel" >
-      <button @click="toggleBold" >B</button>
-      <button @click="toggleCodeBlock" >Python</button>
-      <button @click="addImage" >image</button>
+      <button @click="toggleBold" title="bold" ><strong>Bold</strong> </button>
+      <button @click="toggleCodeBlock" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
+      <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
-      <button @click="sendToMongo" class="send">Save</button>
+      <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
+      <button @click="clickToSave" class="send">Save</button>
   </div>
-  <div class="container-editor" @click="focusOnClick">
-    <editor-content :editor="editor" />
+  <div class="container-editor" @click="(e) => focusOnClick()" >
+    <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
   </div>
 </div>
 </template>
 
-<script lang="ts">
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+<script lang="ts" setup>
+import { useEditor, EditorContent, Content } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted } from 'vue'
+import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
-import axios from 'axios';
+import LatexBlock from '../utils/latexExtension.ts'
+import { useRoute } from 'vue-router'
 
-export default {
-  name: 'NoteEditor',
-  components: {
-    EditorContent,
-  },
 
-  setup() {
+
+  const props = defineProps({
+    content: { type: String, required: false },
+    title: { type: String, required: false },
+    sendToMongo: {required: false, type: Function, default: () => {} },
+    autoSaveEnabled: { type: Boolean, required: true, default: true },
+    toggleAutoSave: { type: Function, required: false},
+    savingTriggered: { type: Boolean, required: true}
+  })
+  const emit = defineEmits(['contentSavedManually', 'writed'])
+
+const content = ref("")
+console.log(props.content);console.log("/Noteeditor");
+
+
+
     const editor = useEditor({
-      content: '<p>I’m running</p>',
       extensions: [
-        StarterKit,
+        StarterKit.configure({
+          codeBlock: false
+        }),
         CodeBlockLowlight.configure({
-        lowlight,
-        defaultLanguage: 'python'
+          defaultLanguage: 'python',
+          lowlight
         }),
         ImageNode,
+        LatexBlock,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
         })
       ],
+      content: props.content
     })
-    
   
+    const route = useRoute()
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
-    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().run()
+    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().enter().run()
     //@ts-ignore
-    const addImage = () => editor.value?.chain().focus().addImage().run()
+    const addImage = () => editor.value?.chain().focus().addImage() .focus().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
+    //@ts-ignore
+    const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
-    const sendToMongo = () => { 
-      const data = editor.value?.getHTML()
-      axios.post('/api/insertNote', data)
+    const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
+
+    async function clickToSave() {
+      await sendToMongo()
+      emit('contentSavedManually')
     }
 
-    onMounted(() => {
-        editor.value?.chain().focus().run()
-    })
-    onBeforeUnmount(() => {
-        editor.value?.destroy()
-    })
-    return { editor, focusOnClick, sendToMongo, toggleBold, toggleCodeBlock, addImage, toLeft, toCenter }
-  },
+
+onUpdated(() => {
+  console.log("NoteEditor updated")
+  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);console.log("content inserted on Updated"); }
+})
+
+const isTyping = ref(false)
+const TypingStatusArray = ref<number[]>([])
+const keyUpTimeStamp = ref(1234)
+const isTypingRunning = (e: MouseEvent) => { isTyping.value = true; }
+const isTypingStopped = (e: MouseEvent) => {
+  keyUpTimeStamp.value=e.timeStamp
+  isTyping.value = false
+  return keyUpTimeStamp.value
 }
+
+const interval =ref<any>(null)
+
+onBeforeUnmount(() => {
+    editor.value?.destroy()
+    clearInterval(interval)
+})
+
+
+const updateContentProp = () => {
+  const html = editor.value?.getHTML(); const raw = editor.value?.getText();
+  emit('writed', html, raw);
+  
+}
+
+const defineInterval = () => {
+  return setInterval(async () => {
+  TypingStatusArray.value.push(keyUpTimeStamp.value)
+  const length= TypingStatusArray.value.length
+  
+  if(TypingStatusArray.value[length-1]-TypingStatusArray.value[length-2]==0 )
+    { 
+      await sendToMongo()
+      updateContentProp()
+      clearInterval(interval.value)
+      interval.value=null
+    }
+  }, 800)
+}
+
+
+
+watch(isTyping, (value) => {
+  if(value && !interval.value && props.autoSaveEnabled) {
+    interval.value= defineInterval()
+  }
+})
+
+onUnmounted(() => {
+  clearInterval(interval.value)
+})
+    
+
 </script>
 
 <style lang="scss">
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+
 .container-noter {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-top: 100px;
-  border-style: solid;
-  border-width: 3px;
-  border-radius: 20px;
-  border-bottom-style: none;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
 
-  cursor: text;
-  
   .container-editor {
-    height: 100%;
+    min-height: 50vh;
+    max-height: 57vh;
     padding: 5vw;
+    overflow-y: scroll;
+    cursor: text;
+    border-left-color: lightgray;
+    border-left-style: solid;
+
+    .ProseMirror {
+      padding: 10px;
+      font-variant-ligatures: contextual;
+      font-family: 'Fira Code', monospace;
+    }
 
     pre {
       background: #0D0D0D;
       color: #FFF;
-      font-family: 'JetBrainsMono', monospace;
+      font-variant-ligatures: contextual;
+      font-family: 'Fira Code', monospace;
       padding: 0.75rem 1rem;
       border-radius: 0.5rem;
     }
-    code {
-      color: inherit;
+    @supports (font-variation-settings: normal) {
+      code { 
+        font-family: 'Fira Code', monospace;
+        color: inherit;
         padding: 0;
         background: none;
         font-size: 0.8rem;
+      }      
     }
+
   }
   .button-panel {
     display: inline;
     top: 50px;
-    background-color:#B9F18D;
+    background-color:#4169e1;
     border-bottom-style: solid;
     padding: 10px;
 
     button {
       margin-left: 10px;
+      background-color: white;
     }
     button.send {
       padding: 5px;
       background-color: darkcyan;
       color: #FAF594;
+      border-style: solid;
+      border-width: 2px;
+      font-weight: bold;
+      border-radius: 2px;
+      letter-spacing: 1px;
     }
   }
 }

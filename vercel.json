@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+        {"source": "/folder", "destination": "/" },
+        {"source": "/folder/", "destination": "/" },
+        {"source": "/folder/rematch", "destination": "/" },
+        {"source": "/folder/:match*", "destination": "/" },
+        {"source": "/:match*", "destination": "/" }
+    ]
+}

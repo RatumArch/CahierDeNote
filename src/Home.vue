@@ -1,41 +1,137 @@
 <template>
-  <ReloadPWA />
-  <form method="post" enctype="multipart/form-data" @submit.prevent="onSubmit" >
-    <input type="file" multiple >
-    <button type="submit">Send</button>
-  </form>
-  <NoteEditor/>
+  <div class="home">
+    <ReloadPWA v-if="isDev" />
+    <Teleport to="header.description">
+  <div class="description">
+    <div class="title">
+      <h1>{{HOME_TYPED.TITLE[lang] }}</h1>
+      <p>{{HOME_TYPED.DESCRIPTION[lang]}}</p>
+    </div>
+    <h2>Features</h2>
+    <ul>
+      <li>Images</li>
+      <li>LaTex expression</li>
+      <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
+      <li>Installable</li>
+    </ul>
+  </div>
+  </Teleport>
+  <div tabindex="0" class="link newdoc" @click="newFolder">
+    {{HOME_TYPED.NEW_DOC[lang] }}
+  </div>
+  <progress v-if="isLoading" />
+  <div class="load-doc" >
+    <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
+      {{HOME_TYPED.LOAD_FOLDER[lang] }}
+    </RouterLink>
+    <input type="text" v-model="folderCode"/>
+  </div>
+
+  </div>
+  <button class="link" @click="purge" >{{purged}}</button>
+  <NoteEditor content="===" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  
 </template>
 
-<script lang="ts">
-import ImageInput from "./components/ImageInput.vue"
-
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
-import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
-export default defineComponent({
-  name: "App",
-  components: {
-    NoteEditor,
-    ReloadPWA,
-    ImageInp,
-    ImageInput
-  },
-  setup() {
-    const cloudName = 'dzggewhvt'
-    const onSubmit = (e: any) => {
-      const cloudName = 'dzggewhvt'
-      axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        file: e.target.value,
-        upload_preset: 'ze5mrykg'
-         } ).then(res => { console.log(res.data);
-          })
-    }
-    return { onSubmit }
-  }
-});
+import { useRoute, useRouter } from "vue-router";
+import Loader from "./Loader.vue";
+// @ts-ignore
+import { HOME, ROUTE } from "@/constants";
+import { createFolder } from "./utils/request.ts";
+import type { textLang } from "./constants/types";
+import { useLang } from '@/utils/lang'
+
+const folderCode = ref('')
+const router = useRouter()
+const route = useRoute()
+const isLoading=ref(false)
+// @ts-ignore
+const lang=useLang()
+const HOME_TYPED=ref<textLang>(HOME)
+const HOME_TYPED2=computed<textLang>(() => HOME)
+
+const newFolder = async () => {
+  isLoading.value=true
+  const newFolder = await createFolder().catch(() => null)
+  
+  folderCode.value=newFolder?.folderCode ?? 'error'
+  isLoading.value=false
+  newFolder ? router.push(`/${ROUTE.FOLDER}/${folderCode.value}`) : router.push(ROUTE.ERROR)
+}
+
+
+const purged = ref('purge')
+const purge = () => axios.delete('/api/purge').then(() => { purged.value = "Purged" })
+const isDev = ref(import.meta.env.DEV)
+
 </script>
+
+<style scoped lang="scss">
+.home {
+  padding: 10%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.description {
+  background-color: darkgreen;
+  padding-top: 5px;  
+  color: white;
+  font-size: 3vh;
+  padding: 13px;
+
+  .title {
+    text-align: center;
+  }
+  ul {
+    line-height: 1.5em;
+  }
+}
+.link {
+  text-decoration: double;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  width: 60%;
+
+  &:hover, &:focus {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &.newdoc {
+    display: block;
+    margin-bottom: 50px;
+    font-size: 5vw;
+    text-align: center;
+    border-style: solid;
+    border-color: royalblue;
+  }
+  &.load-doc {
+    background-color: lightblue;
+    font-size: 4vw;
+    text-align: center;
+  }
+}
+.load-doc {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  input {
+      display: inline;
+      font-size: 4vw;
+      padding: 2vw;
+      width: 10ex;
+      height: 30px;
+}
+}
+
+</style>

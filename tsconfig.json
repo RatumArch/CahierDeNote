@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -13,12 +14,12 @@
     "paths": {
       "@/*": ["src/*", "src/components/*"],
       "@/assets": ["src/assets/*", "assets/*"],
-      "@/constants": ["src/constants/*", "constants"],
-      "@/utils/*": ["src/utils/*", "utils/*"],
+      "@/constants*": ["src/constants"],
+      "@/utils*": [ "src/utils"],
     },
     "lib": ["ESNext", "DOM", "WebWorker"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "api/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "api/**/*.ts", "utils/**/*.ts", "utils/index.js", "src/constants/index.js"],
   "exclude": [
     "dist",
     "node_modules",

@@ -1,19 +1,20 @@
 <template>
-  <ReloadPWA />
-  <TextNode template="<h3>A text node </h3>" >+</TextNode>
-
-  <NoteEditor/>
+  <header class="description"></header>
+  <main>
+  <RouterView  >
+  </RouterView>
+  </main>
 </template>
 
 <script lang="ts">
 import ImageInput from "./components/ImageInput.vue"
-import TextNode from './components/TextNode.vue'
+
 import { defineComponent } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
-
+import { RouterView, RouterLink } from "vue-router";
 import ImageInp from "./components/ImageInput.vue";
 import NoteEditor from "@/components/NoteEditor.vue";
-import axios from "axios";
+import Loader from './Loader.vue'
 export default defineComponent({
   name: "App",
   components: {
@@ -21,20 +22,11 @@ export default defineComponent({
     ReloadPWA,
     ImageInp,
     ImageInput,
-    TextNode
+    Loader,
+    RouterView,
+    RouterLink
   },
-  setup() {
-    const cloudName = 'dzggewhvt'
-    const onSubmit = (e: any) => {
-      const cloudName = 'dzggewhvt'
-      axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        file: e.target.value,
-        upload_preset: 'ze5mrykg'
-         } ).then(res => { console.log(res.data);
-          })
-    }
-    return { onSubmit }
-  }
+ 
 });
 </script>
 
@@ -43,8 +35,8 @@ export default defineComponent({
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
-  min-height: 600px;
 }
-
+body {
+  margin: 0px
+}
 </style>
