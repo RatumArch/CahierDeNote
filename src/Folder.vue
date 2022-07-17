@@ -17,7 +17,6 @@
                 v-for="note of notesContent" :key="note?.title"
                 class="document-link"
                 :title="note?.title"
-                @titleChanged="handleTitleChange"
                 >
         {{note?.title}}
     </RouterLink>
@@ -25,7 +24,7 @@
   </div>
 
   <div class="main">
-    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}">
+    <RouterView v-if="notesContent[0]?.title" v-slot="{Component}" @titleChanged="handleTitleChange">
     <Transition name="documents">
       <component :is="Component"/>
     </Transition>

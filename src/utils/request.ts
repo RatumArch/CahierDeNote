@@ -27,7 +27,7 @@ export async function saveDocument(title: string, folderCode: string, htmlConten
  * @param title 
  * @returns 
  */
-export async function getContent(folderCode: number, title: number)  {
+export async function getContent(folderCode: string, title: string)  {
   
   const params = { folderCode, title }
   const request = await axios.get(API.FIND_NOTE, {params})
