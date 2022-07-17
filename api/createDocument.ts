@@ -32,6 +32,8 @@ async function newDocument(req: any, res: VercelResponse) {
         
         const countDocs = await collection.countDocuments({ folderCode })
         console.log(countDocs);
+        console.log({ folderCode });
+        
         
         const standartTitle= 'New Note '
         let titleToGenerate= title ?? standartTitle+countDocs
