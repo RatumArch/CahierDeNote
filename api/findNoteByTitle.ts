@@ -10,7 +10,6 @@ const collec = process.env.MONGODB_DB_COLLECTION
 const foldersCollection= process.env.MONGODB_DB_FOLDER_COLLECTION
 
 export default async function getNote(req:VercelRequest, res:VercelResponse) {
-    const prisma = new PrismaClient()
     //@ts-ignore
     const client = await clientPromise.then((client: any) => client)
     const datab = client.db(db)

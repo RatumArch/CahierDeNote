@@ -4,6 +4,7 @@ import { serializeDoc, clientPromise } from "../utils/index"
 import { PrismaClient } from '@prisma/client'
 import { ObjectId } from 'bson';
 import { _post } from '../utils/index';
+import { Collection } from 'mongodb';
 
 const prisma = new PrismaClient()
 const db = process.env.MONGODB_DB
@@ -15,7 +16,7 @@ async function newDocument(req: any, res: VercelResponse) {
     //@ts-ignore
     const client = await clientPromise.then((client: any) => client)
     const datab = client.db(db)
-    const collection = await datab.collection(collec)
+    const collection: Collection = await datab.collection(collec)
     
     const newid = new ObjectId()
     const query = req.query
@@ -52,12 +53,15 @@ async function newDocument(req: any, res: VercelResponse) {
         creationDate: new Date()
     }
     const insertion = await collection.insertOne(toInsert)
+console.log(insertion);
 
     if(newDocumentTitle?.status ==='error')
         res.status(400).send(newDocumentTitle)
-    else
+    if(insertion)
         // toInsert contient un champ _id une fois la requête 'insertion' effectué
         res.status(200).send(toInsert)
+    else
+        res.status(400).send("error inconnue")
 }
 
 const createDocument = (req:VercelRequest, res:VercelResponse) => _post(newDocument, req, res)
