@@ -39,6 +39,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
 import { createDocument, findNotes } from './utils';
+import { useLang } from '@/utils/lang'
 import { SIDEBAR } from './constants';
 
 
@@ -50,7 +51,8 @@ const isNewNoteLoading = ref(false)
 
 const folderCode = computed(() => route.params?.folderCode)
 
-const lang=computed(() => navigator.language)
+const lang=useLang()
+console.log(lang.value);
 
 const copiedMsg=ref('')
 const copy = () =>
@@ -122,9 +124,10 @@ onBeforeMount(async () => {
   height: inherit;
   padding: 10px;
   color: white;
+  overflow-y: auto;
 
   letter-spacing: 2px;
-  overflow: hidden;
+  overflow-x: hidden;
 
   .accueil {
     font-weight: bold;

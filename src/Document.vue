@@ -33,6 +33,7 @@ import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { getContent, saveDocument } from '@/utils/request.ts';
+import { useLang } from '@/utils/lang.ts'
 import { BUTTON, MSG } from './constants';
 import Loader from './Loader.vue';
 

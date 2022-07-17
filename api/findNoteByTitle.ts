@@ -20,10 +20,13 @@ export default async function getNote(req:VercelRequest, res:VercelResponse) {
     const title = <string>req.query?.title
 
     const note = await collection.findOne({ folderCode, title } )
-console.log(note);
+
 
     if(note)
+    {
+        note.html = sanitizeText(note?.html)
         res.send(note)
+    }
     else
         res.status(404).send("No document found")
     
