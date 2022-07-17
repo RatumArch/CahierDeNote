@@ -11,7 +11,6 @@ const collec = process.env.MONGODB_DB_COLLECTION
 const foldersCollection= process.env.MONGODB_DB_FOLDER_COLLECTION
 
 async function newDocument(req: any, res: VercelResponse) {
-    const prisma = new PrismaClient()
 
     //@ts-ignore
     const client = await clientPromise.then((client: any) => client)
@@ -19,51 +18,46 @@ async function newDocument(req: any, res: VercelResponse) {
     const collection = await datab.collection(collec)
     
     const newid = new ObjectId()
-    const body = req.body
-    const folderCode= req.body?.folderCode
-    const title= req.body?.title
-    const html=body.html
-    const raw= body.raw
-    const extra = body?.extra
+    const query = req.query
+    const folderCode= req.query?.folderCode
+    const title= req.query?.title
+    const html=query?.html
+    const raw= query?.raw
+    const extra = query?.extra
     
 
-    const folder = await prisma.folders.findFirst( { where: {folderCode }, select: {id: true} } )
-
     const generatedTitle = async () => {
+        console.log("We generate");
         
-        const notesTitles = await prisma.notes.findMany( { where: {folderCode }, select: {title: true}} )
+        const countDocs = await collection.countDocuments({ folderCode })
+        console.log(countDocs);
         
-        const otherTitles = notesTitles.map((note) => note.title)
-
-        let i=1;
-        const standartTitle= 'Document'
-        let titleToGenerate= `${standartTitle}`+i
-        while( otherTitles.includes( titleToGenerate) ) {
-            i++;
-            titleToGenerate= `${standartTitle}`+i
-        }
+        const standartTitle= 'New Note '
+        let titleToGenerate= title ?? standartTitle+countDocs
+        let otherTitles= await collection.find({ folderCode, title: titleToGenerate }).project({ title: 1, _id: 0 }).toArray() 
         
-        return titleToGenerate
+        if(otherTitles?.length===0)
+            return titleToGenerate
+        if(otherTitles?.length>0)
+         return { status: 'error', message: 'title Already Exists'}
     }
 
-    const newDocumentTitle= title ?? await generatedTitle()
+    const newDocumentTitle= await generatedTitle()
 
-    const insertion = await collection.insertOne({
+    const toInsert = {
         folderCode,
-        folderId: folder?.id,
         title: newDocumentTitle,
         html: '<h2>Your new note</h2>', raw: 'Your new note',
         modifiedDate: new Date(),
         creationDate: new Date()
-    })
-      .catch((err: any) => {
-        console.error(err)
-        res.status(500).send("<strong style='color:red;'>ERREUR</strong>non inséré")
-    })
+    }
+    const insertion = await collection.insertOne(toInsert)
 
-    const created = await collection.findOne({_id: new ObjectId(insertion.insertedId)})
-    res.status(200).send(created)
-    prisma.$disconnect()
+    if(newDocumentTitle?.status ==='error')
+        res.status(400).send(newDocumentTitle)
+    else
+        // toInsert contient un champ _id une fois la requête 'insertion' effectué
+        res.status(200).send(toInsert)
 }
 
 const createDocument = (req:VercelRequest, res:VercelResponse) => _post(newDocument, req, res)

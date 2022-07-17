@@ -42,5 +42,6 @@ export const SIDEBAR = {
     ACCUEIL: { fr: 'Accueil', en: 'Home Page'}
 }
 export const BUTTON = {
-    AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" }
+    AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" },
+    SAVE: { fr: "Enregistrer", en: "Save"}
 }
