@@ -49,7 +49,9 @@ const folderCode=computed(() => route.params?.folderCode)
 const isDataLoaded = ref(false)
 
 const isOfflineEnabled=ref(false)
-
+const lang=ref('fr')
+// @ts-ignore
+const LOCAL_MSG = computed(() => MSG[lang.value])
 
 function setMessageServer(msg: string) {
   messageFromServer.value=msg
@@ -86,14 +88,14 @@ async function toggleAutoSave() {
   // @ts-ignore
   const data = await getContent(folderCode.value, title.value)
   
-  content.value = data?.html ?? MSG.ERROR.AUTO_SAVE
+  content.value = data?.html ?? LOCAL_MSG.value.ERROR.AUTO_SAVE
 }
 
 onMounted(async () => {
     if(route.params?.document?.length>0) {
       isLoading.value=true
       const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-      content.value = data?.html ?? data?.raw ?? MSG.ERROR.NO_CONTENT_EDITOR
+      content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
       editableTitle.value=route.params?.document;
       isLoading.value=false
       isDataLoaded.value = true 
@@ -106,7 +108,7 @@ onBeforeRouteUpdate(async (to, from) => {
   const data = await getContent(<string>folderCode.value, <string>to.params?.document)
   isLoading.value=false
   savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
-  content.value = data?.html ?? data?.raw ?? MSG.ERROR.NO_CONTENT_EDITOR
+  content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
   editableTitle.value= data?.title ?? to.params?.document
   savingTriggered.value=false
   
