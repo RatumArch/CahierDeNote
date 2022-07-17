@@ -32,9 +32,9 @@ export const ROUTE = {
 }
 
 export const HOME = {
-    TITLE: {fr: "Cahier de Note",},
+    TITLE:  {fr: "Cahier de Note",},
     DESCRIPTION: { fr: "Créer des documents en ligne" },
-    AUTO_SAVE: { fr: "Enregistrement automatique" },
+    AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" },
     NEW_DOC: { fr: "Nouveau document", en: "New Document" },
     LOAD_FOLDER: { fr: "Code d'un dossier existant", en: "Load from folder code" }
 }

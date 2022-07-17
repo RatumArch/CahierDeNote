@@ -17,12 +17,12 @@
   </div>
   </Teleport>
   <div tabindex="0" class="link newdoc" @click="newFolder">
-    {{HOME_TYPED.NEW_DOC}}
+    {{HOME_TYPED.NEW_DOC[lang] }}
   </div>
   <progress v-if="isLoading" />
   <div class="load-doc" >
     <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
-      {{HOME_TYPED.LOAD_FOLDER}}
+      {{HOME_TYPED.LOAD_FOLDER[lang] }}
     </RouterLink>
     <input type="text" v-model="folderCode"/>
   </div>
@@ -54,6 +54,7 @@ const isLoading=ref(false)
 // @ts-ignore
 const lang=ref<'fr'|'en'>('fr')
 const HOME_TYPED=ref<textLang>(HOME)
+const HOME_TYPED2=computed<textLang>(() => HOME)
 
 const newFolder = async () => {
   isLoading.value=true

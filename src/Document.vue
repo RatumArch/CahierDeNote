@@ -3,7 +3,7 @@
   <div>
       <div >
         <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }" >
-          {{LOCAL_BUTTON.AUTO_SAVE}}
+          {{BUTTON.AUTO_SAVE[lang]}}
         </button>
         <div>
           <input type="checkbox" id="checkbox-off" v-model="isOfflineEnabled" /><label for="checkbox-off">Offline</label>
@@ -27,7 +27,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script setup>
 import NoteEditor from '@/components/NoteEditor.vue';
 import axios from 'axios'
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
@@ -53,16 +53,16 @@ const folderCode=computed(() => route.params?.folderCode)
 const isDataLoaded = ref(false)
 
 const isOfflineEnabled=ref(false)
-const lang=ref('fr')
+const lang=computed(() => navigator.language)
 // @ts-ignore
-const LOCAL_MSG = computed(() => MSG[lang.value]); const LOCAL_BUTTON = computed(() => BUTTON[lang.value])
+const LOCAL_MSG = computed(() => MSG[lang.value]);
 
 // Si l'appli est lancé depuis le bureau
 const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )
 
 
-const newTitle = computed(() => editableTitle.value!==title.value ? <string> editableTitle.value : null )
-const sendToMongo = async (html: string, raw: string, extra?: object) => { 
+const newTitle = computed(() => editableTitle.value!==title.value ? editableTitle.value : null )
+const sendToMongo = async (html, raw, extra=null) => { 
   isSaveLoading.value=true
 
   // @ts-ignore
@@ -96,7 +96,7 @@ async function toggleAutoSave() {
 onMounted(async () => {
     if(route.params?.document?.length>0) {
       isLoading.value=true
-      const data = await getContent(<string>folderCode.value, <string>route.params?.document)
+      const data = await getContent(folderCode.value, route.params?.document)
       content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
       editableTitle.value=route.params?.document;
       isLoading.value=false
@@ -107,7 +107,7 @@ onMounted(async () => {
 onBeforeRouteUpdate(async (to, from) => {  
   isDataLoaded.value=false
   isLoading.value=true
-  const data = await getContent(<string>folderCode.value, <string>to.params?.document)
+  const data = await getContent(folderCode.value, to.params?.document)
   isLoading.value=false
   savingTriggered.value=true;console.log(data);console.log("/ getcontent loaded - onBeforeRouteUpdate");
   content.value = data?.html ?? data?.raw ?? LOCAL_MSG.value.ERROR.NO_CONTENT_EDITOR
@@ -117,12 +117,12 @@ onBeforeRouteUpdate(async (to, from) => {
   isDataLoaded.value = true
 })
 const updateContent = async () => {
-  const data = await getContent(<string>folderCode.value, <string>route.params?.document)
+  const data = await getContent(folderCode.value, route.params?.document)
   content.value = data?.html ?? "UpdateContent failed"
   messageAfterRequest.value='Saved'; setTimeout(() => messageAfterRequest.value='', 5000)
 }
 
-const updateContentRef = (html: string, raw?: string) => { 
+const updateContentRef = (html, raw=null) => { 
   content.value=html;
 }
 
