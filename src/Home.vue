@@ -42,7 +42,7 @@ import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
-import { HOME } from "@/constants";
+import { HOME, ROUTE } from "@/constants";
 import { createFolder } from "./utils/request.ts";
 
 const folderCode = ref('')
@@ -60,7 +60,7 @@ const newFolder = async () => {
   
   folderCode.value=newFolder?.folderCode ?? 'error'
   isLoading.value=false
-  newFolder ? router.push(`/folder/${folderCode.value}`) : router.push('/error')
+  newFolder ? router.push(`/${ROUTE.FOLDER}/${folderCode.value}`) : router.push(ROUTE.ERROR)
 }
 
 
