@@ -39,7 +39,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
 import { createDocument, findNotes, useLang } from './utils';
-//import { useLang } from '@/utils/lang.ts'
 import { SIDEBAR } from './constants';
 
 
