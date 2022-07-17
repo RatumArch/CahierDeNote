@@ -30,7 +30,7 @@ async function newDocument(req: any, res: VercelResponse) {
     const generatedTitle = async () => {
         console.log("We generate");
         
-        const countDocs = await collection.countDocuments({ folderCode })
+        const countDocs = await collection.countDocuments({ $where: { folderCode} })
         console.log(countDocs);
         
         const standartTitle= 'New Note '
@@ -53,7 +53,7 @@ async function newDocument(req: any, res: VercelResponse) {
         creationDate: new Date()
     }
     const insertion = await collection.insertOne(toInsert)
-console.log(insertion);
+console.log(insertion);console.log(toInsert);
 
     if(newDocumentTitle?.status ==='error')
         res.status(400).send(newDocumentTitle)
