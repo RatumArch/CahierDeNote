@@ -19,12 +19,12 @@ async function newDocument(req: any, res: VercelResponse) {
     const collection: Collection = await datab.collection(collec)
     
     const newid = new ObjectId()
-    const query = req.query
-    const folderCode= req.query?.folderCode
-    const title= req.query?.title
-    const html=query?.html
-    const raw= query?.raw
-    const extra = query?.extra
+    const body = req.body
+    const folderCode= req.body?.folderCode
+    const title= req.body?.title
+    const html=body?.html
+    const raw= body?.raw
+    const extra = body?.extra
     
 
     const generatedTitle = async () => {
