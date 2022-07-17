@@ -57,6 +57,7 @@ const lang=ref('fr')
 // @ts-ignore
 const LOCAL_MSG = computed(() => MSG[lang.value]); const LOCAL_BUTTON = computed(() => BUTTON[lang.value])
 
+// Si l'appli est lancé depuis le bureau
 const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )
 
 
@@ -117,12 +118,12 @@ onBeforeRouteUpdate(async (to, from) => {
 })
 const updateContent = async () => {
   const data = await getContent(<string>folderCode.value, <string>route.params?.document)
-  content.value = data?.html ?? "updated after event received"
+  content.value = data?.html ?? "UpdateContent failed"
+  messageAfterRequest.value='Saved'; setTimeout(() => messageAfterRequest.value='', 5000)
 }
 
 const updateContentRef = (html: string, raw?: string) => { 
   content.value=html;
-  messageAfterRequest.value='Saved'; setTimeout(() => messageAfterRequest.value='', 5000)
 }
 
 </script>

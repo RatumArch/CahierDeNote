@@ -32,20 +32,15 @@ export const ROUTE = {
 }
 
 export const HOME = {
-    fr: {
-        TITLE: "Cahier de Note",
-        DESCRIPTION: "Créer des documents en ligne",
-        AUTO_SAVE: "Enregistrement automatique",
-        NEW_DOC: "Nouveau document",
-        LOAD_FOLDER: "Code d'un dossier existant"
-    },
-    en: {}
+    TITLE: {fr: "Cahier de Note",},
+    DESCRIPTION: { fr: "Créer des documents en ligne" },
+    AUTO_SAVE: { fr: "Enregistrement automatique" },
+    NEW_DOC: { fr: "Nouveau document", en: "New Document" },
+    LOAD_FOLDER: { fr: "Code d'un dossier existant", en: "Load from folder code" }
+}
+export const SIDEBAR = {
+    ACCUEIL: { fr: 'Accueil', en: 'Home Page'}
 }
 export const BUTTON = {
-    fr: {
-        AUTO_SAVE: "Enregistrement auto"
-    },
-    en: {
-        AUTO_SAVE: "Auto save"
-    }
+    AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" }
 }

@@ -4,29 +4,29 @@
     <Teleport to="header.description">
   <div class="description">
     <div class="title">
-      <h1>{{HOME_L.TITLE }}</h1>
-      <p>{{HOME_L.DESCRIPTION}}</p>
+      <h1>{{HOME_TYPED.TITLE[lang] }}</h1>
+      <p>{{HOME_TYPED.DESCRIPTION[lang]}}</p>
     </div>
     <h2>Features</h2>
     <ul>
       <li>Images</li>
       <li>LaTex expression</li>
-      <li>{{HOME_L.AUTO_SAVE}}</li>
+      <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
       <li>Installable</li>
     </ul>
   </div>
   </Teleport>
   <div tabindex="0" class="link newdoc" @click="newFolder">
-    {{HOME_L.NEW_DOC}}
+    {{HOME_TYPED.NEW_DOC}}
   </div>
+  <progress v-if="isLoading" />
   <div class="load-doc" >
     <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
-      {{HOME_L.LOAD_FOLDER}}
+      {{HOME_TYPED.LOAD_FOLDER}}
     </RouterLink>
     <input type="text" v-model="folderCode"/>
   </div>
 
-  <progress v-if="isLoading" />
   </div>
   <button class="link" @click="purge" >{{purged}}</button>
   <NoteEditor content="===" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
@@ -42,17 +42,18 @@ import NoteEditor from "./components/NoteEditor.vue";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
+// @ts-ignore
 import { HOME, ROUTE } from "@/constants";
 import { createFolder } from "./utils/request.ts";
+import type { textLang } from "./constants/types";
 
 const folderCode = ref('')
 const router = useRouter()
 const route = useRoute()
 const isLoading=ref(false)
 // @ts-ignore
-const lang=ref<indexLang>('fr')
-// @ts-ignore
-const HOME_L = computed(() => HOME[lang.value])
+const lang=ref<'fr'|'en'>('fr')
+const HOME_TYPED=ref<textLang>(HOME)
 
 const newFolder = async () => {
   isLoading.value=true

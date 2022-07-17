@@ -7,7 +7,7 @@
       <button @click="toLeft" >left</button>
       <button @click="toCenter" >center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
-      <button @click="sendToMongo" class="send">Save</button>
+      <button @click="clickToSave" class="send">Save</button>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
