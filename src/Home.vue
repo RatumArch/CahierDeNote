@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeMount, onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
@@ -56,7 +56,12 @@ const HOME_TYPED=ref<textLang>(HOME)
 const HOME_TYPED2=computed<textLang>(() => HOME)
 
 const content=ref('')
-content.value= await axios.get('/api/findExemple').then(res => res.data)
+
+onBeforeMount(async () => {
+  content.value= await axios.get('/api/findExemple').then(res => res.data).catch(() => "<h1>Exemple</h1>")
+  console.log(content.value);
+})
+
 
 const newFolder = async () => {
   isLoading.value=true
