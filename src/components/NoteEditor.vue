@@ -46,12 +46,12 @@ const content = ref("")
         StarterKit.configure({
           codeBlock: false
         }),
+        ImageNode,
+        LatexBlock,
         CodeBlockLowlight.configure({
           defaultLanguage: 'python',
           lowlight
         }),
-        ImageNode,
-        LatexBlock,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'

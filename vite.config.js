@@ -14,7 +14,7 @@ export default defineConfig({
       base: "/",
       srcDir: "src",
       filename: "sw.ts",
-      includeAssets: ["/favicon.png"],
+      includeAssets: ["/icon-240.png"],
       strategies: "injectManifest",
       manifest: {
         name: "Cahier de Notes",
