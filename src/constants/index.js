@@ -45,5 +45,6 @@ export const SIDEBAR = {
 }
 export const BUTTON = {
     AUTO_SAVE: { fr: "Enregistrement auto", en: "Auto save" },
-    SAVE: { fr: "Enregistrer", en: "Save"}
+    BOLD: { fr: "Gras", en: "Bold"},
+    SAVE: { fr: "Enregistrer", en: "Save"},
 }

@@ -1,36 +1,31 @@
 <template>
-<head><meta name="description" content="Éditeur de texte riche en ligne. Gratuit et sans inscription." /></head>
   <div class="home">
     <ReloadPWA v-if="isDev" />
     <Teleport to="header.description">
-  <div class="description">
-    <div class="title">
-      <h1>{{HOME_TYPED.TITLE[lang] }}</h1>
-      <p>{{HOME_TYPED.DESCRIPTION[lang]}}</p>
+    <div class="description">
+      <div class="title">
+        <h1>{{HOME_TYPED.TITLE[lang] }}</h1>
+        <p>{{HOME_TYPED.DESCRIPTION[lang]}}</p>
+      </div>
+      <h2>Features</h2>
+      <ul>
+        <li>Images</li>
+        <li>LaTex expression</li>
+        <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
+      </ul>
     </div>
-    <h2>Features</h2>
-    <ul>
-      <li>Images</li>
-      <li>LaTex expression</li>
-      <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
-    </ul>
-  </div>
-  </Teleport>
-  <div tabindex="0" class="link newdoc" @click="newFolder">
-    {{HOME_TYPED.NEW_DOC[lang] }}
-  </div>
-  <progress v-if="isLoading" />
-  <div class="load-doc" >
-    <input type="text" v-model="folderCode"/>
-    <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
-      {{HOME_TYPED.LOAD_FOLDER[lang] }}
-    </RouterLink>
-  </div>
+    </Teleport>
+    <div tabindex="0" class="link newdoc" @click="newFolder">
+      {{HOME_TYPED.NEW_DOC[lang] }}
+    </div>
+    <progress v-if="isLoading" />
+    <div class="load-doc" >
+      <input type="text" v-model="folderCode"/>
+      <RouterLink :to="`/folder/${folderCode}`" tabindex="0" class="link load-doc" >
+        {{HOME_TYPED.LOAD_FOLDER[lang] }}
+      </RouterLink>
+    </div>
 
-  <div class="exemples" >
-    <h2>Exemples</h2>
-    <img src="https://res.cloudinary.com/dzggewhvt/image/upload/q_40/v1658086359/jfetkj9knqw2mybtcpyq.png" /> 
-  </div>
   </div>
   <NoteEditor content="content" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
   
