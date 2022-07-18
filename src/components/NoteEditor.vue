@@ -77,7 +77,7 @@ const content = ref("")
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
     async function clickToSave() {
-      await sendToMongo()
+      await sendToMongo(); navigator.clipboard.writeText(editor.value?.getHTML())
       emit('contentSavedManually')
     }
 
@@ -156,6 +156,14 @@ onUnmounted(() => {
     cursor: text;
     border-left-color: lightgray;
     border-left-style: solid;
+    &::-webkit-scrollbar{
+      background-color: lightgray;
+      width: 7px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #4169e1;
+      border-radius: 10px;
+    }
 
     .ProseMirror {
       padding: 10px;

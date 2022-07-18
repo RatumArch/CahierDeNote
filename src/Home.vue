@@ -27,7 +27,7 @@
     </div>
 
   </div>
-  <NoteEditor content="content" :auto-save-enabled="false" :saving-triggered="false" />
+  <NoteEditor :content="content" :auto-save-enabled="false" :saving-triggered="false" />
   
 </template>
 
@@ -54,6 +54,9 @@ const isLoading=ref(false)
 const lang=useLang()
 const HOME_TYPED=ref<textLang>(HOME)
 const HOME_TYPED2=computed<textLang>(() => HOME)
+
+const content=ref('')
+content.value= await axios.get('/api/findExemple').then(res => res.data)
 
 const newFolder = async () => {
   isLoading.value=true
