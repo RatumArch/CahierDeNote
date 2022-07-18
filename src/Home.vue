@@ -27,7 +27,7 @@
     </div>
 
   </div>
-  <NoteEditor content="content" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  <NoteEditor content="content" :auto-save-enabled="false" :saving-triggered="false" />
   
 </template>
 
