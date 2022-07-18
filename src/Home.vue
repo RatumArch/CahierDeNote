@@ -27,7 +27,7 @@
     </div>
 
   </div>
-  <NoteEditor :content="content" :auto-save-enabled="false" :saving-triggered="false" />
+  <NoteEditor :content="content" :auto-save-enabled="false" :saving-triggered="false" v-if="content?.length>0" />
   
 </template>
 
@@ -58,7 +58,7 @@ const HOME_TYPED2=computed<textLang>(() => HOME)
 const content=ref('')
 
 onBeforeMount(async () => {
-  content.value= await axios.get('/api/findExemple').then(res => res.data).catch(() => "<h1>Exemple</h1>")
+  content.value= await axios.get('/api/findExemple').then(res => res.data)
   console.log(content.value);
 })
 
