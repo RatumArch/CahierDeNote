@@ -13,6 +13,7 @@
         <li>LaTex expression</li>
         <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
       </ul>
+      <ReloadPWA/>
     </div>
     </Teleport>
     <div tabindex="0" class="link newdoc" @click="newFolder">
@@ -27,12 +28,12 @@
     </div>
 
   </div>
-  <NoteEditor content="content" :auto-save-enabled="false" v-if="isDev" :saving-triggered="false" />
+  <NoteEditor :content="content" :auto-save-enabled="false" :saving-triggered="false" v-if="content?.length>0" />
   
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeMount, onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
@@ -54,6 +55,13 @@ const isLoading=ref(false)
 const lang=useLang()
 const HOME_TYPED=ref<textLang>(HOME)
 const HOME_TYPED2=computed<textLang>(() => HOME)
+
+const content=ref('')
+
+onBeforeMount(async () => {
+  content.value= await axios.get('/api/findExemple').then(res => res.data)
+})
+
 
 const newFolder = async () => {
   isLoading.value=true

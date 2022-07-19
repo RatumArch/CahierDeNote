@@ -56,7 +56,8 @@ export default defineConfig({
       { find: /^@\/components\/(.*)/, replacement: path.resolve("src/components/$1") },
       { find: /^@\/assets\/(.*)/, replacement:  path.resolve("src/assets/$1", "assets/$1") },
       { find: /^@\/constants\/(.*)/, replacement:  path.resolve(__dirname, "src/constants/$1") },
-      { find: /^@\/utils\/(.*)/, replacement: path.resolve(__dirname, "src/utils/$1")  }
+      { find: /^@\/utils\/(.*)/, replacement: path.resolve(__dirname, "src/utils/$1")  },
+      { find: /^@\/styles\/(.*)/, replacement: path.resolve(__dirname, "src/styles/$1")  }
     ],
     extensions: [ '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
   }
