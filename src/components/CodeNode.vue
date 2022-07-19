@@ -1,8 +1,8 @@
 <template>
 <node-view-wrapper class="wrapper"  >
-<div class="code-edit" @click.stop="">
+<div class="code-edit" @click.stop="" @mouseover="showButton=true" @mouseleave="showButton=false">
     <div class="preview-label">
-      <button @click="applyHighlight">Apply highlighting</button>
+      <button @click="applyHighlight" v-if="showButton" >Apply highlighting</button>
     </div>
     <pre @click="focus" >
     <code class="language-python" contenteditable="true" ref="code" v-html="content" ></code>
@@ -28,6 +28,7 @@ const props = defineProps({
     }
   })
 const content = ref(props.node?.attrs?.rawtext)
+const showButton = ref(false)
 
 hljs.registerLanguage('python', python)
 hljs.registerLanguage('latex', latex)
@@ -41,7 +42,7 @@ const focus = () => { if(code.value) code.value.focus() }
 function applyHighlight ()  {
   if(code.value && code.value.innerHTML!=content.value) {
     const highlighted= hljs.highlightAuto(code.value.innerText)
-    props.updateAttributes({rawtext: highlighted.code })
+    props.updateAttributes({rawtext: highlighted.value })
     content.value= highlighted.value
   }
 }
@@ -54,12 +55,13 @@ onMounted(() => {
 
 <style scoped lang="scss" >
 .code-edit {
-    border-style: solid;
+    border-style: none;
     
     pre {
       background: lightgray;
       font-variant-ligatures: contextual;
       font-family: 'Fira Code', monospace;
+      margin-top: 0;
     }
     @supports (font-variation-settings: normal) {
       code {
@@ -72,8 +74,4 @@ onMounted(() => {
     }
 }
 
-.content {
-    width: 100%;
-    height: 100%;
-}
 </style>

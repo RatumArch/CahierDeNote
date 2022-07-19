@@ -5,7 +5,7 @@ export const allowedAttributes= {
     "latex-block": [ 'rawText', 'rawtext', 'nodeId', 'nodeid', 'latexNodeId', 'latexnodeid'],
     "code-edit": [ 'codeEditId', 'codeeditid', 'rawtext']
 }
-export const additionalAllowedTags= ['image-input', 'latex-block']
+export const additionalAllowedTags= ['image-input', 'latex-block', 'code-edit']
 
 export function sanitizeText(text: string) {
     return sanitizeHtml( text, {
