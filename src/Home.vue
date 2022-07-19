@@ -13,6 +13,7 @@
         <li>LaTex expression</li>
         <li>{{HOME_TYPED.AUTO_SAVE[lang]}}</li>
       </ul>
+      <ReloadPWA/>
     </div>
     </Teleport>
     <div tabindex="0" class="link newdoc" @click="newFolder">

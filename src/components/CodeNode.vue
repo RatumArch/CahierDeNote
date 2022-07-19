@@ -1,8 +1,9 @@
 <template>
 <node-view-wrapper class="wrapper"  >
 <div class="code-edit" @click.stop="" @mouseover="showButton=true" @mouseleave="showButton=false">
-    <div class="preview-label">
-      <button @click="applyHighlight" v-if="showButton" >Apply highlighting</button>
+    <div class="preview-label-container" v-if="showButton">
+      <button @click="applyHighlight" class="preview-label apply" >Apply highlighting</button>
+      <span class="preview-label" @click="copyText" title="Copy to clipboard" ><font-awesome-icon icon="fa-solid fa-clipboard" /></span>
     </div>
     <pre @click="focus" >
     <code class="language-python" contenteditable="true" ref="code" v-html="content" @keyup="saveRawText" ></code>
@@ -51,6 +52,9 @@ function saveRawText() {
     props.updateAttributes({rawtext: code.value.innerHTML })
   }
 }
+function copyText() {
+  navigator.clipboard.writeText(code.value.innerText)
+}
 
 onMounted(() => {
   props.updateAttributes({ codeEditId: Date.now() })
@@ -59,6 +63,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss" >
+@import url('@/styles/buton.scss');
 .code-edit {
     border-style: none;
     
@@ -77,6 +82,9 @@ onMounted(() => {
         color: inherit;
         background: none;
       }      
+    }
+    .preview-label.apply {
+      width: 20ex;
     }
 }
 
