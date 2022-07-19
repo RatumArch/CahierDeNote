@@ -17,7 +17,7 @@ export default async function feedBack(req: any, res: VercelResponse) {
    const datab = client.db(db)
    const collection: Collection = await datab.collection("feedbacks")
 
-   let body = req?.query
+   let body = req?.body
    let message = body?.message
 
    const headers = {
@@ -39,10 +39,8 @@ export default async function feedBack(req: any, res: VercelResponse) {
       subject: "Feedback Cahier de Notes",
       htmlContent: message
    }
-   const email = await axios.post('https://api.sendinblue.com/v3/smtp/email', data, { headers }).catch(err => err)
-   console.log(email?.data);console.log(email?.status);
-   console.log(RECEIVER?.slice(1,5));
-   
+   const email = await axios.post('https://api.sendinblue.com/v3/smtp/email', data, { headers }).catch(err => { console.error(err)})
+   console.log(email?.data);console.log(email?.status);   
 
    const inserted = await collection.insertOne(body)
    res.send({inserted, email: email?.data})
