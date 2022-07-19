@@ -27,7 +27,7 @@
     </div>
 
   </div>
-  <NoteEditor :content="content" :auto-save-enabled="false" :saving-triggered="false" v-if="content?.length>0" />
+  <NoteEditor :content="`ds`" :auto-save-enabled="false" :saving-triggered="false" v-if="content?.length>0" />
   
 </template>
 
@@ -59,7 +59,6 @@ const content=ref('')
 
 onBeforeMount(async () => {
   content.value= await axios.get('/api/findExemple').then(res => res.data)
-  console.log(content.value);
 })
 
 

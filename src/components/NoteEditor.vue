@@ -2,10 +2,10 @@
 <div class="container-noter">
   <div class="button-panel" >
       <button @click="toggleBold" title="bold" ><strong>Bold</strong> </button>
-      <button @click="toggleCodeBlock" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
+      <button @click="toggleCodeEdit" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
       <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
-      <button @click="toLeft" >left</button>
-      <button @click="toCenter" >center</button>
+      <button @click="toLeft" title="CTRL+MAJ+L" >left</button>
+      <button @click="toCenter" title="CTRL+MAJ+E">center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
   </div>
@@ -25,6 +25,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 // load all highlight.js languages
 import lowlight from 'lowlight'
 import LatexBlock from '../utils/latexExtension.ts'
+import CodeEdit from '@/utils/codeExtension.ts'
 import { useRoute } from 'vue-router'
 import { BUTTON } from '@/constants/index.js'
 import { useLang } from '@/utils/lang.ts'
@@ -48,10 +49,7 @@ const content = ref("")
         }),
         ImageNode,
         LatexBlock,
-        CodeBlockLowlight.configure({
-          defaultLanguage: 'python',
-          lowlight
-        }),
+        CodeEdit,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
@@ -71,13 +69,14 @@ const content = ref("")
     const toCenter = () => editor.value?.chain().focus().setTextAlign('center').run()
     //@ts-ignore
     const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
+    const toggleCodeEdit = () => editor.value?.chain().insertContent("<code-edit></code-edit>").run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
     const sendToMongo = async () => props.sendToMongo( editor.value?.getHTML(), editor.value?.getText())
 
     async function clickToSave() {
-      await sendToMongo(); navigator.clipboard.writeText(editor.value?.getHTML())
+      await sendToMongo();
       emit('contentSavedManually')
     }
 
@@ -171,24 +170,6 @@ onUnmounted(() => {
       font-family: 'Fira Code', monospace;
     }
 
-    pre {
-      background: #0D0D0D;
-      color: #FFF;
-      font-variant-ligatures: contextual;
-      font-family: 'Fira Code', monospace;
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
-    }
-    @supports (font-variation-settings: normal) {
-      code { 
-        font-family: 'Fira Code', monospace;
-        color: inherit;
-        padding: 0;
-        background: none;
-        font-size: 0.8rem;
-      }      
-    }
-
   }
   .button-panel {
     display: flex;
@@ -228,54 +209,4 @@ onUnmounted(() => {
     }
   }
 }
-
- 
- 
-
-.hljs-variable,
-    .hljs-template-variable,
-    .hljs-attribute,
-    .hljs-tag,
-    .hljs-name,
-    .hljs-regexp,
-    .hljs-link,
-    .hljs-name,
-    .hljs-selector-id,
-    .hljs-selector-class {
-        color: #F98181;
-    }
-
-.hljs-number,
-    .hljs-meta,
-    .hljs-built_in,
-    .hljs-builtin-name,
-    .hljs-literal,
-    .hljs-type,
-    .hljs-params {
-      color: #FBBC88;
-    }
-
-    .hljs-string,
-    .hljs-symbol,
-    .hljs-bullet {
-      color: #B9F18D;
-    }
-
-    .hljs-title,
-    .hljs-section {
-      color: #FAF594;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-      color: #70CFF8;
-    }
-
-    .hljs-emphasis {
-      font-style: italic;
-    }
-
-    .hljs-strong {
-      font-weight: 700;
-    }
 </style>
