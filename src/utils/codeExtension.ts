@@ -9,7 +9,7 @@ interface Commands<ReturnType> {
 }
 
 const CodeEdit = Node.create({
-  name: 'CodeEditBlock',
+  name: 'CodeEdit',
   group: 'block',
   //content: 'inline*',
   
@@ -19,7 +19,7 @@ const CodeEdit = Node.create({
       rawtext: {
         default: ''
       },
-      codeNodeId: {
+      codeEditId: {
         default: ''
       }
     }

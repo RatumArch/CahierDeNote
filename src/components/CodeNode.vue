@@ -1,25 +1,25 @@
 <template>
-<node-view-wrapper class="wrapper" as="span"  >
+<node-view-wrapper class="wrapper"  >
 <div class="code-edit" @click.stop="">
     <div class="preview-label">
-      <button>Python</button><button>latex</button><button>js</button><button>html/xml</button>
+      <button @click="applyHighlight">Apply highlighting</button>
     </div>
     <pre @click="focus" >
-    <code class="language-python" contenteditable="true" ref="code" @blur="applyHighlight" v-html="content" ></code>
+    <code class="language-python" contenteditable="true" ref="code" v-html="content" ></code>
     </pre>
 </div>
 </node-view-wrapper>
 </template>
 
 <script setup>
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3';
+import { NodeViewWrapper } from '@tiptap/vue-3';
 import python from 'highlight.js/lib/languages/python'
 import latex from 'highlight.js/lib/languages/latex.js'
 import xml from 'highlight.js/lib/languages/xml'
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/github.css';
 
-import {  ref } from 'vue';
+import {  onMounted, ref } from 'vue';
 
 const props = defineProps({
     updateAttributes: {
@@ -37,7 +37,8 @@ hljs.registerLanguage('xml', xml)
 const highl = () => { hljs.highlightAll() }
 const code=ref(null)
 const focus = () => { if(code.value) code.value.focus() }
-function applyHighlight()  {
+
+function applyHighlight ()  {
   if(code.value && code.value.innerHTML!=content.value) {
     const highlighted= hljs.highlightAuto(code.value.innerText)
     props.updateAttributes({rawtext: highlighted.code })
@@ -45,6 +46,9 @@ function applyHighlight()  {
   }
 }
 
+onMounted(() => {
+  props.updateAttributes({ codeEditId: Date.now() })
+})
 
 </script>
 
@@ -56,8 +60,6 @@ function applyHighlight()  {
       background: lightgray;
       font-variant-ligatures: contextual;
       font-family: 'Fira Code', monospace;
-      
-      border-radius: 0.5rem;
     }
     @supports (font-variation-settings: normal) {
       code {

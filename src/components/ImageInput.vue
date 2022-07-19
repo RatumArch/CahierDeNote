@@ -1,6 +1,6 @@
 <template>
 <node-view-wrapper ref="wrapper">
-    <div class="image-input" ref="divima" :style="{width: '84px', height: '84px'}" @mouseleave="hideLabel" >
+    <div class="image-input" ref="divima" :style="{width: '84px', height: '84px'}" @mouseleave="hideLabel" @mouseover="openLabel" >
     <span class="preview-label-container" v-if="showLabel">
         <label :for="`image-input-file-${node.attrs.nodeId}`" class="preview-label" v-if="showLabel" >
             <span class="placeholder content" >
@@ -18,7 +18,7 @@
             <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
         </span>
         </span>
-        <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " @mouseover="openLabel" />
+        <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " />
         
         <input type="file" :id="`image-input-file-${node.attrs.nodeId}`" class="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles" />
         
