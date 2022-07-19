@@ -7,6 +7,8 @@ import axios from 'axios'
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
 const API_KEY = <string>process.env.SMTP_API_KEY
+const SENDER = process.env.SENDER_MAIL
+const RECEIVER = process.env.RECEIVER_FEEDBACK
 
 
 export default async function feedBack(req: any, res: VercelResponse) {
@@ -26,12 +28,12 @@ export default async function feedBack(req: any, res: VercelResponse) {
    const data = {
       sender: {
          name: 'Ture Juki',
-         email: 'jukiture@gmail.com'
+         email: SENDER
       },
       to: [
          {
-            email: 'nisalana96@gmail.com',
-            name: 'Nisa Lana'
+            email: RECEIVER,
+            name: 'Tum'
          }
       ],
       subject: "Feedback Cahier de Notes",
@@ -39,6 +41,8 @@ export default async function feedBack(req: any, res: VercelResponse) {
    }
    const email = await axios.post('https://api.sendinblue.com/v3/smtp/email', data, { headers }).catch(err => err)
    console.log(email?.data);console.log(email?.status);
+   console.log(RECEIVER?.slice(1,5));
+   
 
    const inserted = await collection.insertOne(body)
    res.send({inserted, email: email.data})
