@@ -17,7 +17,7 @@ export default async function feedBack(req: any, res: VercelResponse) {
    const datab = client.db(db)
    const collection: Collection = await datab.collection("feedbacks")
 
-   let body = req?.body
+   let body = req?.query
    let message = body?.message
 
    const headers = {
@@ -45,5 +45,5 @@ export default async function feedBack(req: any, res: VercelResponse) {
    
 
    const inserted = await collection.insertOne(body)
-   res.send({inserted, email: email.data})
+   res.send({inserted, email: email?.data})
 }
