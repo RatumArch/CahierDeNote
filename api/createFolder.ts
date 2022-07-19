@@ -27,8 +27,8 @@ async function newFolder3(req: VercelRequest, res: VercelResponse) {
     
     const insertedDocument = await collectionNotes.insertOne({
         title: newDocumentTitle,
-        raw: 'Your New Note',
-        html: `<p>Your New Note</p>   <em>${date}</em>`,
+        raw: 'New Note',
+        html: `<h1>New Note</h1> <p>Copy URL link or folder Code to share and save your notes"</p>`,
         folderCode: newFolderCode                       
         })
     

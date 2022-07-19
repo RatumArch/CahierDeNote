@@ -50,7 +50,7 @@ async function newDocument(req: any, res: VercelResponse) {
     const toInsert = {
         folderCode,
         title: newDocumentTitle,
-        html: '<h2>Your new note</h2>', raw: 'Your new note',
+        html: '<h1>Your new note</h1>', raw: 'Your new note',
         modifiedDate: new Date(),
         creationDate: new Date()
     }

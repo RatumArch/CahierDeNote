@@ -15,13 +15,14 @@
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
                 v-for="note of notesContent" :key="note?.title"
-                class="document-link"
+                class="sidebar-link document-link"
                 :title="note?.title"
                 >
         {{note?.title}}
     </RouterLink>
 
-    <span class="document-link" v-if="isNewNoteLoading">New Note incomming... <progress /> </span>
+    <span class="sidebar-link document-link" v-if="isNewNoteLoading">New Note incomming... <progress /> </span>
+    <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" ></RouterLink>
   </div>
 
   <div class="main">
@@ -96,6 +97,7 @@ onBeforeMount(async () => {
   border-left-style: solid;
   border-left-width: 1px;
   border-left-color: lightgray;
+  word-wrap: break-word;
 }
 .main {
   padding-right: 5vh;
@@ -148,13 +150,18 @@ onBeforeMount(async () => {
       cursor: pointer;
     }
   }
-  .document-link {
-    color: white;
-    text-decoration: none;
-    margin-bottom: 10px;
-    
-    &:hover, &:focus {
-      text-decoration: underline;
+  .sidebar-link {
+    &.document-link {
+      color: white;
+      text-decoration: none;
+      margin-bottom: 10px;
+      
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
+    }
+    &#feedback-link {
+      margin-top: 40px;
     }
   }
   
