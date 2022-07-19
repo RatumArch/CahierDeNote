@@ -34,9 +34,9 @@ export default async function feedBack(req: any, res: VercelResponse) {
          }
       ]
    }
-   axios.post('https://api.sendinblue.com/v3/smtp/email', data, { headers })
-         .then((res) => { console.log(res) } )
-         .catch(err => { console.error(err)})
+   const email = await axios.post('https://api.sendinblue.com/v3/smtp/email', data, { headers })
+   console.log(email.data);console.log(email.status);
+   
    const inserted = await collection.insertOne(body)
    res.send(inserted)
 }

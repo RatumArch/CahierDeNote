@@ -26,6 +26,7 @@ function sendFeed() {
     axios.post('/api/insertFeedback', { message: message.value, type: type.value })
             .then(() => textButton.value='Message envoyé. : Merci pour votre retour, de toute façon je ne le lirai pas')
             .catch(() => textButton.value="Échec d'envoi. Veuillez réessayer")
+            
 }
 
 </script>
