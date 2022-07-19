@@ -22,7 +22,7 @@
     </RouterLink>
 
     <span class="sidebar-link document-link" v-if="isNewNoteLoading">New Note incomming... <progress /> </span>
-    <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" ></RouterLink>
+    <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" >Send feedback</RouterLink>
   </div>
 
   <div class="main">
