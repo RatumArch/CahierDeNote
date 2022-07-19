@@ -50,10 +50,7 @@ export default {
         NodeViewContent,
     },
     setup(props: any) {
-        onMounted(() => {
-            console.log(props.node.attrs.src);
-            
-        })
+        
         const formatProps = props.format;
 
         const width = ref({ little: '50px', medium: '200px', large: '600px' })

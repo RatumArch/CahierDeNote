@@ -1,9 +1,11 @@
 <template>
 <node-view-wrapper class="wrapper" as="span"  >
 <div class="code-edit" @click.stop="">
+    <div class="preview-label">
+      <button>Python</button><button>latex</button><button>js</button><button>html/xml</button>
+    </div>
     <pre @click="focus" >
-    <code class="language-python" contenteditable="true" ref="code" @blur="highl">
-    </code>
+    <code class="language-python" contenteditable="true" ref="code" @blur="applyHighlight" v-html="content" ></code>
     </pre>
 </div>
 </node-view-wrapper>
@@ -12,18 +14,37 @@
 <script setup>
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3';
 import python from 'highlight.js/lib/languages/python'
+import latex from 'highlight.js/lib/languages/latex.js'
+import xml from 'highlight.js/lib/languages/xml'
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/github.css';
 
 import {  ref } from 'vue';
 
-const content = ref('')
+const props = defineProps({
+    updateAttributes: {
+            type: Function,
+            required: true,
+    }
+  })
+const content = ref(props.node?.attrs?.rawtext)
 
 hljs.registerLanguage('python', python)
+hljs.registerLanguage('latex', latex)
+hljs.registerLanguage('xml', xml)
+
 
 const highl = () => { hljs.highlightAll() }
 const code=ref(null)
-const focus = () => { if(code) code.value.focus() }
+const focus = () => { if(code.value) code.value.focus() }
+function applyHighlight()  {
+  if(code.value && code.value.innerHTML!=content.value) {
+    const highlighted= hljs.highlightAuto(code.value.innerText)
+    props.updateAttributes({rawtext: highlighted.code })
+    content.value= highlighted.value
+  }
+}
+
 
 </script>
 
@@ -32,20 +53,19 @@ const focus = () => { if(code) code.value.focus() }
     border-style: solid;
     
     pre {
-      background: #0D0D0D;
-      color: #FFF;
+      background: lightgray;
       font-variant-ligatures: contextual;
       font-family: 'Fira Code', monospace;
-      padding: 0.75rem 1rem;
+      
       border-radius: 0.5rem;
     }
     @supports (font-variation-settings: normal) {
-      code { 
+      code {
+        display: block;
+        padding-left: 5px;
         font-family: 'Fira Code', monospace;
         color: inherit;
-        padding: 0;
         background: none;
-        font-size: 0.8rem;
       }      
     }
 }
