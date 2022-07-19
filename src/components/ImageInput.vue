@@ -1,24 +1,24 @@
 <template>
 <node-view-wrapper ref="wrapper">
-    <div class="image-input" ref="divima" :style="{width: '84px', height: '84px'}" @mouseleave="hideLabel" >
-    <span class="preview-label-container" v-if="showLabel">
-        <label :for="`image-input-file-${node.attrs.nodeId}`" class="preview-label" v-if="showLabel" >
-            <span class="placeholder content" >
-                <font-awesome-icon icon="fa-solid fa-file-image" />
+    <div class="image-input" ref="divima" :style="{width: '84px', height: '84px'}" @mouseleave="hideLabel" @mouseover="openLabel" >
+        <span class="preview-label-container" v-if="showLabel">
+            <label :for="`image-input-file-${node.attrs.nodeId}`" class="preview-label" v-if="showLabel" >
+                <span class="placeholder content" >
+                    <font-awesome-icon icon="fa-solid fa-file-image" />
+                </span>
+            </label>
+            <span class="preview-label" v-if="showLabel" title="Feature à implémenter" @click="openFormLink" >
+                <font-awesome-icon icon="fa-solid fa-link" />
             </span>
-        </label>
-        <span class="preview-label" v-if="showLabel" title="Feature à implémenter" @click="openFormLink" >
-            <font-awesome-icon icon="fa-solid fa-link" />
+            <form v-if="showFormLink" @submit.prevent="" >
+                <button @click.stop="hideFormLink" >X</button>
+                <input type="text" placeholder="Feature à implémenter" class="input-link" @click.stop="" />
+            </form>
+            <span class="preview-label dragging" v-if="showLabel" draggable="true" data-drag-handle >
+                <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
+            </span>
         </span>
-        <form v-if="showFormLink" @submit.prevent="" >
-            <button @click.stop="hideFormLink" >X</button>
-            <input type="text" placeholder="Feature à implémenter" class="input-link" @click.stop="" />
-        </form>
-        <span class="preview-label dragging" v-if="showLabel" draggable="true" data-drag-handle >
-            <font-awesome-icon icon="fa-solid fa-arrows-up-down-left-right" />
-        </span>
-        </span>
-        <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " @mouseover="openLabel" />
+        <img :src="blobUrl ?? node.attrs.src" class="preview" alt=" image... " />
         
         <input type="file" :id="`image-input-file-${node.attrs.nodeId}`" class="image-input-opaq" accept=".jpg, .jpeg, .png, .svg" ref="input" @input="logFiles" />
         
@@ -31,7 +31,6 @@
 import { onMounted, ref } from 'vue'
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-3'
 import axios from 'axios'
-import { blob } from 'stream/consumers'
 
 export default {
     name: 'ImageInp',
@@ -50,10 +49,7 @@ export default {
         NodeViewContent,
     },
     setup(props: any) {
-        onMounted(() => {
-            console.log(props.node.attrs.src);
-            
-        })
+        
         const formatProps = props.format;
 
         const width = ref({ little: '50px', medium: '200px', large: '600px' })
@@ -109,6 +105,7 @@ export default {
 </script>
 
 <style scoped >
+@import url('@/styles/buton.scss');
 .image-input {
     overflow: hidden;
     resize: both;
@@ -127,29 +124,7 @@ export default {
     box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.75);
     border-color: black;
 }
-.preview-label-container {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-}
-.preview-label {
-    overflow: hidden;
-    font-size: 15px;
-    padding: 5px;
-    text-align: center;
-    box-shadow: 2px 2px 1px 1px rgba(0,0,0,0.75);
-    background-color: white;
-    border-radius: 10px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-right: 5px;   
-}
-.preview-label:hover {
-    font-size: 20px;
-    width: 30px;
-    height: 30px;
-}
+
 .dragging {
         cursor: all-scroll;
     }
