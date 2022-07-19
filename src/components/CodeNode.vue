@@ -5,7 +5,7 @@
       <button @click="applyHighlight" v-if="showButton" >Apply highlighting</button>
     </div>
     <pre @click="focus" >
-    <code class="language-python" contenteditable="true" ref="code" v-html="content" ></code>
+    <code class="language-python" contenteditable="true" ref="code" v-html="content" @keyup="saveRawText" ></code>
     </pre>
 </div>
 </node-view-wrapper>
@@ -46,6 +46,11 @@ function applyHighlight ()  {
     content.value= highlighted.value
   }
 }
+function saveRawText() {
+  if(code.value ) {
+    props.updateAttributes({rawtext: code.value.innerHTML })
+  }
+}
 
 onMounted(() => {
   props.updateAttributes({ codeEditId: Date.now() })
@@ -62,6 +67,7 @@ onMounted(() => {
       font-variant-ligatures: contextual;
       font-family: 'Fira Code', monospace;
       margin-top: 0;
+      overflow-x: auto;
     }
     @supports (font-variation-settings: normal) {
       code {
