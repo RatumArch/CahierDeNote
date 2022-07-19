@@ -122,7 +122,7 @@ const updateContent = async () => {
   messageAfterRequest.value='Saving...'
   const data = await getContent(folderCode.value, route.params?.document)
   content.value = data?.html ?? "UpdateContent failed"
-  messageAfterRequest.value='Saved !'; setTimeout(() => messageAfterRequest.value='', 5000)
+  messageAfterRequest.value='Saved !'; setTimeout(() => messageAfterRequest.value='', 2000)
 }
 
 const updateContentRef = (html, raw=null) => { 

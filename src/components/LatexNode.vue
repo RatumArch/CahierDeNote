@@ -28,7 +28,7 @@ const props = defineProps({
 const isMounted = ref(false)
 onMounted(() => {
     props.updateAttributes({ latexNodeId: Date.now()})
-    isMounted.value=false
+    isMounted.value=true
 })
 
 const input = ref(null)
