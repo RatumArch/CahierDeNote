@@ -15,8 +15,8 @@
 
 <script setup>
 import { computed, onMounted, ref, watch, watchEffect } from 'vue';
-import { applyKatex } from '@/utils'
-import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3';
+import katex from 'katex'
+import { NodeViewWrapper } from '@tiptap/vue-3';
 
 const props = defineProps({
     node: { type: Object},
@@ -51,8 +51,12 @@ const blurInput = () => {
 
 const msgError = ref('')
 
+const applyKatex = (userInput) => {
+    if(isMounted.value) { props.node.attrs.rawtext= userInput }
+    return katex.renderToString(userInput, { throwOnError: false })
+}
 
-const equationStyled = computed(() => applyKatex(equation.value, isMounted.value, props) )
+const equationStyled = computed(() => applyKatex(equation.value) )
 
 </script>
 
