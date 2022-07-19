@@ -31,7 +31,6 @@
 import { onMounted, ref } from 'vue'
 import { NodeViewWrapper, NodeViewContent, nodeViewProps } from '@tiptap/vue-3'
 import axios from 'axios'
-import { blob } from 'stream/consumers'
 
 export default {
     name: 'ImageInp',

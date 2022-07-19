@@ -21,9 +21,6 @@ import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-// load all highlight.js languages
-import lowlight from 'lowlight'
 import LatexBlock from '../utils/latexExtension.ts'
 import CodeEdit from '@/utils/codeExtension.ts'
 import { useRoute } from 'vue-router'
@@ -62,7 +59,6 @@ const content = ref("")
     const lang = useLang()
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
-    const toggleCodeBlock = () => editor.value?.chain().focus().toggleCodeBlock().enter().run()
     //@ts-ignore
     const addImage = () => editor.value?.chain().focus().addImage() .focus().run()
     const toLeft = () => editor.value?.chain().focus().setTextAlign('left').run()
