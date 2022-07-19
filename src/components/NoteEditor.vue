@@ -82,7 +82,7 @@ const content = ref("")
 
 
 onUpdated(() => {
-  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content);
+  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); }
 })
 
 const isTyping = ref(false)
