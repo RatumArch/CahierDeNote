@@ -10,6 +10,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
+import '@fontsource/fira-code'
 const tick=ref(0)
 const interval = ref(null)
 onMounted(() => {

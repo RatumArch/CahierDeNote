@@ -8,7 +8,9 @@
       <button @click="toCenter" title="CTRL+MAJ+E">center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
-      <select v-model="font" @change="setFont" ><option selected="true">Fira Code</option><option>sans-serif</option><option>Raleway</option> </select>
+      <select v-model="font" @change="setFont" >
+        <option selected="true">Fira Code</option><option>Kalam</option> <option>Raleway</option><option>Roboto</option><option>sans-serif</option>
+      </select>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -22,13 +24,19 @@ import StarterKit from '@tiptap/starter-kit'
 import FontFamily from '@tiptap/extension-font-family'
 import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
-import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
+import { onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import LatexBlock from '../utils/latexExtension.ts'
 import CodeEdit from '@/utils/codeExtension.ts'
 import { useRoute } from 'vue-router'
 import { BUTTON } from '@/constants/index.js'
 import { useLang } from '@/utils/lang.ts'
+
+import '@fontsource/raleway/600.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/fira-code/400.css'
+import '@fontsource/courgette/400.css'
+import '@fontsource/kalam'
 
   const props = defineProps({
     content: { type: String, required: false },
@@ -41,6 +49,7 @@ import { useLang } from '@/utils/lang.ts'
   const emit = defineEmits(['contentSavedManually', 'writed'])
 
 const content = ref("")
+const font=ref('Fira Code') // La police par défaut est défini dans <style> .ProseMirror {} </style>
 
     const editor = useEditor({
       extensions: [
@@ -62,7 +71,6 @@ const content = ref("")
   
     const route = useRoute()
     const lang = useLang()
-    const font=ref('Raleway')
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     //@ts-ignore
@@ -83,9 +91,6 @@ const content = ref("")
       emit('contentSavedManually')
     }
 
-onMounted(() => {
-  editor.value?.chain().setFontFamily('sans-serif').run()
-})
 
 onUpdated(() => {
   if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); }
@@ -146,10 +151,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Edu+SA+Beginner&display=swap');
-
 .container-noter {
   display: flex;
   flex-direction: column;
@@ -175,6 +176,7 @@ onUnmounted(() => {
     .ProseMirror {
       padding: 10px;
       font-variant-ligatures: contextual;
+      font-family: 'Fira Code', monospace;
     }
 
   }

@@ -7,6 +7,11 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@fontsource/courgette": "^4.5.7",
+    "@fontsource/fira-code": "^4.5.10",
+    "@fontsource/kalam": "^4.5.8",
+    "@fontsource/raleway": "^4.5.9",
+    "@fontsource/roboto": "^4.5.7",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
