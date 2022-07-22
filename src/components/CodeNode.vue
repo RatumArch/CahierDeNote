@@ -15,7 +15,7 @@
 <script setup>
 import { NodeViewWrapper } from '@tiptap/vue-3';
 import python from 'highlight.js/lib/languages/python'
-import latex from 'highlight.js/lib/languages/latex.js'
+import latex from 'highlight.js/lib/languages/latex'
 import xml from 'highlight.js/lib/languages/xml'
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/github.css';

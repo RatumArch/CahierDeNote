@@ -57,7 +57,7 @@ const isOfflineEnabled=ref(false)
 const lang=useLang()
 // @ts-ignore
 const LOCAL_MSG = computed(() => MSG[lang.value]);
-console.log(lang.value);console.log(BUTTON);console.log("/nbutton - documentvue");
+console.log(lang.value);
 
 // Si l'appli est lancé depuis le bureau
 const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )

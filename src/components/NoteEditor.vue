@@ -8,7 +8,7 @@
       <button @click="toCenter" title="CTRL+MAJ+E">center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
-      <select v-model="font" @change="setFont" ><option selected="true">Fira Code</option><option>Monospace</option> </select>
+      <select v-model="font" @change="setFont" ><option selected="true">Fira Code</option><option>sans-serif</option><option>Raleway</option> </select>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -62,7 +62,7 @@ const content = ref("")
   
     const route = useRoute()
     const lang = useLang()
-    const font=ref('Monospace')
+    const font=ref('Raleway')
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     //@ts-ignore
@@ -144,6 +144,7 @@ onUnmounted(() => {
 
 <style lang="scss">
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 
 .container-noter {
   display: flex;
