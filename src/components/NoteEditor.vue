@@ -8,7 +8,7 @@
       <button @click="toCenter" title="CTRL+MAJ+E">center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
-      <select v-model="font" ><option selected="true">Fira Code</option><option>Monospace</option> </select>
+      <select v-model="font" @change="setFont" ><option selected="true">Fira Code</option><option>Monospace</option> </select>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
