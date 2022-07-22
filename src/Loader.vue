@@ -2,7 +2,7 @@
 <div class="loader">
     <div class="pancarte">
     <h1><span v-if="tick=0">&#xEE06</span><span v-if="tick=1">&#xEE07</span><span v-if="tick=2">&#xEE08</span> <span v-if="tick=3">&#xEE09</span></h1>
-      
+      <strong>{{tick}}</strong>
         <font-awesome-icon class="icon" icon="fa-solid fa-file-text" />
     </div>
 </div>
@@ -13,7 +13,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 const tick=ref(0)
 const interval = ref(null)
 onMounted(() => {
-  interval.value = setInterval(() => tick.value = (tick.value+1)%4, 500)
+  interval.value = setInterval(() => {tick.value = (tick.value+1)%4}, 500)
 })
 onUnmounted(() => {
   clearInterval(interval.value)

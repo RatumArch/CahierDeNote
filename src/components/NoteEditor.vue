@@ -8,6 +8,7 @@
       <button @click="toCenter" title="CTRL+MAJ+E">center</button>
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
+      <select v-model="font" ><option selected="true">Fira Code</option><option>Monospace</option> </select>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -18,7 +19,9 @@
 <script lang="ts" setup>
 import { useEditor, EditorContent, Content } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import FontFamily from '@tiptap/extension-font-family'
 import TextAlign from '@tiptap/extension-text-align'
+import TextStyle from '@tiptap/extension-text-style'
 import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import LatexBlock from '../utils/latexExtension.ts'
@@ -44,19 +47,22 @@ const content = ref("")
         StarterKit.configure({
           codeBlock: false
         }),
+        FontFamily,
         ImageNode,
         LatexBlock,
         CodeEdit,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
-        })
+        }),
+        TextStyle
       ],
       content: props.content
     })
   
     const route = useRoute()
     const lang = useLang()
+    const font=ref('Monospace')
 
     const toggleBold = () => editor.value?.chain().focus().toggleBold().run()
     //@ts-ignore
@@ -66,6 +72,7 @@ const content = ref("")
     //@ts-ignore
     const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
     const toggleCodeEdit = () => editor.value?.chain().insertContent("<code-edit></code-edit>").run()
+    const setFont = () => editor.value?.chain().setFontFamily(font.value).run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
@@ -163,7 +170,6 @@ onUnmounted(() => {
     .ProseMirror {
       padding: 10px;
       font-variant-ligatures: contextual;
-      font-family: 'Fira Code', monospace;
     }
 
   }
