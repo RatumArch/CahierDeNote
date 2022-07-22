@@ -1,14 +1,25 @@
 <template>
 <div class="loader">
     <div class="pancarte">
-    <h1>Wait</h1>
+    <h1><span>&#xEE06</span><span>&#xEE07</span><span>&#xEE08</span> <span>&#xEE09</span></h1>
+      
         <font-awesome-icon class="icon" icon="fa-solid fa-file-text" />
 
     </div>
 </div>
 </template>
 
-
+<script setup>
+import { onMounted, onUnmounted, ref } from 'vue'
+const tick=ref(0)
+const interval = ref(null)
+onMounted(() => {
+  interval.value = setInterval(() => tick.value = (tick.value+1)%4, 500)
+})
+onUnmounted(() => {
+  clearInterval(interval.value)
+})
+</script>
 
 <style scoped>
 h1 {
@@ -21,7 +32,8 @@ h1 {
     animation-name: loading-anim;
     animation-iteration-count: infinite;
     animation-duration: 0.8s;
-
+    font-family: 'Fira Code', monospace;
+    font-variant-ligatures: contextual;
 }
 .icon {
     height: 89%;
@@ -31,10 +43,8 @@ h1 {
 }
 .loader {
     background-color: white;
-    width: 100%;
     top: 0vh;
     position: absolute;
-    height: 100%;
     z-index: 100;
 }
 .pancarte {
