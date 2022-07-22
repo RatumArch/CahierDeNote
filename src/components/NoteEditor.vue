@@ -83,6 +83,9 @@ const content = ref("")
       emit('contentSavedManually')
     }
 
+onMounted(() => {
+  editor.value?.chain().setFontFamily('sans-serif').run()
+})
 
 onUpdated(() => {
   if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); }
@@ -144,7 +147,8 @@ onUnmounted(() => {
 
 <style lang="scss">
 @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+SA+Beginner&display=swap');
 
 .container-noter {
   display: flex;

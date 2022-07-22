@@ -13,7 +13,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 const tick=ref(0)
 const interval = ref(null)
 onMounted(() => {
-  interval.value = setInterval(() => {tick.value = (tick.value+1)%4}, 500)
+  interval.value = setInterval(() => {tick.value = (tick.value+1)%4}, 200)
 })
 onUnmounted(() => {
   clearInterval(interval.value)
@@ -27,6 +27,7 @@ h1 {
     letter-spacing: 1ex;
     -webkit-text-stroke-width: 1px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3em;
     text-decoration: underline;
     animation-name: loading-anim;
     animation-iteration-count: infinite;
