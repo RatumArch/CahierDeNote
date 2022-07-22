@@ -9,7 +9,9 @@
       <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
       <select v-model="font" @change="setFont" >
-        <option selected="true">Fira Code</option><option>Kalam</option> <option>Raleway</option><option>Roboto</option><option>sans-serif</option>
+        <option :selected="editor?.isActive('textStyle', { fontFamily: 'Fira Code' })">Fira Code</option>
+        <option>Kalam</option> <option>Raleway</option><option>Roboto</option>
+        <option :selected="editor?.isActive('textStyle', { fontFamily: 'sans-serif' })" >sans-serif</option>
       </select>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
