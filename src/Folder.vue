@@ -151,9 +151,9 @@ onBeforeMount(async () => {
     }
   }
   .sidebar-link {
+    color: white;
+    text-decoration: none;
     &.document-link {
-      color: white;
-      text-decoration: none;
       margin-bottom: 10px;
       
       &:hover, &:focus {

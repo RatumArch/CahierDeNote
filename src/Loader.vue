@@ -4,7 +4,6 @@
     <h1><span v-if="tick=0">&#xEE06</span><span v-if="tick=1">&#xEE07</span><span v-if="tick=2">&#xEE08</span> <span v-if="tick=3">&#xEE09</span></h1>
       
         <font-awesome-icon class="icon" icon="fa-solid fa-file-text" />
-
     </div>
 </div>
 </template>
