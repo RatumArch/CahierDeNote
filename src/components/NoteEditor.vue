@@ -40,11 +40,6 @@ import { BUTTON } from '@/constants/index.js'
 import { useLang } from '@/utils/lang.ts'
 import { ARIA_LABEL, FONTS } from '@/constants'
 
-import '@fontsource/raleway/500.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/fira-code/400.css'
-import '@fontsource/courgette/400.css'
-import '@fontsource/kalam'
 
   const props = defineProps({
     content: { type: String, required: false },
@@ -162,6 +157,10 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=kalam&display=swap');
 .container-noter {
   display: flex;
   flex-direction: column;
