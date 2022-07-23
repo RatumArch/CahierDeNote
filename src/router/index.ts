@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-const Home =  import('@/Home.vue')
+import Home from '@/Home.vue'
 import Document from '@/Document'
 import Folder from '@/Folder.vue'
 import Error from "@/Error.vue";
