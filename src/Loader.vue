@@ -12,7 +12,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-
+import '@fontsource/fira-code'
 const fontLoaded = ref(true)
 
 const tick=ref(-1)
