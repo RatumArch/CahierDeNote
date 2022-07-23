@@ -37,11 +37,6 @@ import { BUTTON } from '@/constants/index.js'
 import { useLang } from '@/utils/lang.ts'
 import { ARIA_LABEL, FONTS } from '@/constants'
 
-import '@fontsource/raleway/600.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/fira-code/400.css'
-import '@fontsource/courgette/400.css'
-import '@fontsource/kalam/latin-400.css'
 
   const props = defineProps({
     content: { type: String, required: false },

@@ -14,8 +14,8 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 
-const fontLoaded = ref(false)
-import('@fontsource/fira-code/400.css').then(() => fontLoaded=true)
+const fontLoaded = ref(true)
+
 const tick=ref(-1)
 const interval = ref(null)
 onMounted(() => {
