@@ -19,6 +19,7 @@ import latex from 'highlight.js/lib/languages/latex'
 import xml from 'highlight.js/lib/languages/xml'
 import hljs from 'highlight.js/lib/core';
 import 'highlight.js/styles/github.css';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
 
 import {  onMounted, ref } from 'vue';
 

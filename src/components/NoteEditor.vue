@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useEditor, EditorContent, Content } from '@tiptap/vue-3'
+import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import FontFamily from '@tiptap/extension-font-family'
 import TextAlign from '@tiptap/extension-text-align'
@@ -100,7 +100,9 @@ const font=ref('Fira Code') // La police par défaut est défini dans <style> .P
       emit('contentSavedManually')
     }
 
-
+onMounted(() => {
+  
+})
 onUpdated(() => {
   if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); };
 })
