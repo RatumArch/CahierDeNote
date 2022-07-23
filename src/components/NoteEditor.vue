@@ -44,7 +44,7 @@ import '@fontsource/raleway/500.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/fira-code/400.css'
 import '@fontsource/courgette/400.css'
-import '@fontsource/kalam'
+import '@fontsource/kalam/latin-400.css'
 
   const props = defineProps({
     content: { type: String, required: false },
@@ -213,7 +213,7 @@ onUnmounted(() => {
         border-radius: 0;
       }
       &.active {
-        background-color: darkolivegreen;
+        background-color: orange;
       }
     }
     button.send {

@@ -10,6 +10,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          folder: [ './src/Folder.vue', './src/Document.vue' ],
           noteEditor: [ './src/components/NoteEditor.vue' ],
           laTexNode: [ './src/components/LatexNode.vue' ]
         }

@@ -37,7 +37,7 @@ import { computed, defineAsyncComponent, onBeforeMount, onMounted, ref } from "v
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
-import NoteEditor from "./components/NoteEditor.vue";
+
 
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
@@ -48,7 +48,7 @@ import { createFolder } from "./utils/request.ts";
 import type { textLang } from "./constants/types";
 import { useLang } from '@/utils/lang'
 
-//const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
+const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
 
 const folderCode = ref('')
 const router = useRouter()

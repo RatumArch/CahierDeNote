@@ -8,4 +8,5 @@ import { FontAwesomeIcon, Icons} from './icons'
 library.add(...Icons)
 
 
+
 createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

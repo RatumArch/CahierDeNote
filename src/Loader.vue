@@ -1,7 +1,7 @@
 <template>
 <div class="loader">
     <div class="pancarte">
-    <h1 v-if="fontLoaded">
+    <h1>
       <span v-if="tick===-1">Wait</span>
       <span v-if="tick===0">&#xEE06</span><span v-if="tick===1">&#xEE07</span><span v-if="tick===2">&#xEE08</span> <span v-if="tick===3">&#xEE09</span>
     </h1>
@@ -12,8 +12,6 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
-import '@fontsource/fira-code'
-const fontLoaded = ref(true)
 
 const tick=ref(-1)
 const interval = ref(null)
@@ -26,12 +24,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 h1 {
-    color: darkgreen;
     text-shadow: 1px 1px 2px blue;
-    letter-spacing: 1ex;
     -webkit-text-stroke-width: 1px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 3em;
     text-decoration: underline;
     animation-name: loading-anim;

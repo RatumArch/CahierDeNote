@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import NoteEditor from '@/components/NoteEditor.vue';
+//import NoteEditor from '@/components/NoteEditor.vue';
 
 import axios from 'axios'
 import { computed, defineAsyncComponent, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
@@ -43,7 +43,7 @@ import { useLang } from '@/utils/lang.ts'
 import { BUTTON, MSG } from './constants';
 import Loader from './Loader.vue';
 
-//const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
+const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
 const emit = defineEmits(['titleChanged'])
 
 const route= useRoute()
