@@ -3,7 +3,8 @@ import sanitizeHtml from 'sanitize-html';
 export const allowedAttributes= {
     "image-input": ['src', 'nodeId', 'nodeid'], 
     "latex-block": [ 'rawText', 'rawtext', 'nodeId', 'nodeid', 'latexNodeId', 'latexnodeid'],
-    "code-edit": [ 'codeEditId', 'codeeditid', 'rawtext']
+    "code-edit": [ 'codeEditId', 'codeeditid', 'rawtext'],
+    "span": [ 'style']
 }
 export const additionalAllowedTags= ['image-input', 'latex-block', 'code-edit']
 

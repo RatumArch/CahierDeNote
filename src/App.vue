@@ -8,8 +8,6 @@
 </template>
 
 <script lang="ts">
-import ImageInput from "./components/ImageInput.vue"
-
 import { defineComponent } from "vue";
 import ReloadPWA from "./components/ReloadPWA.vue";
 import { RouterView, RouterLink } from "vue-router";
@@ -21,8 +19,6 @@ export default defineComponent({
   components: {
     NoteEditor,
     ReloadPWA,
-    ImageInp,
-    ImageInput,
     Loader,
     RouterView,
     RouterLink

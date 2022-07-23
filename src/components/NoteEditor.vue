@@ -7,7 +7,7 @@
       <button @click="toLeft" title="CTRL+MAJ+L" :class="{active: editor?.isActive({ textAlign: 'left' })}" >left</button>
       <button @click="toCenter" title="CTRL+MAJ+E" :class="{active: editor?.isActive({ textAlign: 'center' })}" :aria-label="ARIA_LABEL.ALIGN_CENTER[lang]">center</button>
       <button @click="toggleLatex" :title="ARIA_LABEL.ADD_LA_TEX[lang]" :aria-label="ARIA_LABEL.ADD_LA_TEX[lang]" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
-      <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
+
       <select v-model="font" @click="setFont" :aria-label="ARIA_LABEL.SLECT_FONT[lang]" >
         <option v-for="fontSelected of FONTS" :key="fontSelected"
                 :style="{'font-family': `${fontSelected}, sans-serif`}"
@@ -15,6 +15,9 @@
           {{fontSelected}}
         </option>
       </select>
+      
+      <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
+      
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -37,6 +40,11 @@ import { BUTTON } from '@/constants/index.js'
 import { useLang } from '@/utils/lang.ts'
 import { ARIA_LABEL, FONTS } from '@/constants'
 
+import '@fontsource/raleway/500.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/fira-code/400.css'
+import '@fontsource/courgette/400.css'
+import '@fontsource/kalam'
 
   const props = defineProps({
     content: { type: String, required: false },

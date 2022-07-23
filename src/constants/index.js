@@ -49,7 +49,7 @@ export const BUTTON = {
     SAVE: { fr: "Enregistrer", en: "Save"},
 }
 
-export const FONTS = [ 'courgette', 'Fira Code', 'kalam', 'Raleway', 'sans-serif']
+export const FONTS = [ 'courgette', 'Fira Code', 'kalam', 'Raleway', 'Roboto', 'sans-serif']
 
 export const ARIA_LABEL = {
     ADD_IMAGE: { fr: 'Ajouter une image', en: 'Add Picture'},
