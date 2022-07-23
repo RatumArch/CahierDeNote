@@ -48,3 +48,12 @@ export const BUTTON = {
     BOLD: { fr: "Gras", en: "Bold"},
     SAVE: { fr: "Enregistrer", en: "Save"},
 }
+
+export const FONTS = [ 'courgette', 'Fira Code', 'kalam', 'Raleway', 'sans-serif']
+
+export const ARIA_LABEL = {
+    ADD_IMAGE: { fr: 'Ajouter une image', en: 'Add Picture'},
+    ALIGN_CENTER: {fr: 'Aligner le texte au centre', en: 'Align Center'},
+    ADD_LA_TEX: { fr: "Ajouter une équation LaTex", en: "Add LaTex expression"},
+    SLECT_FONT: { fr: "Changer la police", en: "Select font"}
+}

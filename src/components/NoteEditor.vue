@@ -1,17 +1,19 @@
 <template>
 <div class="container-noter">
   <div class="button-panel" >
-      <button @click="toggleBold" title="bold" ><strong>Bold</strong> </button>
+      <button @click="toggleBold" title="bold" :class="{active: editor?.isActive('bold')}" ><strong>Bold</strong> </button>
       <button @click="toggleCodeEdit" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
-      <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
-      <button @click="toLeft" title="CTRL+MAJ+L" >left</button>
-      <button @click="toCenter" title="CTRL+MAJ+E">center</button>
-      <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
+      <button @click="addImage" :title="ARIA_LABEL.ADD_IMAGE[lang]" :aria-label="ARIA_LABEL.ADD_IMAGE[lang]" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
+      <button @click="toLeft" title="CTRL+MAJ+L" :class="{active: editor?.isActive({ textAlign: 'left' })}" >left</button>
+      <button @click="toCenter" title="CTRL+MAJ+E" :class="{active: editor?.isActive({ textAlign: 'center' })}" :aria-label="ARIA_LABEL.ALIGN_CENTER[lang]">center</button>
+      <button @click="toggleLatex" :title="ARIA_LABEL.ADD_LA_TEX[lang]" :aria-label="ARIA_LABEL.ADD_LA_TEX[lang]" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
-      <select v-model="font" @change="setFont" >
-        <option :selected="editor?.isActive('textStyle', { fontFamily: 'Fira Code' })">Fira Code</option>
-        <option>Kalam</option> <option>Raleway</option><option>Roboto</option>
-        <option :selected="editor?.isActive('textStyle', { fontFamily: 'sans-serif' })" >sans-serif</option>
+      <select v-model="font" @click="setFont" :aria-label="ARIA_LABEL.SLECT_FONT[lang]" >
+        <option v-for="fontSelected of FONTS" :key="fontSelected"
+                :style="{'font-family': `${fontSelected}, sans-serif`}"
+                :selected="editor?.isActive('textStyle', { fontFamily: fontSelected })" >
+          {{fontSelected}}
+        </option>
       </select>
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
@@ -33,6 +35,7 @@ import CodeEdit from '@/utils/codeExtension.ts'
 import { useRoute } from 'vue-router'
 import { BUTTON } from '@/constants/index.js'
 import { useLang } from '@/utils/lang.ts'
+import { ARIA_LABEL, FONTS } from '@/constants'
 
 import '@fontsource/raleway/600.css'
 import '@fontsource/roboto/400.css'
@@ -51,6 +54,7 @@ import '@fontsource/kalam'
   const emit = defineEmits(['contentSavedManually', 'writed'])
 
 const content = ref("")
+
 const font=ref('Fira Code') // La police par défaut est défini dans <style> .ProseMirror {} </style>
 
     const editor = useEditor({
@@ -95,7 +99,7 @@ const font=ref('Fira Code') // La police par défaut est défini dans <style> .P
 
 
 onUpdated(() => {
-  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); }
+  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); };
 })
 
 const isTyping = ref(false)
@@ -203,6 +207,9 @@ onUnmounted(() => {
       &:hover, &:focus {
         border-radius: 0;
       }
+      &.active {
+        background-color: darkolivegreen;
+      }
     }
     button.send {
       padding: 5px;
@@ -217,6 +224,10 @@ onUnmounted(() => {
       &:hover, &:focus {
         text-decoration: underline;
       }
+    }
+    select {
+      padding-left: 5px;
+      padding-right: 5px;
     }
   }
 }

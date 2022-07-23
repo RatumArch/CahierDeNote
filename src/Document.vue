@@ -2,7 +2,12 @@
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
       <div >
-        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }" >
+        <button
+          type="button" 
+          @click="toggleAutoSave"
+          class="auto-save"
+          :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }"
+          :aria-checked="autoSaveEnabled" >
           {{BUTTON.AUTO_SAVE[lang]}}
         </button>
         <div>
