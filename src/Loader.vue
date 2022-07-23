@@ -26,7 +26,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 h1 {
     color: darkgreen;
     text-shadow: 1px 1px 2px blue;
