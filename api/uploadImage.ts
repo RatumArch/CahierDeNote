@@ -11,6 +11,8 @@ export default async function insertMongo(req: any, res: any) {
   let fileUploaded = body?.fileUploaded
   let cdnUrl = body?.cdnUrl
   const cloudName = 'dzggewhvt'
+  console.log(body)
+  console.log(fileUploaded)
   const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: fileUploaded,
                     upload_preset: 'ze5mrykg',
