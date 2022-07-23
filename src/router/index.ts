@@ -1,11 +1,11 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-const Home = () => import('@/Home.vue')
-const Document = () => import('@/Document')
-const Folder = () => import('@/Folder.vue')
-const Error = () => import("@/Error.vue")
+const Home = import('@/Home.vue')
+const Document = import('@/Document')
+const Folder = import('@/Folder.vue')
+const Error = import("@/Error.vue")
 const Loader = () => import('@/Loader.vue')
-const Feedback = () => import('@/Feedback.vue')
+const Feedback = import('@/Feedback.vue')
 
 import axios from "axios";
 
