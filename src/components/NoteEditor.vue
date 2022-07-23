@@ -54,8 +54,8 @@ import '@fontsource/kalam'
   const emit = defineEmits(['contentSavedManually', 'writed'])
 
 const content = ref("")
-
 const font=ref('Fira Code') // La police par défaut est défini dans <style> .ProseMirror {} </style>
+
 
     const editor = useEditor({
       extensions: [
