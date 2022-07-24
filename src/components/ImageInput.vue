@@ -73,7 +73,7 @@ export default {
             })
             console.log(fileUploaded);
             
-            axios.postForm(`/api/uploadImage`, {
+            axios.post(`/api/uploadImage`, {
                     file: fileUploaded,
                     nodat: "medjoil"
                     }  )
