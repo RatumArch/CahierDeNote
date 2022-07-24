@@ -24,7 +24,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
                     }  )
                     .catch(err => {   return err })
 
-    res.status(upload?.status ?? 505).setHeader('Content-type', 'image/png') .send(img)
+    res.status(upload?.status ?? 505) .send(`<img src='${imgb}' />`)
 
 }
 
