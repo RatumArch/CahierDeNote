@@ -70,11 +70,11 @@ export default {
                 
 
                 blobUrl.value= window.URL.createObjectURL( blob)
-                axios.post(`/api/uploadImage`, res, { headers: { 'Content-type': 'application/octet-stream'}}  )
+                
+            })
+            axios.post(`/api/uploadImage`, fileUploaded, { headers: { 'Content-type': 'image/png'}}  )
                     .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                     .catch((err) => { console.error(err)})
-            })
-            
         }
 
         const testpaste = (event: any) => { 
