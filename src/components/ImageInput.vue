@@ -74,10 +74,7 @@ export default {
                     .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                     .catch((err) => { console.error(err)})
             })
-            console.log(fileUploaded);
-            axios.post(`/api/uploadImage`, {file: fileUploaded}, { headers: { 'Content-type': 'application/x-www-form-urlencoded'}}  )
-                    .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
-                    .catch((err) => { console.error(err)})
+            
         }
 
         const testpaste = (event: any) => { 
