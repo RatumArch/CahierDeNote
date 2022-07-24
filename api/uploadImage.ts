@@ -21,7 +21,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   const upload = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: body,
                     upload_preset: 'ze5mrykg',
-                    }  )
+                    }, { headers: { 'Content-Type': 'multipart/form-data'}}  )
                     .catch(err => {  return err?.response })
     
     console.log(upload.headers)
