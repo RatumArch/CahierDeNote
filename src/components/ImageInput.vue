@@ -72,13 +72,13 @@ export default {
                 blobUrl.value= window.URL.createObjectURL( blob)
                 const cloudName = 'dzggewhvt'
                 axios.post(`/api/uploadImage`, res, { headers: { 'Content-type': 'application/octet-stream'} }  )
-                    .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
+                    .then(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                     .catch((err) => { 
-                         axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                         axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                             file: res,
                             upload_preset: 'ze5mrykg', 
-                            }, { headers: {'Content-Type': 'multipart/form-data' }}  )
-                            .then(res => { console.log(res?.headers); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
+                            } )
+                            .then(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                             .catch(err => { console.error(err?.response?.data) })
                     })
             })

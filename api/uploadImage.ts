@@ -17,6 +17,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   const blob = new Blob([body], { type: 'image'})
 
   console.log(Buffer.isBuffer(body))
+  console.log(file)
   const img = Buffer.from(body)
   
 
@@ -44,7 +45,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
       .catch(() => {
         console.log('Deuxième catch')
         form.set("file", file)
-        axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { file: blob, upload_preset: 'ze5mrykg'}, { headers: {'Content-Type': 'multipart/form-data' }} )
+        axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { file: file, upload_preset: 'ze5mrykg'}, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
                       console.log('Troisième vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
@@ -59,7 +60,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
                     })
           .catch((err) => {
             console.log("quatrième catch - "+cloudName)
-            form.set("file", body)
+            form.set("file", body) { headers: {'Content-Type': 'multipart/form-data' }} 
             res.status(err?.response?.status ?? 505).setHeader('Content-type', 'image/png').send(body)   
           })
         })
