@@ -24,7 +24,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
                     }  )
                     .catch(err => { console.error("FFail");  return null })
 
-    res.status(upload?.status ?? 505) .send(body)
+    res.status(upload?.status ?? 505).setHeader('Content-type', 'image/png') .send(body)
 
 }
 
