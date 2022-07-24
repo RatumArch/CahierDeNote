@@ -21,7 +21,10 @@
         {{note?.title}}
     </RouterLink>
 
-    <span class="sidebar-link document-link" v-if="isNewNoteLoading">New Note incomming... <progress /> </span>
+    <span class="sidebar-link document-load" v-if="isNewNoteLoading">
+    New Note incomming... 
+    <span>&#xEE02</span><span>&#xEE03</span><span>&#xEE04</span><span>&#xEE05</span>
+     </span>
     <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" >Send feedback</RouterLink>
   </div>
 
@@ -90,6 +93,7 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 .container {
   display: flex;
   height: 97vh;
@@ -159,6 +163,9 @@ onBeforeMount(async () => {
       &:hover, &:focus {
         text-decoration: underline;
       }
+    }
+    &.document-load {
+      font-family: 'Fira Code', sans-serif;
     }
     &#feedback-link {
       margin-top: 40px;
