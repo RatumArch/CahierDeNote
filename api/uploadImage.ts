@@ -23,21 +23,22 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
 
   const cloudName = 'dzggewhvt'
 
-  const imgS = img.buffer
+  const imgBuf = img.buffer
 
   form.set("upload_preset", 'ze5mrykg')
   form.set("file", body)
-  const ddata = Buffer.from( JSON.stringify( { file: body, upload_preset: 'ze5mrykg'} ) )
+  
   const ddata2 = Buffer.from( JSON.stringify( { file: blob, upload_preset: 'ze5mrykg'} ) )
 
-  axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, ddata, { headers: {'Content-Type': 'multipart/form-data' }} )
+  axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { file: body, upload_preset: 'ze5mrykg'}, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
                       console.log('Première vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
                     })
     .catch(err => {  
       console.log('Première catch')
-      axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { file: ddata2, upload_preset: 'ze5mrykg'}, { headers: {'Content-Type': 'multipart/form-data' }} )
+      form.set("file", imgBuf)
+      axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { file: imgBuf, upload_preset: 'ze5mrykg'}, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
                       console.log('Deuxième vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
@@ -53,15 +54,15 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
         .catch(() => {
           console.log('Troisième catch')
           form.set("file", blob)
-          axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, form )
+          axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { file: blob, upload_preset: 'ze5mrykg'}, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
                       console.log('4ième vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
                     })
           .catch((err) => {
             console.log("quatrième catch - "+cloudName)
-            form.set("file", body) { headers: {'Content-Type': 'multipart/form-data' }} 
-            res.status(err?.response?.status ?? 505).setHeader('Content-type', 'image/png').send(body)   
+            form.set("file", body)
+            res.status(err?.response?.status ?? 505).setHeader('Content-type', 'image/png').send(file)   
           })
         })
       })
