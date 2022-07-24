@@ -10,14 +10,14 @@ const collec = process.env.MONGODB_DB_COLLECTION
 export default async function insertMongo(req: VercelRequest, res: VercelResponse) {
 
   let body = req.body
-  console.log(body);
+  
   console.log(Buffer.isBuffer(body))
-  console.log(body);
-    
+  const img = Buffer.from(body)
+  
   const cloudName = 'dzggewhvt'
 
   
-  const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+  const upload = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: body,
                     upload_preset: 'ze5mrykg',
                     }  )
