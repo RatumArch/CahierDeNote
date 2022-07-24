@@ -70,14 +70,6 @@ export default {
                 
 
                 blobUrl.value= window.URL.createObjectURL( blob)
-                axios.postForm(`/api/uploadImage`, {
-                    file: [res],
-                    nodat: "Dans arraybuffer then"
-                    }  )
-                axios.postForm(`/api/uploadImage`, {
-                    file: res,
-                    nodat: "Dans arraybuffer then Mais sans crochets"
-                    }  )
             })
             console.log(fileUploaded);
             
