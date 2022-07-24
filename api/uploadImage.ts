@@ -25,18 +25,20 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   form.set("upload_preset", 'ze5mrykg')
   form.set("file", body)
 
-  axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, form )
+  axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, form, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
                       console.log('Première vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
                     })
     .catch(err => {  
+      console.log('Première catch')
       axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, form, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
                       console.log('Deuxième vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
                     })
       .catch(() => {
+        console.log('Deuxième catch')
         form.set("file", file)
         axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, form, { headers: {'Content-Type': 'multipart/form-data' }} )
                     .then((uplo) => {
@@ -44,6 +46,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
                     })
         .catch(() => {
+          console.log('Troisième catch')
           form.set("file", file)
           axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, form )
                     .then((uplo) => {
