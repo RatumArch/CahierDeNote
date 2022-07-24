@@ -78,7 +78,7 @@ export default {
                             file: res,
                             upload_preset: 'ze5mrykg', 
                             } )
-                            .t2hen(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
+                            .then(res => { cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                             .catch(err => { console.error(err?.response?.data) })
                     })
             })
