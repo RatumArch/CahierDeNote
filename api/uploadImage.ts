@@ -21,9 +21,11 @@ if(req.readable) {
 }
   const cloudName = 'dzggewhvt'
 
-  const imgS = img.toString('base64')
+  const imgS = img.buffer
+console.log(imgS);
+
   axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                    file: body ?? "eeee",
+                    file: imgS,
                     upload_preset: 'ze5mrykg',
                     }, { headers: { 'Content-Type': 'multipart/form-data'}}  )
                     .then((uplo) => {

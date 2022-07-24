@@ -71,7 +71,7 @@ export default {
 
                 blobUrl.value= window.URL.createObjectURL( blob)
                 const cloudName = 'dzggewhvt'
-                axios.postForm(`/api/uploadImage`, {file: res}  )
+                axios.postForm(`/api/uploadImage`, res, { headers: { 'Content-type': 'application/octet-stream'}}  )
                     .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                     .catch((err) => { 
                          axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
