@@ -1,12 +1,12 @@
 //@ts-ignore
 import {clientPromise} from "../utils";
 import axios from 'axios'
-import { VercelRequest } from "@vercel/node";
+import { VercelRequest, VercelResponse } from "@vercel/node";
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
 
 
-export default async function insertMongo(req: VercelRequest, res: any) {
+export default async function insertMongo(req: VercelRequest, res: VercelResponse) {
 
   let body = req.body
   let fileUploaded = req.body?.file
@@ -20,9 +20,9 @@ export default async function insertMongo(req: VercelRequest, res: any) {
                     file: img,
                     upload_preset: 'ze5mrykg',
                     }  )
-                    .catch(err => {  console.error(err); return err })
+                    .catch(err => {   return err })
 
-    res.status(upload?.status ?? 505).send(img)
+    res.status(upload?.status ?? 505) .send(img)
 
 }
 
