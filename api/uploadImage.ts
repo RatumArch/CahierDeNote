@@ -15,7 +15,6 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   const form = new FormData()
   const file = new File([body], "nia.png")
   const blob = new Blob([body], { type: 'image'})
-  const got =  await import('got').then((mo) => mo.got)
 
   console.log(Buffer.isBuffer(body))
   const img = Buffer.from(body)
