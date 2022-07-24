@@ -21,6 +21,21 @@
   <body>
     <div id="app"></div>
     <div id="home"></div>
+    <form>
+      <input type="file" id="iinput" />
+    </form>
     <script type="module" src="/src/main.js"></script>
+    <scriptv type="module" >
+      import axios from 'axios'
+      
+      document.getElementById('iinput').addEventListener('input', (event) => {
+        axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                            file: event.target.files[0],
+                            upload_preset: 'ze5mrykg', 
+                            }  )
+                            .then(res => { console.log(res?.data); })
+                            .catch(err => { console.error(err?.response?.data) })
+      })
+    </scriptv>
   </body>
 </html>
