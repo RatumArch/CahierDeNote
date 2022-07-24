@@ -17,7 +17,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   const blob = new Blob([body], { type: 'image'})
 
   console.log(Buffer.isBuffer(body))
-  console.log(blob)
+  console.log(blob.type)
   const img = Buffer.from(body)
   
 
@@ -62,7 +62,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
           .catch(async (err) => {
             console.log("quatrième catch - "+cloudName)
             form.set("file", body)
-            const fi2 = await file.arrayBuffer()
+            const fi2 = await blob.arrayBuffer()
             res.status(err?.response?.status ?? 505).setHeader('Content-type', 'image/png').send(fi2)   
           })
         })

@@ -22,13 +22,14 @@
     </RouterLink>
 
     <span class="sidebar-link document-load" v-if="isNewNoteLoading">
-    New Note incomming... 
-    <span>&#xEE03</span>
-    <span v-if="tick>=1" >&#xEE04</span><span v-else>&#xEE01</span>
-    <span v-if="tick>=2" >&#xEE04</span><span v-else>&#xEE01</span>
-    <span v-if="tick===3">&#xEE05</span>
-    <span v-if="tick<3">&#xEE02</span>
-     </span>
+      <span>&#xEE03</span>
+      <span v-if="tick>=1" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick>=2" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick>=3" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick>=4" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick===3">&#xEE05</span>
+      <span v-if="tick<3">&#xEE02</span>
+    </span>
     <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" >Send feedback</RouterLink>
   </div>
 
