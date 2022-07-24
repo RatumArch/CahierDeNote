@@ -55,6 +55,10 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
                       console.log('4ième vag')
                       res.status(uplo?.status ?? 505). send({uploadRes: uplo?.data})
                     })
+          .catch((err) => {
+            console.log("final catch")
+            res.status(err?.response?.status ?? 505).send(body)
+          })
         })
       })
       })
