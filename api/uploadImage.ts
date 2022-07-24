@@ -10,19 +10,19 @@ const collec = process.env.MONGODB_DB_COLLECTION
 export default async function insertMongo(req: VercelRequest, res: VercelResponse) {
 
   let body = req.body
-  let fileUploaded = req.body?.file
- 
+  
+  console.log(body)
   const cloudName = 'dzggewhvt'
-  console.log(body?.length);
+  
   const imgb = Buffer.from(body) ;console.log(imgb?.byteLength)
-  const img = new Blob([imgb], {type: 'image'})
+  
 
   
   const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: body,
                     upload_preset: 'ze5mrykg',
                     }  )
-                    .catch(err => {   return err })
+                    .catch(err => { console.error("FFail");  return null })
 
     res.status(upload?.status ?? 505) .send(body)
 
