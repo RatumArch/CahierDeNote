@@ -8,23 +8,19 @@ const collec = process.env.MONGODB_DB_COLLECTION
 export default async function insertMongo(req: any, res: any) {
 
   let body = req.body
-  let fileUploaded = body?.fileUploaded
-  let cdnUrl = body?.cdnUrl
+  let fileUploaded = body?.file
+ 
   const cloudName = 'dzggewhvt'
   console.log(body)
   console.log(fileUploaded)
-  const upload = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+  const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: fileUploaded,
                     upload_preset: 'ze5mrykg',
                     secure: true
                     }  )
+                    .catch(err => err)
 
-    //@ts-ignore
-    const client = await clientPromise.then((client: any) => client)
-    const datab = client.db(db)
-    const collection = await datab.collection(collec)
-
-    res.status(upload?.status).send(upload?.data)
+    res.status(upload?.status).send({body, uploadStatus: upload?.data})
 
 }
 

@@ -71,13 +71,13 @@ export default {
 
                 blobUrl.value= window.URL.createObjectURL( blob)
             })
+            console.log(fileUploaded);
             
             axios.postForm(`/api/uploadImage`, {
-                    file: fileUploaded,
-                    upload_preset: 'ze5mrykg',
-                    secure: true
+                    file: fileUploaded
                     }  )
                     .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
+                    .catch((err) => { console.error(err)})
         }
 
         const testpaste = (event: any) => { 
