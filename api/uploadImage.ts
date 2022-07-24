@@ -14,7 +14,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   console.log(body)
   const cloudName = 'dzggewhvt'
   
-  const imgb = Buffer.from(body) ;console.log(imgb?.byteLength)
+  const imgb = Buffer.from(body) ;console.log(imgb?.byteLength); console.log(typeof body)
   
 
   
@@ -22,9 +22,9 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
                     file: imgb,
                     upload_preset: 'ze5mrykg',
                     }  )
-                    .catch(err => { console.error(err?.response?.data);  return err?.response })
+                    .catch(err => {  return err?.response })
 
-    res.status(upload?.status ?? 505).setHeader('Content-type', 'image/png') .send(imgb)
+    res.status(upload?.status ?? 505).send({ uploadRes: upload?.data})
 
 }
 
