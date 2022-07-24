@@ -4,7 +4,7 @@ import axios from 'axios'
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { Buffer } from 'node:buffer';
 import { Blob, FormData, File} from "formdata-node"
-import got from "got"
+
 const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
 
@@ -15,6 +15,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
   const form = new FormData()
   const file = new File([body], "nia.png")
   const blob = new Blob([body], { type: 'image'})
+  const got =  await import('got')
 
   console.log(Buffer.isBuffer(body))
   const img = Buffer.from(body)
