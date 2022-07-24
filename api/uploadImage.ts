@@ -12,15 +12,15 @@ export default async function insertMongo(req: VercelRequest, res: any) {
   let fileUploaded = req.body?.file
  
   const cloudName = 'dzggewhvt'
-  console.log(body?.file);
+  console.log(body);
   
   
   const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-                    file: fileUploaded,
+                    file: body,
                     upload_preset: 'ze5mrykg',
                     secure: true
                     }  )
-                    .catch(err => {return err })
+                    .catch(err => { console.log(err); return err })
 
     res.status(upload?.status ?? 505).send({body, uploadStatus: upload?.data})
 
