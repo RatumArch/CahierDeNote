@@ -13,7 +13,7 @@ export default async function insertMongo(req: any, res: any) {
   const cloudName = 'dzggewhvt'
   console.log(body)
   console.log(fileUploaded)
-  const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+  const upload = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: fileUploaded,
                     upload_preset: 'ze5mrykg',
                     secure: true
