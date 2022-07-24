@@ -74,7 +74,8 @@ export default {
             console.log(fileUploaded);
             
             axios.postForm(`/api/uploadImage`, {
-                    file: fileUploaded
+                    file: fileUploaded,
+                    nodat: "medjoil"
                     }  )
                     .then(res => { console.log(res?.data); cdnUrl.value = res.data.url; props.updateAttributes({ src: res.data.url })})
                     .catch((err) => { console.error(err)})

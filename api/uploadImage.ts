@@ -8,10 +8,10 @@ const collec = process.env.MONGODB_DB_COLLECTION
 export default async function insertMongo(req: any, res: any) {
 
   let body = req.body
-  let fileUploaded = body?.file
+  let fileUploaded = req.body?.file
  
   const cloudName = 'dzggewhvt'
-  console.log(body)
+  console.log(req.body)
   console.log(fileUploaded)
   const upload = await axios.postForm(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                     file: fileUploaded,
@@ -20,7 +20,7 @@ export default async function insertMongo(req: any, res: any) {
                     }  )
                     .catch(err => err)
 
-    res.status(upload?.status).send({body, uploadStatus: upload?.data})
+    res.status(upload?.status ?? 505).send({body, uploadStatus: upload?.data})
 
 }
 
