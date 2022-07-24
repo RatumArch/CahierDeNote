@@ -37,7 +37,7 @@ import LatexBlock from '../utils/latexExtension.ts'
 import CodeEdit from '@/utils/codeExtension.ts'
 import { useRoute } from 'vue-router'
 import { BUTTON } from '@/constants/index.js'
-import { useLang } from '@/utils/lang.ts'
+import { useLang } from '@/utils/hooks.ts'
 import { ARIA_LABEL, FONTS } from '@/constants'
 
 import '@fontsource/raleway/500.css'

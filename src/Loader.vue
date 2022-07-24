@@ -12,15 +12,11 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useTick } from './utils';
 
-const tick=ref(-1)
-const interval = ref(null)
-onMounted(() => {
-  interval.value = setInterval(() => {tick.value = (tick.value+1)%4}, 200)
-})
-onUnmounted(() => {
-  clearInterval(interval.value)
-})
+const tick = useTick(200, 4)
+
+
 </script>
 
 <style scoped>

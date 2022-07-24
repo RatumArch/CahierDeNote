@@ -46,9 +46,9 @@ import Loader from "./Loader.vue";
 import { HOME, ROUTE } from "@/constants";
 import { createFolder } from "./utils/request.ts";
 import type { textLang } from "./constants/types";
-import { useLang } from '@/utils/lang'
+import { useLang } from '@/utils/hooks'
 
-const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
+const NoteEditor = defineAsyncComponent({ loadingComponent: () => import('./components/NoteEditor.vue'), loader: () => import('./Loader.vue') })
 
 const folderCode = ref('')
 const router = useRouter()

@@ -23,7 +23,11 @@
 
     <span class="sidebar-link document-load" v-if="isNewNoteLoading">
     New Note incomming... 
-    <span>&#xEE02</span><span>&#xEE03</span><span>&#xEE04</span><span>&#xEE05</span>
+    <span>&#xEE03</span>
+    <span v-if="tick>=1" >&#xEE04</span>
+    <span v-if="tick>=2" >&#xEE04</span>
+    <span v-if="tick===3">&#xEE05</span>
+    <span v-if="tick<3">&#xEE02</span>
      </span>
     <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" >Send feedback</RouterLink>
   </div>
@@ -42,7 +46,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
-import { createDocument, findNotes, useLang } from './utils';
+import { createDocument, findNotes, useLang, useTick } from './utils';
 import { SIDEBAR } from './constants';
 
 
@@ -55,6 +59,7 @@ const isNewNoteLoading = ref(false)
 const folderCode = computed(() => route.params?.folderCode)
 
 const lang=useLang()
+const tick = useTick(200, 4)
 
 const copiedMsg=ref('')
 const copy = () =>
