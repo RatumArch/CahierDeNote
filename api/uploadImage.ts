@@ -61,29 +61,7 @@ export default async function insertMongo(req: VercelRequest, res: VercelRespons
           .catch((err) => {
             console.log("quatrième catch - "+cloudName)
             form.set("file", body)
-            got.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { body: form })
-            .then((uplo) => {
-              console.log('cinqième vag - got')
-              res.status(uplo?.statusCode ?? 505). send({uploadRes: uplo?.body})
-            })
-            .catch(() => {
-              console.log('4ième catch'); console.log(form.get('upload_preset') )
-              form.set("file", file)
-              got.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { body: form })
-              .then((uplo) => {
-                console.log('cinqième vag - got')
-                res.status(uplo?.statusCode ?? 505). send({uploadRes: uplo?.body})
-              })
-              .catch(() => {
-                console.log('cinqième catch');
-                form.set("file", blob)
-                got.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { body: form })
-                .catch(() => {
-                  console.log("final catch")
-                  res.status(err?.response?.status ?? 505).setHeader('Content-type', 'image/png').send(body)
-                })
-              })
-            })            
+            res.status(err?.response?.status ?? 505).setHeader('Content-type', 'image/png').send(body)   
           })
         })
       })
