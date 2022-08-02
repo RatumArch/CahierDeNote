@@ -33,11 +33,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref } from "vue";
+import { computed, defineAsyncComponent, onBeforeMount, onMounted, ref } from "vue";
 
 import ReloadPWA from "./components/ReloadPWA.vue";
 
-import NoteEditor from "./components/NoteEditor.vue";
+
+
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import Loader from "./Loader.vue";
@@ -45,7 +46,9 @@ import Loader from "./Loader.vue";
 import { HOME, ROUTE } from "@/constants";
 import { createFolder } from "./utils/request.ts";
 import type { textLang } from "./constants/types";
-import { useLang } from '@/utils/lang'
+import { useLang } from '@/utils/hooks'
+
+const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
 
 const folderCode = ref('')
 const router = useRouter()

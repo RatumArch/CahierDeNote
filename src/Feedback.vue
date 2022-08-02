@@ -4,7 +4,7 @@
 <label for="feed-text">Feedbacks :</label>
 <fieldset>
 <select v-model="type" >
-    <option selected="selected" >Proposition</option>
+    <option selected="true" >Proposition</option>
     <option>Bug</option>
 </select>
 <textarea id="feed-text"
