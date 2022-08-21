@@ -2,7 +2,12 @@
   <h1><input type="text" placeholder="Titre" class="editable-title" v-model="editableTitle" /></h1>
   <div>
       <div >
-        <button type="button" @click="toggleAutoSave" class="auto-save" :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }" >
+        <button
+          type="button" 
+          @click="toggleAutoSave"
+          class="auto-save"
+          :class="{disabled: !autoSaveEnabled, onSave: isSaveLoading && autoSaveEnabled }"
+          :aria-checked="autoSaveEnabled" >
           {{BUTTON.AUTO_SAVE[lang]}}
         </button>
         <div>
@@ -28,15 +33,17 @@
 </template>
 
 <script setup>
-import NoteEditor from '@/components/NoteEditor.vue';
+//import NoteEditor from '@/components/NoteEditor.vue';
+
 import axios from 'axios'
-import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
+import { computed, defineAsyncComponent, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { getContent, saveDocument } from '@/utils/request.ts';
-import { useLang } from '@/utils/lang.ts'
+import { useLang } from '@/utils/hooks.ts'
 import { BUTTON, MSG } from './constants';
 import Loader from './Loader.vue';
 
+const NoteEditor = defineAsyncComponent({ loader: () => import('./components/NoteEditor.vue'), loadingComponent: () => import('./Loader.vue') })
 const emit = defineEmits(['titleChanged'])
 
 const route= useRoute()
@@ -57,7 +64,7 @@ const isOfflineEnabled=ref(false)
 const lang=useLang()
 // @ts-ignore
 const LOCAL_MSG = computed(() => MSG[lang.value]);
-console.log(lang.value);console.log(BUTTON);console.log("/nbutton - documentvue");
+console.log(lang.value);
 
 // Si l'appli est lancé depuis le bureau
 const isStandAlone=ref( window.matchMedia('(display-mode: standalone)').matches )

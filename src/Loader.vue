@@ -1,27 +1,36 @@
 <template>
 <div class="loader">
     <div class="pancarte">
-    <h1>Wait</h1>
+    <h1>
+      <span v-if="tick===-1">Wait</span>
+      <span v-if="tick===0">&#xEE06</span><span v-if="tick===1">&#xEE07</span><span v-if="tick===2">&#xEE08</span> <span v-if="tick===3">&#xEE09</span>
+    </h1>
         <font-awesome-icon class="icon" icon="fa-solid fa-file-text" />
-
     </div>
 </div>
 </template>
 
+<script setup>
+import { onMounted, onUnmounted, ref } from 'vue'
+import { useTick } from './utils';
 
+const tick = useTick(200, 4)
+
+
+</script>
 
 <style scoped>
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 h1 {
-    color: darkgreen;
     text-shadow: 1px 1px 2px blue;
-    letter-spacing: 1ex;
     -webkit-text-stroke-width: 1px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 3em;
     text-decoration: underline;
     animation-name: loading-anim;
     animation-iteration-count: infinite;
     animation-duration: 0.8s;
-
+    font-family: 'Fira Code', monospace;
+    font-variant-ligatures: contextual;
 }
 .icon {
     height: 89%;
@@ -31,10 +40,8 @@ h1 {
 }
 .loader {
     background-color: white;
-    width: 100%;
     top: 0vh;
     position: absolute;
-    height: 100%;
     z-index: 100;
 }
 .pancarte {

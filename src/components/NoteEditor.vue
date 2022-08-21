@@ -1,13 +1,23 @@
 <template>
 <div class="container-noter">
   <div class="button-panel" >
-      <button @click="toggleBold" title="bold" ><strong>Bold</strong> </button>
+      <button @click="toggleBold" title="bold" :class="{active: editor?.isActive('bold')}" ><strong>Bold</strong> </button>
       <button @click="toggleCodeEdit" title="add code block" ><font-awesome-icon icon="fa-solid fa-laptop-code" /></button>
-      <button @click="addImage" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
-      <button @click="toLeft" title="CTRL+MAJ+L" >left</button>
-      <button @click="toCenter" title="CTRL+MAJ+E">center</button>
-      <button @click="toggleLatex" title="Add LaTex expression" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
+      <button @click="addImage" :title="ARIA_LABEL.ADD_IMAGE[lang]" :aria-label="ARIA_LABEL.ADD_IMAGE[lang]" ><font-awesome-icon  icon="fa-solid fa-image" ></font-awesome-icon></button>
+      <button @click="toLeft" title="CTRL+MAJ+L" :class="{active: editor?.isActive({ textAlign: 'left' })}" >left</button>
+      <button @click="toCenter" title="CTRL+MAJ+E" :class="{active: editor?.isActive({ textAlign: 'center' })}" :aria-label="ARIA_LABEL.ALIGN_CENTER[lang]">center</button>
+      <button @click="toggleLatex" :title="ARIA_LABEL.ADD_LA_TEX[lang]" :aria-label="ARIA_LABEL.ADD_LA_TEX[lang]" ><font-awesome-icon icon="fa-solid fa-square-root-variable" /></button>
+
+      <select v-model="font" @click="setFont" :aria-label="ARIA_LABEL.SLECT_FONT[lang]" >
+        <option v-for="fontSelected of FONTS" :key="fontSelected"
+                :style="{'font-family': `${fontSelected}, sans-serif`}"
+                :selected="editor?.isActive('textStyle', { fontFamily: fontSelected })" >
+          {{fontSelected}}
+        </option>
+      </select>
+      
       <button @click="clickToSave" class="send">{{BUTTON.SAVE[lang]}}</button>
+      
   </div>
   <div class="container-editor" @click="(e) => focusOnClick()" >
     <editor-content :editor="editor" @keyup="isTypingStopped" @keydown="isTypingRunning" />
@@ -16,16 +26,25 @@
 </template>
 
 <script lang="ts" setup>
-import { useEditor, EditorContent, Content } from '@tiptap/vue-3'
+import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
+import FontFamily from '@tiptap/extension-font-family'
 import TextAlign from '@tiptap/extension-text-align'
-import { onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
+import TextStyle from '@tiptap/extension-text-style'
+import { onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, onUpdated, ref, watch } from 'vue'
 import ImageNode from '../utils/imgNodeExtension.js'
 import LatexBlock from '../utils/latexExtension.ts'
 import CodeEdit from '@/utils/codeExtension.ts'
 import { useRoute } from 'vue-router'
 import { BUTTON } from '@/constants/index.js'
-import { useLang } from '@/utils/lang.ts'
+import { useLang } from '@/utils/hooks.ts'
+import { ARIA_LABEL, FONTS } from '@/constants'
+
+import '@fontsource/raleway/500.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/fira-code/400.css'
+import '@fontsource/courgette/400.css'
+import '@fontsource/kalam/latin-400.css'
 
   const props = defineProps({
     content: { type: String, required: false },
@@ -38,19 +57,23 @@ import { useLang } from '@/utils/lang.ts'
   const emit = defineEmits(['contentSavedManually', 'writed'])
 
 const content = ref("")
+const font=ref('Fira Code') // La police par défaut est défini dans <style> .ProseMirror {} </style>
+
 
     const editor = useEditor({
       extensions: [
         StarterKit.configure({
           codeBlock: false
         }),
+        FontFamily,
         ImageNode,
         LatexBlock,
         CodeEdit,
         TextAlign.configure({
           types: ['paragraph'],
           defaultAlignment: 'left'
-        })
+        }),
+        TextStyle
       ],
       content: props.content
     })
@@ -66,6 +89,7 @@ const content = ref("")
     //@ts-ignore
     const toggleLatex = () => editor.value?.chain().insertContent("<latex-block></latex-block>").run()
     const toggleCodeEdit = () => editor.value?.chain().insertContent("<code-edit></code-edit>").run()
+    const setFont = () => editor.value?.chain().setFontFamily(font.value).run()
 
     const focusOnClick = () => editor.value?.chain().focus().run()
 
@@ -76,9 +100,11 @@ const content = ref("")
       emit('contentSavedManually')
     }
 
-
+onMounted(() => {
+  
+})
 onUpdated(() => {
-  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); }
+  if(props.savingTriggered ) { editor.value?.commands.insertContent(<string>props.content); };
 })
 
 const isTyping = ref(false)
@@ -136,8 +162,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss">
-@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
-
 .container-noter {
   display: flex;
   flex-direction: column;
@@ -188,6 +212,9 @@ onUnmounted(() => {
       &:hover, &:focus {
         border-radius: 0;
       }
+      &.active {
+        background-color: orange;
+      }
     }
     button.send {
       padding: 5px;
@@ -202,6 +229,10 @@ onUnmounted(() => {
       &:hover, &:focus {
         text-decoration: underline;
       }
+    }
+    select {
+      padding-left: 5px;
+      padding-right: 5px;
     }
   }
 }

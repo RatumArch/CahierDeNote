@@ -7,7 +7,7 @@ const db = process.env.MONGODB_DB
 const collec = process.env.MONGODB_DB_COLLECTION
 
 export default async function findOneMongo(req: any, res: any) {
-  // @ts-ignore
+    // @ts-ignore
     const client = await clientPromise.then((client: ClientSession) => client)
     const datab = client.db(db)
     const collection = await datab.collection(collec)

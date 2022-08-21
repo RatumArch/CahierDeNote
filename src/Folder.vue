@@ -15,13 +15,22 @@
     <RouterLink :to="{name: 'document', 
                 params: {document: note?.title, folderCode: folderCode } }" 
                 v-for="note of notesContent" :key="note?.title"
-                class="document-link"
+                class="sidebar-link document-link"
                 :title="note?.title"
                 >
         {{note?.title}}
     </RouterLink>
 
-    <span class="document-link" v-if="isNewNoteLoading">New Note incomming... <progress /> </span>
+    <span class="sidebar-link document-load" v-if="isNewNoteLoading">
+      <span>&#xEE03</span>
+      <span v-if="tick>=1" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick>=2" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick>=3" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick>=4" >&#xEE04</span><span v-else>&#xEE01</span>
+      <span v-if="tick===4">&#xEE05</span>
+      <span v-if="tick<4">&#xEE02</span>
+    </span>
+    <RouterLink to="/feedback" id="feedback-link" class="sidebar-link" >Send feedback</RouterLink>
   </div>
 
   <div class="main">
@@ -38,7 +47,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { computed, onBeforeMount, onMounted, onUpdated, ref, watch } from 'vue';
 import Loader from './Loader.vue';
-import { createDocument, findNotes, useLang } from './utils';
+import { createDocument, findNotes, useLang, useTick } from './utils';
 import { SIDEBAR } from './constants';
 
 
@@ -51,6 +60,7 @@ const isNewNoteLoading = ref(false)
 const folderCode = computed(() => route.params?.folderCode)
 
 const lang=useLang()
+const tick = useTick(200, 4)
 
 const copiedMsg=ref('')
 const copy = () =>
@@ -89,6 +99,7 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped lang="scss">
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
 .container {
   display: flex;
   height: 97vh;
@@ -96,6 +107,7 @@ onBeforeMount(async () => {
   border-left-style: solid;
   border-left-width: 1px;
   border-left-color: lightgray;
+  word-wrap: break-word;
 }
 .main {
   padding-right: 5vh;
@@ -148,13 +160,22 @@ onBeforeMount(async () => {
       cursor: pointer;
     }
   }
-  .document-link {
+  .sidebar-link {
     color: white;
     text-decoration: none;
-    margin-bottom: 10px;
-    
-    &:hover, &:focus {
-      text-decoration: underline;
+    &.document-link {
+      margin-bottom: 10px;
+      
+      &:hover, &:focus {
+        text-decoration: underline;
+      }
+    }
+    &.document-load {
+      font-family: 'Fira Code', sans-serif;
+      letter-spacing: 0px;
+    }
+    &#feedback-link {
+      margin-top: 40px;
     }
   }
   

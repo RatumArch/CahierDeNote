@@ -1,10 +1,11 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import Home from '@/Home.vue'
-import Document from '@/Document'
-import Folder from '@/Folder.vue'
+const Document = () => import('@/Document')
+const Folder = () => import('@/Folder.vue')
 import Error from "@/Error.vue";
 import Loader from '@/Loader.vue'
+import Feedback from '@/Feedback.vue'
 
 import axios from "axios";
 
@@ -28,7 +29,8 @@ const router = createRouter({
     },
     { 
         path: '/:toutAutresRoutes*', component: Error,
-    }
+    },
+    { path: '/feedback', component: Feedback }
 ]
 })
 
