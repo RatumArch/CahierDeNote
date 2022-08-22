@@ -1,0 +1,17 @@
+http:
+  routers:
+    api:
+      entrypoints:
+        - websecure
+      service: api@internal
+  services:
+    errorService:
+      loadbalancer:
+        server:
+          port: 8080
+
+
+tls:
+  certificates:
+    - certFile: ./domain.crt
+      keyFile: ./domain.key

@@ -24,8 +24,8 @@ const tick = useTick(200, 4)
 h1 {
     text-shadow: 1px 1px 2px blue;
     -webkit-text-stroke-width: 1px;
-    font-size: 3em;
-    text-decoration: underline;
+    font-size: 6em;
+    text-align: center;
     animation-name: loading-anim;
     animation-iteration-count: infinite;
     animation-duration: 0.8s;
@@ -33,7 +33,7 @@ h1 {
     font-variant-ligatures: contextual;
 }
 .icon {
-    height: 89%;
+    min-height: 40vh;
     animation-name: loading-anim;
     animation-iteration-count: infinite;
     animation-duration: 0.8s;
@@ -41,16 +41,13 @@ h1 {
 .loader {
     background-color: white;
     top: 0vh;
-    position: absolute;
+    
     z-index: 100;
 }
 .pancarte {
     background-color: blanchedalmond;
     overflow: hidden;
-    position: fixed;
-    padding: 20vw;
     top: 15vh;
-    height: 30vh;
     z-index: 100;
 }
 progress {

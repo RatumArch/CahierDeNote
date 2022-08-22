@@ -1,0 +1,1 @@
+export const logger = (msg: any) => import.meta.env.DEV && console.log(msg)
